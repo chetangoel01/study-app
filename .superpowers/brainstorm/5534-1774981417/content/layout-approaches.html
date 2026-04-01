@@ -1,0 +1,116 @@
+<h2>Which layout direction feels right?</h2>
+<p class="subtitle">All three fix the scrolling and checklist problems. Pick the one that matches how you want to study.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:1rem;background:#f8f7f4;border-bottom:1px solid #e5e1d8;">
+      <div style="display:flex;gap:8px;height:140px;">
+        <!-- Sidebar -->
+        <div style="width:36%;background:#1a2e2b;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="font-size:9px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Modules</div>
+          <div style="background:rgba(255,255,255,0.12);border-radius:4px;padding:5px 7px;">
+            <div style="font-size:9px;color:#fff;font-weight:600;">Big-O Analysis</div>
+            <div style="height:3px;background:rgba(255,255,255,0.15);border-radius:2px;margin-top:4px;"><div style="width:60%;height:100%;background:#4ade80;border-radius:2px;"></div></div>
+          </div>
+          <div style="border-radius:4px;padding:5px 7px;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.6);">Arrays & Lists</div>
+          </div>
+          <div style="border-radius:4px;padding:5px 7px;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">Hash Tables</div>
+          </div>
+          <div style="border-radius:4px;padding:5px 7px;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">Trees & Heaps</div>
+          </div>
+        </div>
+        <!-- Main content -->
+        <div style="flex:1;background:#fff;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:5px;">
+          <div style="font-size:8px;color:#176b63;text-transform:uppercase;letter-spacing:1px;">Core Track · 4 sessions</div>
+          <div style="font-size:12px;font-weight:700;color:#1e2a28;line-height:1.2;">Big-O and asymptotic analysis</div>
+          <div style="font-size:8px;color:#66716f;line-height:1.4;">CIU treats Big-O as the language for every later topic. Get comfortable with runtime, space, and amortized analysis.</div>
+          <div style="margin-top:auto;display:flex;gap:4px;">
+            <div style="background:#176b63;color:#fff;font-size:8px;padding:3px 8px;border-radius:3px;">Watch Harvard CS50</div>
+            <div style="background:#f3efe5;color:#1e2a28;font-size:8px;padding:3px 8px;border-radius:3px;">Checklist (4)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Sidebar + Module view</h3>
+      <p>Persistent left nav lists all modules. Right side shows the active module: intro, resources as action buttons, then checklist. No scrolling between sections — switch by clicking the sidebar.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:1rem;background:#f8f7f4;border-bottom:1px solid #e5e1d8;">
+      <div style="height:140px;background:#fff;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
+        <!-- Top progress strip -->
+        <div style="background:#1a2e2b;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:9px;color:#fff;font-weight:600;">Big-O Analysis</div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.6);">3 of 11 modules · 60%</div>
+        </div>
+        <!-- Content area -->
+        <div style="flex:1;padding:10px 12px;display:flex;flex-direction:column;gap:6px;">
+          <div style="font-size:11px;font-weight:700;color:#1e2a28;line-height:1.2;">Get comfortable with runtime, space, and amortized analysis first.</div>
+          <!-- Resource cards -->
+          <div style="display:flex;gap:5px;">
+            <div style="flex:1;background:#f3efe5;border-radius:4px;padding:5px 7px;">
+              <div style="font-size:7px;color:#66716f;text-transform:uppercase;">Watch first</div>
+              <div style="font-size:8px;color:#1e2a28;font-weight:600;margin-top:2px;">Harvard CS50 →</div>
+            </div>
+            <div style="flex:1;background:#f3efe5;border-radius:4px;padding:5px 7px;">
+              <div style="font-size:7px;color:#66716f;text-transform:uppercase;">Read</div>
+              <div style="font-size:8px;color:#1e2a28;font-weight:600;margin-top:2px;">Big-O Cheat Sheet →</div>
+            </div>
+          </div>
+          <!-- Nav -->
+          <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:8px;color:#176b63;border:1px solid #176b63;padding:3px 8px;border-radius:3px;">← Previous</div>
+            <div style="font-size:8px;color:#fff;background:#176b63;padding:3px 8px;border-radius:3px;">Mark done & continue →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Linear course view</h3>
+      <p>One module fills the screen. Sticky header shows position. Resources are prominent action cards. A single "Mark done & continue" CTA moves you forward. Like a course player (Coursera/Khan Academy).</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:1rem;background:#f8f7f4;border-bottom:1px solid #e5e1d8;">
+      <div style="height:140px;background:#fff;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
+        <!-- Mini phase strip -->
+        <div style="display:flex;gap:3px;padding:7px 10px;border-bottom:1px solid #e5e1d8;overflow:hidden;">
+          <div style="background:#dff1ed;color:#176b63;font-size:7px;padding:2px 6px;border-radius:3px;white-space:nowrap;">✓ Setup</div>
+          <div style="background:#1a2e2b;color:#fff;font-size:7px;padding:2px 6px;border-radius:3px;white-space:nowrap;">→ Big-O</div>
+          <div style="background:#f3efe5;color:#66716f;font-size:7px;padding:2px 6px;border-radius:3px;white-space:nowrap;">Arrays</div>
+          <div style="background:#f3efe5;color:#66716f;font-size:7px;padding:2px 6px;border-radius:3px;white-space:nowrap;">Stacks</div>
+        </div>
+        <!-- Two column content -->
+        <div style="flex:1;display:flex;gap:0;">
+          <div style="flex:1.2;padding:8px 10px;border-right:1px solid #e5e1d8;display:flex;flex-direction:column;gap:4px;">
+            <div style="font-size:9px;color:#176b63;text-transform:uppercase;letter-spacing:1px;">Big-O Analysis</div>
+            <div style="font-size:9px;color:#1e2a28;line-height:1.4;">CIU treats Big-O as the language you use to discuss every later topic.</div>
+            <div style="margin-top:auto;">
+              <div style="font-size:7px;color:#66716f;text-transform:uppercase;margin-bottom:3px;">Resources</div>
+              <div style="font-size:8px;color:#176b63;">→ Harvard CS50</div>
+              <div style="font-size:8px;color:#176b63;">→ Big-O Cheat Sheet</div>
+            </div>
+          </div>
+          <div style="flex:1;padding:8px 10px;display:flex;flex-direction:column;gap:3px;">
+            <div style="font-size:7px;color:#66716f;text-transform:uppercase;margin-bottom:2px;">Checklist</div>
+            <div style="display:flex;align-items:center;gap:4px;"><div style="width:8px;height:8px;border-radius:2px;background:#dff1ed;border:1px solid #176b63;flex-shrink:0;"></div><div style="font-size:7px;color:#66716f;text-decoration:line-through;">Understand Big-O, Omega, Theta</div></div>
+            <div style="display:flex;align-items:center;gap:4px;"><div style="width:8px;height:8px;border-radius:2px;background:#fff;border:1px solid #ccc;flex-shrink:0;"></div><div style="font-size:7px;color:#1e2a28;">Analyze loops and recursion</div></div>
+            <div style="display:flex;align-items:center;gap:4px;"><div style="width:8px;height:8px;border-radius:2px;background:#fff;border:1px solid #ccc;flex-shrink:0;"></div><div style="font-size:7px;color:#1e2a28;">Learn amortized analysis</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Phase strip + two-column</h3>
+      <p>Compact phase breadcrumb on top for context. Two columns below: left has intro + resources, right has the checklist. Everything visible at once with no scrolling.</p>
+    </div>
+  </div>
+
+</div>

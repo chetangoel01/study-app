@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/chetangoel/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/skills/brainstorming/**)",
+      "Bash(bash scripts/start-server.sh --project-dir /Users/chetangoel/Desktop/coding-interview-university/study-app)",
+      "Bash(grep -E \"\\\\.\\(py|sh|yml|yaml|toml|cfg|json\\)$\")",
+      "Skill(codex:setup)",
+      "Bash(find /Users/chetangoel/Desktop/coding-interview-university/study-app -type f \\\\\\(-name *.md -o -name *plan* -o -name *spec* -o -name *DESIGN* -o -name *ARCH* \\\\\\))",
+      "Skill(codex:rescue)",
+      "Bash(ls /Users/chetangoel/Desktop/Repositories/study-app/pipeline/*.py)",
+      "Bash(python3:*)"
+    ]
+  }
+}

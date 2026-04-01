@@ -1,0 +1,7 @@
+.env
+.venv/
+pipeline/.cache/
+knowledge-base.json
+crawl-audit.json
+course_exports/
+*.cookies.txt
