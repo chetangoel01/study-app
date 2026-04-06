@@ -1,0 +1,2936 @@
+{
+  "version": 1,
+  "generated_at": "2026-04-08T02:11:41.754395+00:00",
+  "tracks": [
+    {
+      "id": "dsa-leetcode",
+      "label": "DSA & LeetCode"
+    },
+    {
+      "id": "system-design",
+      "label": "System Design"
+    },
+    {
+      "id": "machine-learning",
+      "label": "Machine Learning"
+    },
+    {
+      "id": "resume-behavioral",
+      "label": "Resume & Behavioral"
+    }
+  ],
+  "modules": [
+    {
+      "id": "setup-habits",
+      "title": "Setup: language, cadence, and problem practice",
+      "track": "dsa-leetcode",
+      "phase": "Start Here",
+      "summary": "Choose one language, pick a foundation book, and adopt the CIU habit of studying a topic and then immediately solving problems on it.",
+      "estimate": "2-3 sessions",
+      "sessions": 3,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#choose-a-programming-language",
+      "items": [
+        {
+          "id": "setup-habits:read:0",
+          "type": "read",
+          "label": "Choose a Programming Language",
+          "url": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#choose-a-programming-language"
+        },
+        {
+          "id": "setup-habits:read:1",
+          "type": "read",
+          "label": "Programming Language Resources",
+          "url": "https://github.com/jwasham/coding-interview-university/blob/master/programming-language-resources.md"
+        },
+        {
+          "id": "setup-habits:read:2",
+          "type": "read",
+          "label": "Coding Interview Patterns",
+          "url": "https://geni.us/q7svoz"
+        },
+        {
+          "id": "setup-habits:read:3",
+          "type": "read",
+          "label": "Retaining Computer Science Knowledge",
+          "url": "https://startupnextdoor.com/retaining-computer-science-knowledge/"
+        },
+        {
+          "id": "setup-habits:read:4",
+          "type": "read",
+          "label": "CIU Flashcards Repo",
+          "url": "https://github.com/jwasham/computer-science-flash-cards"
+        },
+        {
+          "id": "setup-habits:do:0",
+          "type": "do",
+          "label": "Pick one interview language and use it consistently for implementations.",
+          "url": null
+        },
+        {
+          "id": "setup-habits:do:1",
+          "type": "do",
+          "label": "Choose one primary book or course track for that language.",
+          "url": null
+        },
+        {
+          "id": "setup-habits:do:2",
+          "type": "do",
+          "label": "Set a repeatable daily study block and implementation routine.",
+          "url": null
+        },
+        {
+          "id": "setup-habits:do:3",
+          "type": "do",
+          "label": "Start spaced repetition for weak concepts instead of taking endless notes.",
+          "url": null
+        },
+        {
+          "id": "setup-habits:do:4",
+          "type": "do",
+          "label": "After each new topic, do 2 or 3 interview problems before moving on.",
+          "url": null
+        },
+        {
+          "id": "setup-habits:check:0",
+          "type": "check",
+          "label": "You can explain why you picked your language and where its trade-offs matter in interviews.",
+          "url": null
+        },
+        {
+          "id": "setup-habits:check:1",
+          "type": "check",
+          "label": "You have a habit loop: learn, implement, solve a few problems, review later.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": [
+        "big-o",
+        "review-interview",
+        "search-bitwise",
+        "system-design"
+      ]
+    },
+    {
+      "id": "big-o",
+      "title": "Big-O and asymptotic analysis",
+      "track": "dsa-leetcode",
+      "phase": "Core Track",
+      "summary": "CIU treats Big-O as the language you use to discuss every later topic. Get comfortable with runtime, space, and amortized analysis first.",
+      "estimate": "2-4 sessions",
+      "sessions": 4,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#algorithmic-complexity--big-o--asymptotic-analysis",
+      "items": [
+        {
+          "id": "big-o:read:0",
+          "type": "read",
+          "label": "Harvard CS50 Asymptotic Notation",
+          "url": "https://www.youtube.com/watch?v=iOq5kSKqeR4"
+        },
+        {
+          "id": "big-o:read:1",
+          "type": "read",
+          "label": "Big O Notations Quick Tutorial",
+          "url": "https://www.youtube.com/watch?v=V6mKVRU1evU"
+        },
+        {
+          "id": "big-o:read:2",
+          "type": "read",
+          "label": "Big O Mathematical Explanation",
+          "url": "https://www.youtube.com/watch?v=ei-A_wy5Yxw&index=2&list=PL1BaGV1cIH4UhkL8a9bJGG356covJ76qN"
+        },
+        {
+          "id": "big-o:read:3",
+          "type": "read",
+          "label": "TopCoder Computational Complexity",
+          "url": "https://www.topcoder.com/thrive/articles/Computational%20Complexity%20part%20one"
+        },
+        {
+          "id": "big-o:read:4",
+          "type": "read",
+          "label": "Big-O Cheat Sheet",
+          "url": "http://bigocheatsheet.com/"
+        },
+        {
+          "id": "big-o:do:0",
+          "type": "do",
+          "label": "Understand Big-O, Omega, and Theta at a practical interview level.",
+          "url": null
+        },
+        {
+          "id": "big-o:do:1",
+          "type": "do",
+          "label": "Analyze loops, nested loops, and recursive structure without guessing.",
+          "url": null
+        },
+        {
+          "id": "big-o:do:2",
+          "type": "do",
+          "label": "Learn amortized analysis for dynamic arrays and similar structures.",
+          "url": null
+        },
+        {
+          "id": "big-o:do:3",
+          "type": "do",
+          "label": "Use the CTCI complexity chapter or quiz as a review checkpoint.",
+          "url": null
+        },
+        {
+          "id": "big-o:check:0",
+          "type": "check",
+          "label": "You can state the time and space cost of every implementation you write.",
+          "url": null
+        },
+        {
+          "id": "big-o:check:1",
+          "type": "check",
+          "label": "You can explain why an O(n log n) solution is meaningfully different from O(n^2) in interview settings.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": [
+        "setup-habits"
+      ]
+    },
+    {
+      "id": "arrays-linked-lists",
+      "title": "Linear structures: arrays and linked lists",
+      "track": "dsa-leetcode",
+      "phase": "Core Track",
+      "summary": "This is where CIU stops being abstract. Build the structures yourself so resizing, pointer movement, traversal, and memory behavior become concrete.",
+      "estimate": "6-8 sessions",
+      "sessions": 8,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#data-structures",
+      "items": [
+        {
+          "id": "arrays-linked-lists:read:0",
+          "type": "read",
+          "label": "Arrays CS50",
+          "url": "https://www.youtube.com/watch?v=tI_tIZFyKBw&t=3009s"
+        },
+        {
+          "id": "arrays-linked-lists:read:1",
+          "type": "read",
+          "label": "Dynamic Arrays",
+          "url": "https://www.coursera.org/lecture/data-structures/dynamic-arrays-EwbnV"
+        },
+        {
+          "id": "arrays-linked-lists:read:2",
+          "type": "read",
+          "label": "Linked Lists CS50",
+          "url": "https://www.youtube.com/watch?v=2T-A_GFuoTo&t=650s"
+        },
+        {
+          "id": "arrays-linked-lists:read:3",
+          "type": "read",
+          "label": "Linked Lists vs Arrays",
+          "url": "https://www.coursera.org/lecture/data-structures-optimizing-performance/core-linked-lists-vs-arrays-rjBs9"
+        },
+        {
+          "id": "arrays-linked-lists:read:4",
+          "type": "read",
+          "label": "Pointers to Pointers",
+          "url": "https://www.eskimo.com/~scs/cclass/int/sx8.html"
+        },
+        {
+          "id": "arrays-linked-lists:do:0",
+          "type": "do",
+          "label": "Implement a dynamic array with resize, insert, delete, and search operations.",
+          "url": null
+        },
+        {
+          "id": "arrays-linked-lists:do:1",
+          "type": "do",
+          "label": "Know the time and space trade-offs of contiguous storage versus pointer-heavy traversal.",
+          "url": null
+        },
+        {
+          "id": "arrays-linked-lists:do:2",
+          "type": "do",
+          "label": "Implement a singly linked list with front and back operations, insert, erase, reverse, and remove by value.",
+          "url": null
+        },
+        {
+          "id": "arrays-linked-lists:do:3",
+          "type": "do",
+          "label": "Understand pointer-to-pointer updates well enough to reason about list mutation safely.",
+          "url": null
+        },
+        {
+          "id": "arrays-linked-lists:do:4",
+          "type": "do",
+          "label": "Do a few array and linked-list interview problems immediately after learning each structure.",
+          "url": null
+        },
+        {
+          "id": "arrays-linked-lists:check:0",
+          "type": "check",
+          "label": "You can implement a vector and linked list from memory in your chosen language.",
+          "url": null
+        },
+        {
+          "id": "arrays-linked-lists:check:1",
+          "type": "check",
+          "label": "You can explain when linked lists are worse in practice despite theoretical advantages.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": [
+        "big-o",
+        "review-interview",
+        "search-bitwise",
+        "setup-habits",
+        "systems-basics"
+      ]
+    },
+    {
+      "id": "stacks-queues-hashes",
+      "title": "Core DS II: stacks, queues, and hash tables",
+      "track": "dsa-leetcode",
+      "phase": "Core Track",
+      "summary": "These structures show up constantly in interview solutions. The goal is not just knowing them, but knowing what backs them and why the costs work out.",
+      "estimate": "5-6 sessions",
+      "sessions": 6,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#data-structures",
+      "items": [
+        {
+          "id": "stacks-queues-hashes:read:0",
+          "type": "read",
+          "label": "Stacks",
+          "url": "https://www.coursera.org/lecture/data-structures/stacks-UdKzQ"
+        },
+        {
+          "id": "stacks-queues-hashes:read:1",
+          "type": "read",
+          "label": "Queues",
+          "url": "https://www.coursera.org/lecture/data-structures/queues-EShpq"
+        },
+        {
+          "id": "stacks-queues-hashes:read:2",
+          "type": "read",
+          "label": "Circular Buffer",
+          "url": "https://en.wikipedia.org/wiki/Circular_buffer"
+        },
+        {
+          "id": "stacks-queues-hashes:read:3",
+          "type": "read",
+          "label": "Hashing with Chaining",
+          "url": "https://www.youtube.com/watch?v=0M_kIqhwbFo&list=PLUl4u3cNGP61Oq3tWYp6V_F-5jb5L2iHb&index=8"
+        },
+        {
+          "id": "stacks-queues-hashes:read:4",
+          "type": "read",
+          "label": "The Mighty Dictionary",
+          "url": "https://www.youtube.com/watch?v=C4Kc8xzcA68"
+        },
+        {
+          "id": "stacks-queues-hashes:do:0",
+          "type": "do",
+          "label": "Understand why stack implementation is trivial once arrays feel natural.",
+          "url": null
+        },
+        {
+          "id": "stacks-queues-hashes:do:1",
+          "type": "do",
+          "label": "Implement queue operations with both linked-list and fixed-array approaches.",
+          "url": null
+        },
+        {
+          "id": "stacks-queues-hashes:do:2",
+          "type": "do",
+          "label": "Understand why a bad linked-list queue implementation degrades to O(n).",
+          "url": null
+        },
+        {
+          "id": "stacks-queues-hashes:do:3",
+          "type": "do",
+          "label": "Implement a hash table with linear probing and key update semantics.",
+          "url": null
+        },
+        {
+          "id": "stacks-queues-hashes:do:4",
+          "type": "do",
+          "label": "Learn collisions, load factor, resizing, and why dictionaries feel fast in practice.",
+          "url": null
+        },
+        {
+          "id": "stacks-queues-hashes:check:0",
+          "type": "check",
+          "label": "You can choose between array-backed and list-backed queues based on constraints.",
+          "url": null
+        },
+        {
+          "id": "stacks-queues-hashes:check:1",
+          "type": "check",
+          "label": "You can explain the difference between chaining and open addressing without hand-waving.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": [
+        "search-bitwise",
+        "setup-habits"
+      ]
+    },
+    {
+      "id": "search-bitwise",
+      "title": "Binary search and bitwise operations",
+      "track": "dsa-leetcode",
+      "phase": "Core Track",
+      "summary": "CIU treats these as high-leverage interview tools: binary search for invariants and boundary handling, bitwise ops for compact reasoning and fast tricks.",
+      "estimate": "3-4 sessions",
+      "sessions": 4,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#more-knowledge",
+      "items": [
+        {
+          "id": "search-bitwise:read:0",
+          "type": "read",
+          "label": "TopCoder Binary Search",
+          "url": "https://www.topcoder.com/thrive/articles/Binary%20Search"
+        },
+        {
+          "id": "search-bitwise:read:1",
+          "type": "read",
+          "label": "LeetCode Binary Search Blueprint",
+          "url": "https://leetcode.com/discuss/general-discussion/786126/python-powerful-ultimate-binary-search-template-solved-many-problems"
+        },
+        {
+          "id": "search-bitwise:read:2",
+          "type": "read",
+          "label": "Bits Cheat Sheet",
+          "url": "https://github.com/jwasham/coding-interview-university/blob/main/extras/cheat%20sheets/bits-cheat-sheet.pdf"
+        },
+        {
+          "id": "search-bitwise:read:3",
+          "type": "read",
+          "label": "Bit Manipulation Intro",
+          "url": "https://www.youtube.com/watch?v=7jkIUgLC29I"
+        },
+        {
+          "id": "search-bitwise:read:4",
+          "type": "read",
+          "label": "Stanford Bit Hacks",
+          "url": "https://graphics.stanford.edu/~seander/bithacks.html"
+        },
+        {
+          "id": "search-bitwise:do:0",
+          "type": "do",
+          "label": "Implement binary search iteratively and recursively on sorted arrays.",
+          "url": null
+        },
+        {
+          "id": "search-bitwise:do:1",
+          "type": "do",
+          "label": "Practice left, right, and exact-match boundary variants until off-by-one bugs drop away.",
+          "url": null
+        },
+        {
+          "id": "search-bitwise:do:2",
+          "type": "do",
+          "label": "Learn bitwise operators, masks, shifts, complements, and powers of two.",
+          "url": null
+        },
+        {
+          "id": "search-bitwise:do:3",
+          "type": "do",
+          "label": "Practice counting set bits, swapping values, and absolute-value style bit tricks.",
+          "url": null
+        },
+        {
+          "id": "search-bitwise:check:0",
+          "type": "check",
+          "label": "You can describe the invariant your binary search maintains at every step.",
+          "url": null
+        },
+        {
+          "id": "search-bitwise:check:1",
+          "type": "check",
+          "label": "You can reason about masks, shifts, and two's complement instead of memorizing snippets.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": [
+        "arrays-linked-lists",
+        "big-o",
+        "review-interview",
+        "setup-habits",
+        "sorting"
+      ]
+    },
+    {
+      "id": "trees-heaps",
+      "title": "Trees, BSTs, and heaps",
+      "track": "dsa-leetcode",
+      "phase": "Core Track",
+      "summary": "This is one of the densest parts of CIU. Master traversals, BST mechanics, and heap operations well enough that tree problems stop feeling special.",
+      "estimate": "7-9 sessions",
+      "sessions": 9,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#trees",
+      "items": [
+        {
+          "id": "trees-heaps:read:0",
+          "type": "read",
+          "label": "Intro to Trees",
+          "url": "https://www.coursera.org/lecture/data-structures/trees-95qda"
+        },
+        {
+          "id": "trees-heaps:read:1",
+          "type": "read",
+          "label": "Tree Traversal",
+          "url": "https://www.coursera.org/lecture/data-structures/tree-traversal-fr51b"
+        },
+        {
+          "id": "trees-heaps:read:2",
+          "type": "read",
+          "label": "Binary Search Tree Review",
+          "url": "https://www.youtube.com/watch?v=x6At0nzX92o&index=1&list=PLA5Lqm4uh9Bbq-E0ZnqTIa8LRaL77ica6"
+        },
+        {
+          "id": "trees-heaps:read:3",
+          "type": "read",
+          "label": "MIT Binary Heaps",
+          "url": "https://www.youtube.com/watch?v=Xnpo1atN-Iw&list=PLUl4u3cNGP63EdVPNLG3ToM6LaEUuStEY&index=12"
+        },
+        {
+          "id": "trees-heaps:read:4",
+          "type": "read",
+          "label": "Heap Review Playlist",
+          "url": "https://www.youtube.com/playlist?list=PL9xmBV_5YoZNsyqgPW-DNwUeT8F8uhWc6"
+        },
+        {
+          "id": "trees-heaps:do:0",
+          "type": "do",
+          "label": "Learn BFS and DFS traversals for trees and know their space trade-offs.",
+          "url": null
+        },
+        {
+          "id": "trees-heaps:do:1",
+          "type": "do",
+          "label": "Implement BST insert, search, min/max, height, validation, delete, and successor.",
+          "url": null
+        },
+        {
+          "id": "trees-heaps:do:2",
+          "type": "do",
+          "label": "Understand level-order traversal and recursive traversals from memory.",
+          "url": null
+        },
+        {
+          "id": "trees-heaps:do:3",
+          "type": "do",
+          "label": "Implement a max-heap with insert, extract, heapify, and heap sort support.",
+          "url": null
+        },
+        {
+          "id": "trees-heaps:do:4",
+          "type": "do",
+          "label": "Know when balanced trees matter even if you do not implement AVL or red-black trees.",
+          "url": null
+        },
+        {
+          "id": "trees-heaps:check:0",
+          "type": "check",
+          "label": "You can code common tree traversals without looking them up.",
+          "url": null
+        },
+        {
+          "id": "trees-heaps:check:1",
+          "type": "check",
+          "label": "You can explain BST deletion cases and heap sift-up versus sift-down clearly.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "sorting",
+      "title": "Sorting as implementation and trade-off practice",
+      "track": "dsa-leetcode",
+      "phase": "Core Track",
+      "summary": "CIU uses sorting to force trade-off thinking: stability, in-place behavior, average versus worst-case runtime, and which data structures each algorithm suits.",
+      "estimate": "4-5 sessions",
+      "sessions": 5,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#sorting",
+      "items": [
+        {
+          "id": "sorting:read:0",
+          "type": "read",
+          "label": "Sedgewick Mergesort",
+          "url": "https://www.coursera.org/learn/algorithms-part1/home/week/3"
+        },
+        {
+          "id": "sorting:read:1",
+          "type": "read",
+          "label": "Sedgewick Quicksort",
+          "url": "https://www.coursera.org/learn/algorithms-part1/home/week/3"
+        },
+        {
+          "id": "sorting:read:2",
+          "type": "read",
+          "label": "Sorting in 18 Minutes",
+          "url": "https://www.youtube.com/playlist?list=PL9xmBV_5YoZOZSbGAXAPIq1BeUf4j20pl"
+        },
+        {
+          "id": "sorting:read:3",
+          "type": "read",
+          "label": "Visual Sort Comparison",
+          "url": "https://www.youtube.com/watch?v=kPRA0W1kECg"
+        },
+        {
+          "id": "sorting:read:4",
+          "type": "read",
+          "label": "Merge Sort for Linked List",
+          "url": "http://www.geeksforgeeks.org/merge-sort-for-linked-list/"
+        },
+        {
+          "id": "sorting:do:0",
+          "type": "do",
+          "label": "Know the best, average, and worst-case behavior of the major comparison sorts.",
+          "url": null
+        },
+        {
+          "id": "sorting:do:1",
+          "type": "do",
+          "label": "Implement mergesort and quicksort from scratch.",
+          "url": null
+        },
+        {
+          "id": "sorting:do:2",
+          "type": "do",
+          "label": "Understand stability and which sorts fit arrays versus linked lists.",
+          "url": null
+        },
+        {
+          "id": "sorting:do:3",
+          "type": "do",
+          "label": "Tie heapsort back to heap operations instead of memorizing it separately.",
+          "url": null
+        },
+        {
+          "id": "sorting:check:0",
+          "type": "check",
+          "label": "You can explain why quicksort is often preferred despite its worst-case behavior.",
+          "url": null
+        },
+        {
+          "id": "sorting:check:1",
+          "type": "check",
+          "label": "You can explain stability and give an example where it matters.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": [
+        "arrays-linked-lists",
+        "big-o",
+        "search-bitwise",
+        "setup-habits"
+      ]
+    },
+    {
+      "id": "graphs",
+      "title": "Graphs as the final core algorithm block",
+      "track": "dsa-leetcode",
+      "phase": "Core Track",
+      "summary": "CIU explicitly calls this section long. Treat it as the capstone for the core track: representations, traversals, shortest paths, MSTs, and graph-specific interview patterns.",
+      "estimate": "7-9 sessions",
+      "sessions": 9,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#graphs",
+      "items": [
+        {
+          "id": "graphs:read:0",
+          "type": "read",
+          "label": "MIT Breadth-First Search",
+          "url": "https://www.youtube.com/watch?v=oFVYVzlvk9c&t=14s&ab_channel=MITOpenCourseWare"
+        },
+        {
+          "id": "graphs:read:1",
+          "type": "read",
+          "label": "MIT Depth-First Search",
+          "url": "https://www.youtube.com/watch?v=IBfWDYSffUU&t=32s&ab_channel=MITOpenCourseWare"
+        },
+        {
+          "id": "graphs:read:2",
+          "type": "read",
+          "label": "Skiena Graph Data Structures",
+          "url": "https://www.youtube.com/watch?v=Sjk0xqWWPCc&list=PLOtl7M3yp-DX6ic0HGT0PUX_wiNmkWkXx&index=10"
+        },
+        {
+          "id": "graphs:read:3",
+          "type": "read",
+          "label": "Algorithms on Graphs",
+          "url": "https://www.coursera.org/learn/algorithms-on-graphs/home/welcome"
+        },
+        {
+          "id": "graphs:read:4",
+          "type": "read",
+          "label": "Shortest Path Review",
+          "url": "https://www.youtube.com/playlist?list=PL9xmBV_5YoZO-Y-H3xIC9DGSfVYJng9Yw"
+        },
+        {
+          "id": "graphs:do:0",
+          "type": "do",
+          "label": "Compare adjacency lists, matrices, maps, and pointer-based graph representations.",
+          "url": null
+        },
+        {
+          "id": "graphs:do:1",
+          "type": "do",
+          "label": "Implement BFS and DFS across both list and matrix representations.",
+          "url": null
+        },
+        {
+          "id": "graphs:do:2",
+          "type": "do",
+          "label": "Learn Dijkstra and minimum spanning tree well enough to explain the idea and complexity.",
+          "url": null
+        },
+        {
+          "id": "graphs:do:3",
+          "type": "do",
+          "label": "Practice cycle detection, topological sort, connected components, SCCs, and bipartite checks.",
+          "url": null
+        },
+        {
+          "id": "graphs:do:4",
+          "type": "do",
+          "label": "Train yourself to ask whether a problem is secretly a graph problem first.",
+          "url": null
+        },
+        {
+          "id": "graphs:check:0",
+          "type": "check",
+          "label": "You can move between graph representations without getting lost.",
+          "url": null
+        },
+        {
+          "id": "graphs:check:1",
+          "type": "check",
+          "label": "You can identify when BFS, DFS, Dijkstra, or MST is the relevant mental model.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "recursion-dp",
+      "title": "Recursion, backtracking, and dynamic programming",
+      "track": "dsa-leetcode",
+      "phase": "Deepen",
+      "summary": "CIU treats this as pattern recognition, not brute-force memorization. The goal is to know when recursion or DP is the right framing and how to reason about subproblems.",
+      "estimate": "5-7 sessions",
+      "sessions": 7,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#even-more-knowledge",
+      "items": [
+        {
+          "id": "recursion-dp:read:0",
+          "type": "read",
+          "label": "Stanford Recursion Lectures",
+          "url": "https://www.youtube.com/watch?v=gl3emqCuueQ&list=PLFE6E58F856038C69&index=8"
+        },
+        {
+          "id": "recursion-dp:read:1",
+          "type": "read",
+          "label": "5 Steps for Recursive Problems",
+          "url": "https://youtu.be/ngCos392W4w"
+        },
+        {
+          "id": "recursion-dp:read:2",
+          "type": "read",
+          "label": "Skiena Dynamic Programming Intro",
+          "url": "https://www.youtube.com/watch?v=wAA0AMfcJHQ&list=PLOtl7M3yp-DX6ic0HGT0PUX_wiNmkWkXx&index=18"
+        },
+        {
+          "id": "recursion-dp:read:3",
+          "type": "read",
+          "label": "DP Problem Playlist",
+          "url": "https://www.youtube.com/playlist?list=PLrmLmBdmIlpsHaNTPP_jHHDx_os9ItYXr"
+        },
+        {
+          "id": "recursion-dp:read:4",
+          "type": "read",
+          "label": "Head First Design Patterns",
+          "url": "https://www.amazon.com/Head-First-Design-Patterns-Freeman/dp/0596007124"
+        },
+        {
+          "id": "recursion-dp:do:0",
+          "type": "do",
+          "label": "Practice recursion until you can trace call stacks and base cases comfortably.",
+          "url": null
+        },
+        {
+          "id": "recursion-dp:do:1",
+          "type": "do",
+          "label": "Use backtracking patterns for subsets, permutations, and search-style problems.",
+          "url": null
+        },
+        {
+          "id": "recursion-dp:do:2",
+          "type": "do",
+          "label": "Learn when a problem is a dynamic-programming candidate.",
+          "url": null
+        },
+        {
+          "id": "recursion-dp:do:3",
+          "type": "do",
+          "label": "Work through examples that force you to define the recurrence and state.",
+          "url": null
+        },
+        {
+          "id": "recursion-dp:do:4",
+          "type": "do",
+          "label": "Review a light set of design patterns rather than turning this into a deep OO detour.",
+          "url": null
+        },
+        {
+          "id": "recursion-dp:check:0",
+          "type": "check",
+          "label": "You can tell the difference between brute-force recursion, backtracking, and DP.",
+          "url": null
+        },
+        {
+          "id": "recursion-dp:check:1",
+          "type": "check",
+          "label": "You can explain a DP state and transition instead of only remembering a final formula.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "systems-basics",
+      "title": "Systems basics that frequently leak into interviews",
+      "track": "dsa-leetcode",
+      "phase": "Deepen",
+      "summary": "CIU includes a broad set of systems topics because interviews regularly touch the edges of OS, hardware, testing, and networking even when the main question is algorithmic.",
+      "estimate": "5-6 sessions",
+      "sessions": 6,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#even-more-knowledge",
+      "items": [
+        {
+          "id": "systems-basics:read:0",
+          "type": "read",
+          "label": "How CPU Executes a Program",
+          "url": "https://www.youtube.com/watch?v=XM4lGflQFvA"
+        },
+        {
+          "id": "systems-basics:read:1",
+          "type": "read",
+          "label": "MIT Memory Hierarchy",
+          "url": "https://www.youtube.com/watch?v=vjYF_fAZI5E&list=PLrRW1w6CGAcXbMtDFj205vALOGmiRc82-&index=24"
+        },
+        {
+          "id": "systems-basics:read:2",
+          "type": "read",
+          "label": "Operating Systems and System Programming",
+          "url": "https://archive.org/details/ucberkeley-webcast-PL-XXv-cvA_iBDyz-ba4yDskqMDY6A1w_c"
+        },
+        {
+          "id": "systems-basics:read:3",
+          "type": "read",
+          "label": "Agile Software Testing",
+          "url": "https://www.youtube.com/watch?v=SAhJf36_u5U"
+        },
+        {
+          "id": "systems-basics:read:4",
+          "type": "read",
+          "label": "Khan Academy Computers and the Internet",
+          "url": "https://www.khanacademy.org/computing/code-org/computers-and-the-internet"
+        },
+        {
+          "id": "systems-basics:do:0",
+          "type": "do",
+          "label": "Learn how a program is executed at a CPU, register, memory, and instruction level.",
+          "url": null
+        },
+        {
+          "id": "systems-basics:do:1",
+          "type": "do",
+          "label": "Understand cache behavior well enough to explain why locality matters and how LRU works.",
+          "url": null
+        },
+        {
+          "id": "systems-basics:do:2",
+          "type": "do",
+          "label": "Review processes, threads, locks, deadlock, context switching, and virtual memory.",
+          "url": null
+        },
+        {
+          "id": "systems-basics:do:3",
+          "type": "do",
+          "label": "Cover unit tests, mocks, integration tests, and dependency injection at a practical level.",
+          "url": null
+        },
+        {
+          "id": "systems-basics:do:4",
+          "type": "do",
+          "label": "Get a functional understanding of HTTP, TCP versus UDP, TLS, and sockets.",
+          "url": null
+        },
+        {
+          "id": "systems-basics:check:0",
+          "type": "check",
+          "label": "You can answer follow-up questions about caches, threads, or networking without freezing.",
+          "url": null
+        },
+        {
+          "id": "systems-basics:check:1",
+          "type": "check",
+          "label": "You can connect performance issues back to memory, concurrency, or I/O behavior.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": [
+        "arrays-linked-lists",
+        "big-o",
+        "review-interview",
+        "search-bitwise",
+        "setup-habits"
+      ]
+    },
+    {
+      "id": "review-interview",
+      "title": "Final review and interview loop",
+      "track": "resume-behavioral",
+      "phase": "Interview Loop",
+      "summary": "The README does not stop at topics. It tells you to tighten recall, clean up your resume, prepare stories, and run mocks so the technical work translates into offers.",
+      "estimate": "4-5 sessions",
+      "sessions": 5,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#final-review",
+      "items": [
+        {
+          "id": "review-interview:read:0",
+          "type": "read",
+          "label": "Final Review Playlist",
+          "url": "https://www.youtube.com/watch?v=r4r1DZcx1cM&list=PLmVb1OknmNJuC5POdcDv5oCS7_OUkDgpj&index=22"
+        },
+        {
+          "id": "review-interview:read:1",
+          "type": "read",
+          "label": "Tech Interview Handbook Resume Guide",
+          "url": "https://www.techinterviewhandbook.org/resume/guide"
+        },
+        {
+          "id": "review-interview:read:2",
+          "type": "read",
+          "label": "How to Pass the Engineering Interview",
+          "url": "https://davidbyttow.medium.com/how-to-pass-the-engineering-interview-in-2021-45f1b389a1"
+        },
+        {
+          "id": "review-interview:read:3",
+          "type": "read",
+          "label": "Pramp Mock Interviews",
+          "url": "https://www.pramp.com/"
+        },
+        {
+          "id": "review-interview:read:4",
+          "type": "read",
+          "label": "Interviewing.io",
+          "url": "https://interviewing.io"
+        },
+        {
+          "id": "review-interview:do:0",
+          "type": "do",
+          "label": "Use short review playlists to keep earlier topics fresh.",
+          "url": null
+        },
+        {
+          "id": "review-interview:do:1",
+          "type": "do",
+          "label": "Turn study and project work into clear, outcome-focused resume bullets.",
+          "url": null
+        },
+        {
+          "id": "review-interview:do:2",
+          "type": "do",
+          "label": "Read interview-process material and schedule mock interviews.",
+          "url": null
+        },
+        {
+          "id": "review-interview:do:3",
+          "type": "do",
+          "label": "Prepare stories for challenge, impact, bugs, trade-offs, and teamwork.",
+          "url": null
+        },
+        {
+          "id": "review-interview:do:4",
+          "type": "do",
+          "label": "Prepare thoughtful questions for the interviewer before each loop.",
+          "url": null
+        },
+        {
+          "id": "review-interview:check:0",
+          "type": "check",
+          "label": "You can explain your projects and study work with structure, not rambling detail.",
+          "url": null
+        },
+        {
+          "id": "review-interview:check:1",
+          "type": "check",
+          "label": "You have both technical and behavioral practice in your calendar before applying widely.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "system-design",
+      "title": "Optional: system design and scalability",
+      "track": "system-design",
+      "phase": "Optional Advanced",
+      "summary": "CIU explicitly says this is for 4+ years of experience. Keep it out of the core plan unless the roles you want actually require system design rounds.",
+      "estimate": "Only if needed",
+      "sessions": 8,
+      "countsTowardSchedule": true,
+      "sourceUrl": "https://github.com/jwasham/coding-interview-university/blob/master/README.md#system-design-scalability-data-handling",
+      "items": [
+        {
+          "id": "system-design:read:0",
+          "type": "read",
+          "label": "The System Design Primer",
+          "url": "https://github.com/donnemartin/system-design-primer"
+        },
+        {
+          "id": "system-design:read:1",
+          "type": "read",
+          "label": "System Design from HiredInTech",
+          "url": "http://www.hiredintech.com/system-design/"
+        },
+        {
+          "id": "system-design:read:2",
+          "type": "read",
+          "label": "8 Steps Guide to System Design",
+          "url": "https://javascript.plainenglish.io/8-steps-guide-to-ace-a-system-design-interview-7a5a797f4d7d"
+        },
+        {
+          "id": "system-design:read:3",
+          "type": "read",
+          "label": "CIU System Design Cheat Sheet",
+          "url": "https://github.com/jwasham/coding-interview-university/blob/main/extras/cheat%20sheets/system-design.pdf"
+        },
+        {
+          "id": "system-design:read:4",
+          "type": "read",
+          "label": "MIT 6.824 Distributed Systems",
+          "url": "https://www.youtube.com/watch?v=cQP8WApzIQQ&list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB"
+        },
+        {
+          "id": "system-design:do:0",
+          "type": "do",
+          "label": "Skip this module entirely for entry-level prep unless your target role clearly expects it.",
+          "url": null
+        },
+        {
+          "id": "system-design:do:1",
+          "type": "do",
+          "label": "Start with the System Design Primer and the HiredInTech process explanation.",
+          "url": null
+        },
+        {
+          "id": "system-design:do:2",
+          "type": "do",
+          "label": "Practice framing constraints, load, storage, trade-offs, and bottlenecks on paper.",
+          "url": null
+        },
+        {
+          "id": "system-design:do:3",
+          "type": "do",
+          "label": "Study a few real-world architectures instead of trying to absorb the entire appendix.",
+          "url": null
+        },
+        {
+          "id": "system-design:check:0",
+          "type": "check",
+          "label": "You can scope a design question before jumping into components.",
+          "url": null
+        },
+        {
+          "id": "system-design:check:1",
+          "type": "check",
+          "label": "You can talk through trade-offs instead of listing infrastructure buzzwords.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": [
+        "big-o",
+        "setup-habits"
+      ]
+    },
+    {
+      "id": "leetcode-course-arraystrings",
+      "title": "LeetCode Crash Course: Arrays and strings",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "Arrays and strings are two of the most fundamental data structures seen in algorithm problems. They're very similar when it comes to solving problems as they're both an ordered collection of elements that can be iterated over. Imported from the purchased LeetCode crash course with 14 lessons and exercises.",
+      "estimate": "3 sessions",
+      "sessions": 3,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/",
+      "items": [
+        {
+          "id": "leetcode-course-arraystrings:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:1",
+          "type": "read",
+          "label": "Lesson: Arrays and strings",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4500/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:2",
+          "type": "read",
+          "label": "Lesson: Two pointers",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4501/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:3",
+          "type": "read",
+          "label": "Problem: Reverse String",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4592/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:4",
+          "type": "read",
+          "label": "Problem: Squares of a Sorted Array",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4689/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:5",
+          "type": "read",
+          "label": "Lesson: Sliding window",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4502/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:6",
+          "type": "read",
+          "label": "Problem: Maximum Average Subarray I",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4594/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:7",
+          "type": "read",
+          "label": "Problem: Max Consecutive Ones III",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4595/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:8",
+          "type": "read",
+          "label": "Lesson: Prefix sum",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4503/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:9",
+          "type": "read",
+          "label": "Problem: Running Sum of 1d Array",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4658/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:10",
+          "type": "read",
+          "label": "Problem: Minimum Value to Get Positive Step by Step Sum",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4657/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:11",
+          "type": "read",
+          "label": "Problem: K Radius Subarray Averages",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4836/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:12",
+          "type": "read",
+          "label": "Lesson: More common patterns",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4504/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:13",
+          "type": "read",
+          "label": "Lesson: Arrays and strings quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4505/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:read:14",
+          "type": "read",
+          "label": "Lesson: Bonus problems, arrays and strings",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4705/"
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:0",
+          "type": "do",
+          "label": "Study: Arrays and strings",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:1",
+          "type": "do",
+          "label": "Study: Two pointers",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:2",
+          "type": "do",
+          "label": "Solve: Reverse String",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:3",
+          "type": "do",
+          "label": "Solve: Squares of a Sorted Array",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:4",
+          "type": "do",
+          "label": "Study: Sliding window",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:5",
+          "type": "do",
+          "label": "Solve: Maximum Average Subarray I",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:6",
+          "type": "do",
+          "label": "Solve: Max Consecutive Ones III",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:7",
+          "type": "do",
+          "label": "Study: Prefix sum",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:8",
+          "type": "do",
+          "label": "Solve: Running Sum of 1d Array",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:9",
+          "type": "do",
+          "label": "Solve: Minimum Value to Get Positive Step by Step Sum",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:10",
+          "type": "do",
+          "label": "Solve: K Radius Subarray Averages",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:11",
+          "type": "do",
+          "label": "Study: More common patterns",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:12",
+          "type": "do",
+          "label": "Study: Arrays and strings quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:do:13",
+          "type": "do",
+          "label": "Study: Bonus problems, arrays and strings",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:check:0",
+          "type": "check",
+          "label": "You worked through the arrays and strings lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-arraystrings:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-hashing",
+      "title": "LeetCode Crash Course: Hashing",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "Hashing can be used to implement a hash map - arguably the most powerful data structure or algorithm. Imported from the purchased LeetCode crash course with 16 lessons and exercises.",
+      "estimate": "4 sessions",
+      "sessions": 4,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/",
+      "items": [
+        {
+          "id": "leetcode-course-hashing:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:1",
+          "type": "read",
+          "label": "Lesson: Hashing",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4510/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:2",
+          "type": "read",
+          "label": "Lesson: Checking for existence",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4511/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:3",
+          "type": "read",
+          "label": "Problem: Check if the Sentence Is Pangram",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4601/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:4",
+          "type": "read",
+          "label": "Problem: Missing Number",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4602/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:5",
+          "type": "read",
+          "label": "Problem: Counting Elements",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4661/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:6",
+          "type": "read",
+          "label": "Lesson: Counting",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4512/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:7",
+          "type": "read",
+          "label": "Problem: Find Players With Zero or One Losses",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4606/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:8",
+          "type": "read",
+          "label": "Problem: Largest Unique Number",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4662/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:9",
+          "type": "read",
+          "label": "Problem: Maximum Number of Balloons",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4663/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:10",
+          "type": "read",
+          "label": "Problem: Contiguous Array",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4845/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:11",
+          "type": "read",
+          "label": "Lesson: More hashing examples",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4645/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:12",
+          "type": "read",
+          "label": "Problem: Ransom Note",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4607/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:13",
+          "type": "read",
+          "label": "Problem: Jewels and Stones",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4664/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:14",
+          "type": "read",
+          "label": "Problem: Longest Substring Without Repeating Characters",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4690/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:15",
+          "type": "read",
+          "label": "Lesson: Hashing quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4513/"
+        },
+        {
+          "id": "leetcode-course-hashing:read:16",
+          "type": "read",
+          "label": "Lesson: Bonus problems, hashing",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4706/"
+        },
+        {
+          "id": "leetcode-course-hashing:do:0",
+          "type": "do",
+          "label": "Study: Hashing",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:1",
+          "type": "do",
+          "label": "Study: Checking for existence",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:2",
+          "type": "do",
+          "label": "Solve: Check if the Sentence Is Pangram",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:3",
+          "type": "do",
+          "label": "Solve: Missing Number",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:4",
+          "type": "do",
+          "label": "Solve: Counting Elements",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:5",
+          "type": "do",
+          "label": "Study: Counting",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:6",
+          "type": "do",
+          "label": "Solve: Find Players With Zero or One Losses",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:7",
+          "type": "do",
+          "label": "Solve: Largest Unique Number",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:8",
+          "type": "do",
+          "label": "Solve: Maximum Number of Balloons",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:9",
+          "type": "do",
+          "label": "Solve: Contiguous Array",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:10",
+          "type": "do",
+          "label": "Study: More hashing examples",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:11",
+          "type": "do",
+          "label": "Solve: Ransom Note",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:12",
+          "type": "do",
+          "label": "Solve: Jewels and Stones",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:13",
+          "type": "do",
+          "label": "Solve: Longest Substring Without Repeating Characters",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:14",
+          "type": "do",
+          "label": "Study: Hashing quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:do:15",
+          "type": "do",
+          "label": "Study: Bonus problems, hashing",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:check:0",
+          "type": "check",
+          "label": "You worked through the hashing lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-hashing:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-linked-lists",
+      "title": "LeetCode Crash Course: Linked lists",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "Linked lists are like arrays - they're an ordered collection of elements. The main difference is how they are implemented. Linked lists make use of pointers, which is a very important concept for any software engineer. They're also used to implement other important data structures. Imported from the purchased LeetCode crash course with 8 lessons and exercises.",
+      "estimate": "2 sessions",
+      "sessions": 2,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/",
+      "items": [
+        {
+          "id": "leetcode-course-linked-lists:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:read:1",
+          "type": "read",
+          "label": "Lesson: Linked lists",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4506/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:read:2",
+          "type": "read",
+          "label": "Lesson: Fast and slow pointers",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4507/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:read:3",
+          "type": "read",
+          "label": "Problem: Middle of the Linked List",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4660/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:read:4",
+          "type": "read",
+          "label": "Problem: Remove Duplicates from Sorted List",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4597/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:read:5",
+          "type": "read",
+          "label": "Lesson: Reversing a linked list",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4600/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:read:6",
+          "type": "read",
+          "label": "Problem: Reverse Linked List II",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4598/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:read:7",
+          "type": "read",
+          "label": "Lesson: Linked list quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4509/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:read:8",
+          "type": "read",
+          "label": "Lesson: Bonus problems, linked lists",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4707/"
+        },
+        {
+          "id": "leetcode-course-linked-lists:do:0",
+          "type": "do",
+          "label": "Study: Linked lists",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:do:1",
+          "type": "do",
+          "label": "Study: Fast and slow pointers",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:do:2",
+          "type": "do",
+          "label": "Solve: Middle of the Linked List",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:do:3",
+          "type": "do",
+          "label": "Solve: Remove Duplicates from Sorted List",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:do:4",
+          "type": "do",
+          "label": "Study: Reversing a linked list",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:do:5",
+          "type": "do",
+          "label": "Solve: Reverse Linked List II",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:do:6",
+          "type": "do",
+          "label": "Study: Linked list quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:do:7",
+          "type": "do",
+          "label": "Study: Bonus problems, linked lists",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:check:0",
+          "type": "check",
+          "label": "You worked through the linked lists lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-linked-lists:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-stacks-and-queues",
+      "title": "LeetCode Crash Course: Stacks and queues",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "Stacks and queues are data structures defined by their interfaces. They're a good example of how a simple idea can be used to implement efficient algorithms, and how data structures & algorithms show up in our everyday lives. Imported from the purchased LeetCode crash course with 11 lessons and exercises.",
+      "estimate": "3 sessions",
+      "sessions": 3,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/",
+      "items": [
+        {
+          "id": "leetcode-course-stacks-and-queues:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:1",
+          "type": "read",
+          "label": "Lesson: Stacks",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4514/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:2",
+          "type": "read",
+          "label": "Lesson: String problems",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4646/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:3",
+          "type": "read",
+          "label": "Problem: Simplify Path",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4610/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:4",
+          "type": "read",
+          "label": "Problem: Make The String Great",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4611/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:5",
+          "type": "read",
+          "label": "Lesson: Queues",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4516/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:6",
+          "type": "read",
+          "label": "Problem: Moving Average from Data Stream",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4703/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:7",
+          "type": "read",
+          "label": "Lesson: Monotonic",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4517/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:8",
+          "type": "read",
+          "label": "Problem: Next Greater Element I",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4612/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:9",
+          "type": "read",
+          "label": "Problem: Online Stock Span",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4667/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:10",
+          "type": "read",
+          "label": "Lesson: Stacks and queues quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4518/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:read:11",
+          "type": "read",
+          "label": "Lesson: Bonus problems, stacks and queues",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4708/"
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:0",
+          "type": "do",
+          "label": "Study: Stacks",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:1",
+          "type": "do",
+          "label": "Study: String problems",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:2",
+          "type": "do",
+          "label": "Solve: Simplify Path",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:3",
+          "type": "do",
+          "label": "Solve: Make The String Great",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:4",
+          "type": "do",
+          "label": "Study: Queues",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:5",
+          "type": "do",
+          "label": "Solve: Moving Average from Data Stream",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:6",
+          "type": "do",
+          "label": "Study: Monotonic",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:7",
+          "type": "do",
+          "label": "Solve: Next Greater Element I",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:8",
+          "type": "do",
+          "label": "Solve: Online Stock Span",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:9",
+          "type": "do",
+          "label": "Study: Stacks and queues quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:do:10",
+          "type": "do",
+          "label": "Study: Bonus problems, stacks and queues",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:check:0",
+          "type": "check",
+          "label": "You worked through the stacks and queues lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-stacks-and-queues:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-traversals-trees-graphs",
+      "title": "LeetCode Crash Course: Trees and graphs",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "Trees and graphs are arguably the most important topic when it comes to software engineering interviews. Their implementations are ubiquitous in the real world. Imported from the purchased LeetCode crash course with 28 lessons and exercises.",
+      "estimate": "6 sessions",
+      "sessions": 6,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/",
+      "items": [
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:1",
+          "type": "read",
+          "label": "Lesson: Binary trees",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4722/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:2",
+          "type": "read",
+          "label": "Lesson: Binary trees - DFS",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4686/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:3",
+          "type": "read",
+          "label": "Problem: Minimum Depth of Binary Tree",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4691/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:4",
+          "type": "read",
+          "label": "Problem: Maximum Difference Between Node and Ancestor",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4617/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:5",
+          "type": "read",
+          "label": "Problem: Diameter of Binary Tree",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4669/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:6",
+          "type": "read",
+          "label": "Lesson: Binary trees - BFS",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4619/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:7",
+          "type": "read",
+          "label": "Problem: Deepest Leaves Sum",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4620/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:8",
+          "type": "read",
+          "label": "Problem: Binary Tree Zigzag Level Order Traversal",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4621/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:9",
+          "type": "read",
+          "label": "Lesson: Binary search trees",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4622/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:10",
+          "type": "read",
+          "label": "Problem: Insert into a Binary Search Tree",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4623/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:11",
+          "type": "read",
+          "label": "Problem: Closest Binary Search Tree Value",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4692/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:12",
+          "type": "read",
+          "label": "Lesson: Trees quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4625/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:13",
+          "type": "read",
+          "label": "Lesson: Graphs",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4721/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:14",
+          "type": "read",
+          "label": "Lesson: Graphs - DFS",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4626/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:15",
+          "type": "read",
+          "label": "Problem: Find if Path Exists in Graph",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4693/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:16",
+          "type": "read",
+          "label": "Problem: Number of Connected Components in an Undirected Graph",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4670/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:17",
+          "type": "read",
+          "label": "Problem: Max Area of Island",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4628/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:18",
+          "type": "read",
+          "label": "Problem: Reachable Nodes With Restrictions",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4629/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:19",
+          "type": "read",
+          "label": "Lesson: Graphs - BFS",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4631/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:20",
+          "type": "read",
+          "label": "Problem: Nearest Exit from Entrance in Maze",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4632/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:21",
+          "type": "read",
+          "label": "Problem: Snakes and Ladders",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4838/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:22",
+          "type": "read",
+          "label": "Lesson: Implicit graphs",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4635/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:23",
+          "type": "read",
+          "label": "Problem: Minimum Genetic Mutation",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4636/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:24",
+          "type": "read",
+          "label": "Problem: Jump Game III",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4672/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:25",
+          "type": "read",
+          "label": "Problem: Detonate the Maximum Bombs",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4837/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:26",
+          "type": "read",
+          "label": "Problem: Word Ladder",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4637/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:27",
+          "type": "read",
+          "label": "Lesson: Graphs quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4644/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:read:28",
+          "type": "read",
+          "label": "Lesson: Bonus problems, trees and graphs",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4709/"
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:0",
+          "type": "do",
+          "label": "Study: Binary trees",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:1",
+          "type": "do",
+          "label": "Study: Binary trees - DFS",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:2",
+          "type": "do",
+          "label": "Solve: Minimum Depth of Binary Tree",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:3",
+          "type": "do",
+          "label": "Solve: Maximum Difference Between Node and Ancestor",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:4",
+          "type": "do",
+          "label": "Solve: Diameter of Binary Tree",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:5",
+          "type": "do",
+          "label": "Study: Binary trees - BFS",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:6",
+          "type": "do",
+          "label": "Solve: Deepest Leaves Sum",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:7",
+          "type": "do",
+          "label": "Solve: Binary Tree Zigzag Level Order Traversal",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:8",
+          "type": "do",
+          "label": "Study: Binary search trees",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:9",
+          "type": "do",
+          "label": "Solve: Insert into a Binary Search Tree",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:10",
+          "type": "do",
+          "label": "Solve: Closest Binary Search Tree Value",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:11",
+          "type": "do",
+          "label": "Study: Trees quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:12",
+          "type": "do",
+          "label": "Study: Graphs",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:13",
+          "type": "do",
+          "label": "Study: Graphs - DFS",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:14",
+          "type": "do",
+          "label": "Solve: Find if Path Exists in Graph",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:15",
+          "type": "do",
+          "label": "Solve: Number of Connected Components in an Undirected Graph",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:16",
+          "type": "do",
+          "label": "Solve: Max Area of Island",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:17",
+          "type": "do",
+          "label": "Solve: Reachable Nodes With Restrictions",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:18",
+          "type": "do",
+          "label": "Study: Graphs - BFS",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:19",
+          "type": "do",
+          "label": "Solve: Nearest Exit from Entrance in Maze",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:20",
+          "type": "do",
+          "label": "Solve: Snakes and Ladders",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:21",
+          "type": "do",
+          "label": "Study: Implicit graphs",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:22",
+          "type": "do",
+          "label": "Solve: Minimum Genetic Mutation",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:23",
+          "type": "do",
+          "label": "Solve: Jump Game III",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:24",
+          "type": "do",
+          "label": "Solve: Detonate the Maximum Bombs",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:25",
+          "type": "do",
+          "label": "Solve: Word Ladder",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:26",
+          "type": "do",
+          "label": "Study: Graphs quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:do:27",
+          "type": "do",
+          "label": "Study: Bonus problems, trees and graphs",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:check:0",
+          "type": "check",
+          "label": "You worked through the trees and graphs lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-traversals-trees-graphs:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-heaps",
+      "title": "LeetCode Crash Course: Heaps",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "A priority queue, commonly referred to as a heap, is a powerful data structure for querying maximum and minimum elements. Imported from the purchased LeetCode crash course with 10 lessons and exercises.",
+      "estimate": "2 sessions",
+      "sessions": 2,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/",
+      "items": [
+        {
+          "id": "leetcode-course-heaps:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:1",
+          "type": "read",
+          "label": "Lesson: Heaps",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4638/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:2",
+          "type": "read",
+          "label": "Lesson: Heap examples",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4649/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:3",
+          "type": "read",
+          "label": "Problem: Remove Stones to Minimize the Total",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4640/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:4",
+          "type": "read",
+          "label": "Problem: Minimum Cost to Connect Sticks",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4674/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:5",
+          "type": "read",
+          "label": "Lesson: Top k",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4641/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:6",
+          "type": "read",
+          "label": "Problem: Kth Largest Element in an Array",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4839/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:7",
+          "type": "read",
+          "label": "Problem: K Closest Points to Origin",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4642/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:8",
+          "type": "read",
+          "label": "Problem: Kth Largest Element in a Stream",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4846/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:9",
+          "type": "read",
+          "label": "Lesson: Heap quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4847/"
+        },
+        {
+          "id": "leetcode-course-heaps:read:10",
+          "type": "read",
+          "label": "Lesson: Bonus problems, heaps",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4848/"
+        },
+        {
+          "id": "leetcode-course-heaps:do:0",
+          "type": "do",
+          "label": "Study: Heaps",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:1",
+          "type": "do",
+          "label": "Study: Heap examples",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:2",
+          "type": "do",
+          "label": "Solve: Remove Stones to Minimize the Total",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:3",
+          "type": "do",
+          "label": "Solve: Minimum Cost to Connect Sticks",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:4",
+          "type": "do",
+          "label": "Study: Top k",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:5",
+          "type": "do",
+          "label": "Solve: Kth Largest Element in an Array",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:6",
+          "type": "do",
+          "label": "Solve: K Closest Points to Origin",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:7",
+          "type": "do",
+          "label": "Solve: Kth Largest Element in a Stream",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:8",
+          "type": "do",
+          "label": "Study: Heap quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:do:9",
+          "type": "do",
+          "label": "Study: Bonus problems, heaps",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:check:0",
+          "type": "check",
+          "label": "You worked through the heaps lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-heaps:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-greedy",
+      "title": "LeetCode Crash Course: Greedy",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "\"Greedy\" is more of a problem solving approach than a data structure or algorithm. You could argue that most of the solutions in the previous chapters were greedy algorithms. Imported from the purchased LeetCode crash course with 8 lessons and exercises.",
+      "estimate": "2 sessions",
+      "sessions": 2,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/",
+      "items": [
+        {
+          "id": "leetcode-course-greedy:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/"
+        },
+        {
+          "id": "leetcode-course-greedy:read:1",
+          "type": "read",
+          "label": "Lesson: Greedy algorithms",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4529/"
+        },
+        {
+          "id": "leetcode-course-greedy:read:2",
+          "type": "read",
+          "label": "Lesson: Example greedy problems",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4647/"
+        },
+        {
+          "id": "leetcode-course-greedy:read:3",
+          "type": "read",
+          "label": "Problem: Maximum 69 Number",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4560/"
+        },
+        {
+          "id": "leetcode-course-greedy:read:4",
+          "type": "read",
+          "label": "Problem: Maximum Units on a Truck",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4676/"
+        },
+        {
+          "id": "leetcode-course-greedy:read:5",
+          "type": "read",
+          "label": "Problem: How Many Apples Can You Put into the Basket",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4677/"
+        },
+        {
+          "id": "leetcode-course-greedy:read:6",
+          "type": "read",
+          "label": "Problem: Reduce Array Size to The Half",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4678/"
+        },
+        {
+          "id": "leetcode-course-greedy:read:7",
+          "type": "read",
+          "label": "Lesson: Greedy quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4530/"
+        },
+        {
+          "id": "leetcode-course-greedy:read:8",
+          "type": "read",
+          "label": "Lesson: Bonus problems, greedy",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4711/"
+        },
+        {
+          "id": "leetcode-course-greedy:do:0",
+          "type": "do",
+          "label": "Study: Greedy algorithms",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:do:1",
+          "type": "do",
+          "label": "Study: Example greedy problems",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:do:2",
+          "type": "do",
+          "label": "Solve: Maximum 69 Number",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:do:3",
+          "type": "do",
+          "label": "Solve: Maximum Units on a Truck",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:do:4",
+          "type": "do",
+          "label": "Solve: How Many Apples Can You Put into the Basket",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:do:5",
+          "type": "do",
+          "label": "Solve: Reduce Array Size to The Half",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:do:6",
+          "type": "do",
+          "label": "Study: Greedy quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:do:7",
+          "type": "do",
+          "label": "Study: Bonus problems, greedy",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:check:0",
+          "type": "check",
+          "label": "You worked through the greedy lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-greedy:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-binary-search",
+      "title": "LeetCode Crash Course: Binary search",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "Binary search is an extremely powerful algorithm. It's not often that you can use it, but when you can, it greatly speeds up any algorithm. Imported from the purchased LeetCode crash course with 10 lessons and exercises.",
+      "estimate": "2 sessions",
+      "sessions": 2,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/",
+      "items": [
+        {
+          "id": "leetcode-course-binary-search:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:1",
+          "type": "read",
+          "label": "Lesson: Binary Search",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4696/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:2",
+          "type": "read",
+          "label": "Lesson: On arrays",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4532/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:3",
+          "type": "read",
+          "label": "Problem: Search Insert Position",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4569/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:4",
+          "type": "read",
+          "label": "Problem: Longest Subsequence With Limited Sum",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4574/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:5",
+          "type": "read",
+          "label": "Lesson: On solution spaces",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4533/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:6",
+          "type": "read",
+          "label": "Problem: Find the Smallest Divisor Given a Threshold",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4694/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:7",
+          "type": "read",
+          "label": "Problem: Divide Chocolate",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4681/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:8",
+          "type": "read",
+          "label": "Problem: Split Array Largest Sum",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4573/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:9",
+          "type": "read",
+          "label": "Lesson: Binary search quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4534/"
+        },
+        {
+          "id": "leetcode-course-binary-search:read:10",
+          "type": "read",
+          "label": "Lesson: Bonus problems, binary search",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4712/"
+        },
+        {
+          "id": "leetcode-course-binary-search:do:0",
+          "type": "do",
+          "label": "Study: Binary Search",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:1",
+          "type": "do",
+          "label": "Study: On arrays",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:2",
+          "type": "do",
+          "label": "Solve: Search Insert Position",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:3",
+          "type": "do",
+          "label": "Solve: Longest Subsequence With Limited Sum",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:4",
+          "type": "do",
+          "label": "Study: On solution spaces",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:5",
+          "type": "do",
+          "label": "Solve: Find the Smallest Divisor Given a Threshold",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:6",
+          "type": "do",
+          "label": "Solve: Divide Chocolate",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:7",
+          "type": "do",
+          "label": "Solve: Split Array Largest Sum",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:8",
+          "type": "do",
+          "label": "Study: Binary search quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:do:9",
+          "type": "do",
+          "label": "Study: Bonus problems, binary search",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:check:0",
+          "type": "check",
+          "label": "You worked through the binary search lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-binary-search:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-backtracking",
+      "title": "LeetCode Crash Course: Backtracking",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "Backtracking is a general technique that builds promising candidates and discards candidates that cannot lead to an answer. It's an important concept as some problems can only be (reasonably) solved with backtracking. Imported from the purchased LeetCode crash course with 10 lessons and exercises.",
+      "estimate": "2 sessions",
+      "sessions": 2,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/",
+      "items": [
+        {
+          "id": "leetcode-course-backtracking:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:1",
+          "type": "read",
+          "label": "Lesson: Backtracking",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4535/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:2",
+          "type": "read",
+          "label": "Lesson: Generation",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4536/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:3",
+          "type": "read",
+          "label": "Problem: All Paths From Source to Target",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4575/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:4",
+          "type": "read",
+          "label": "Problem: Letter Combinations of a Phone Number",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4577/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:5",
+          "type": "read",
+          "label": "Lesson: More constrained backtracking",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4537/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:6",
+          "type": "read",
+          "label": "Problem: Generate Parentheses",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4578/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:7",
+          "type": "read",
+          "label": "Problem: Numbers With Same Consecutive Differences",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4695/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:8",
+          "type": "read",
+          "label": "Problem: Combination Sum III",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4683/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:9",
+          "type": "read",
+          "label": "Lesson: Backtracking quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4538/"
+        },
+        {
+          "id": "leetcode-course-backtracking:read:10",
+          "type": "read",
+          "label": "Lesson: Bonus problems, backtracking",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4713/"
+        },
+        {
+          "id": "leetcode-course-backtracking:do:0",
+          "type": "do",
+          "label": "Study: Backtracking",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:1",
+          "type": "do",
+          "label": "Study: Generation",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:2",
+          "type": "do",
+          "label": "Solve: All Paths From Source to Target",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:3",
+          "type": "do",
+          "label": "Solve: Letter Combinations of a Phone Number",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:4",
+          "type": "do",
+          "label": "Study: More constrained backtracking",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:5",
+          "type": "do",
+          "label": "Solve: Generate Parentheses",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:6",
+          "type": "do",
+          "label": "Solve: Numbers With Same Consecutive Differences",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:7",
+          "type": "do",
+          "label": "Solve: Combination Sum III",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:8",
+          "type": "do",
+          "label": "Study: Backtracking quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:do:9",
+          "type": "do",
+          "label": "Study: Bonus problems, backtracking",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:check:0",
+          "type": "check",
+          "label": "You worked through the backtracking lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-backtracking:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    },
+    {
+      "id": "leetcode-course-dynamic-programming",
+      "title": "LeetCode Crash Course: Dynamic programming",
+      "track": "dsa-leetcode",
+      "phase": "LeetCode Course",
+      "summary": "Everyone's favorite - dynamic programming is a programming method that solves problems by breaking them into smaller problems. While most people dread dynamic programming, the topic can be easily learned. Imported from the purchased LeetCode crash course with 14 lessons and exercises.",
+      "estimate": "3 sessions",
+      "sessions": 3,
+      "countsTowardSchedule": false,
+      "sourceUrl": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/",
+      "items": [
+        {
+          "id": "leetcode-course-dynamic-programming:read:0",
+          "type": "read",
+          "label": "Open chapter on LeetCode",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:1",
+          "type": "read",
+          "label": "Lesson: Dynamic programming",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4539/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:2",
+          "type": "read",
+          "label": "Lesson: Framework for DP",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4540/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:3",
+          "type": "read",
+          "label": "Lesson: 1D problems",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4541/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:4",
+          "type": "read",
+          "label": "Problem: Climbing Stairs",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4580/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:5",
+          "type": "read",
+          "label": "Problem: Min Cost Climbing Stairs",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4684/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:6",
+          "type": "read",
+          "label": "Problem: Coin Change",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4581/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:7",
+          "type": "read",
+          "label": "Lesson: Multi-dimensional problems",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4542/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:8",
+          "type": "read",
+          "label": "Problem: Best Time to Buy and Sell Stock with Transaction Fee",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4583/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:9",
+          "type": "read",
+          "label": "Problem: Best Time to Buy and Sell Stock with Cooldown",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4584/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:10",
+          "type": "read",
+          "label": "Lesson: Matrix DP",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4543/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:11",
+          "type": "read",
+          "label": "Problem: Unique Paths II",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4585/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:12",
+          "type": "read",
+          "label": "Problem: Minimum Falling Path Sum",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4586/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:13",
+          "type": "read",
+          "label": "Lesson: Dynamic programming quiz",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4544/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:read:14",
+          "type": "read",
+          "label": "Lesson: Bonus problems, dynamic programming",
+          "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4714/"
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:0",
+          "type": "do",
+          "label": "Study: Dynamic programming",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:1",
+          "type": "do",
+          "label": "Study: Framework for DP",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:2",
+          "type": "do",
+          "label": "Study: 1D problems",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:3",
+          "type": "do",
+          "label": "Solve: Climbing Stairs",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:4",
+          "type": "do",
+          "label": "Solve: Min Cost Climbing Stairs",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:5",
+          "type": "do",
+          "label": "Solve: Coin Change",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:6",
+          "type": "do",
+          "label": "Study: Multi-dimensional problems",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:7",
+          "type": "do",
+          "label": "Solve: Best Time to Buy and Sell Stock with Transaction Fee",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:8",
+          "type": "do",
+          "label": "Solve: Best Time to Buy and Sell Stock with Cooldown",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:9",
+          "type": "do",
+          "label": "Study: Matrix DP",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:10",
+          "type": "do",
+          "label": "Solve: Unique Paths II",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:11",
+          "type": "do",
+          "label": "Solve: Minimum Falling Path Sum",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:12",
+          "type": "do",
+          "label": "Study: Dynamic programming quiz",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:do:13",
+          "type": "do",
+          "label": "Study: Bonus problems, dynamic programming",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:check:0",
+          "type": "check",
+          "label": "You worked through the dynamic programming lessons and attempted the practice problems.",
+          "url": null
+        },
+        {
+          "id": "leetcode-course-dynamic-programming:check:1",
+          "type": "check",
+          "label": "You can explain the chapter's main patterns before looking at the walkthrough again.",
+          "url": null
+        }
+      ],
+      "prerequisiteModuleIds": []
+    }
+  ]
+}

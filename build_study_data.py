@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import datetime
 import json
 from pathlib import Path
 
@@ -13,6 +14,7 @@ LEETCODE_EXPORT_DIR = Path(__file__).resolve().parent / "course_exports" / "leet
 MODULES = [
     {
         "id": "setup-habits",
+        "track": "dsa-leetcode",
         "title": "Setup: language, cadence, and problem practice",
         "phase": "Start Here",
         "estimate": "2-3 sessions",
@@ -40,6 +42,7 @@ MODULES = [
     },
     {
         "id": "big-o",
+        "track": "dsa-leetcode",
         "title": "Big-O and asymptotic analysis",
         "phase": "Core Track",
         "estimate": "2-4 sessions",
@@ -66,6 +69,7 @@ MODULES = [
     },
     {
         "id": "arrays-linked-lists",
+        "track": "dsa-leetcode",
         "title": "Linear structures: arrays and linked lists",
         "phase": "Core Track",
         "estimate": "6-8 sessions",
@@ -93,6 +97,7 @@ MODULES = [
     },
     {
         "id": "stacks-queues-hashes",
+        "track": "dsa-leetcode",
         "title": "Core DS II: stacks, queues, and hash tables",
         "phase": "Core Track",
         "estimate": "5-6 sessions",
@@ -120,6 +125,7 @@ MODULES = [
     },
     {
         "id": "search-bitwise",
+        "track": "dsa-leetcode",
         "title": "Binary search and bitwise operations",
         "phase": "Core Track",
         "estimate": "3-4 sessions",
@@ -146,6 +152,7 @@ MODULES = [
     },
     {
         "id": "trees-heaps",
+        "track": "dsa-leetcode",
         "title": "Trees, BSTs, and heaps",
         "phase": "Core Track",
         "estimate": "7-9 sessions",
@@ -173,6 +180,7 @@ MODULES = [
     },
     {
         "id": "sorting",
+        "track": "dsa-leetcode",
         "title": "Sorting as implementation and trade-off practice",
         "phase": "Core Track",
         "estimate": "4-5 sessions",
@@ -199,6 +207,7 @@ MODULES = [
     },
     {
         "id": "graphs",
+        "track": "dsa-leetcode",
         "title": "Graphs as the final core algorithm block",
         "phase": "Core Track",
         "estimate": "7-9 sessions",
@@ -226,6 +235,7 @@ MODULES = [
     },
     {
         "id": "recursion-dp",
+        "track": "dsa-leetcode",
         "title": "Recursion, backtracking, and dynamic programming",
         "phase": "Deepen",
         "estimate": "5-7 sessions",
@@ -253,6 +263,7 @@ MODULES = [
     },
     {
         "id": "systems-basics",
+        "track": "dsa-leetcode",
         "title": "Systems basics that frequently leak into interviews",
         "phase": "Deepen",
         "estimate": "5-6 sessions",
@@ -280,6 +291,7 @@ MODULES = [
     },
     {
         "id": "review-interview",
+        "track": "resume-behavioral",
         "title": "Final review and interview loop",
         "phase": "Interview Loop",
         "estimate": "4-5 sessions",
@@ -307,6 +319,7 @@ MODULES = [
     },
     {
         "id": "system-design",
+        "track": "system-design",
         "title": "Optional: system design and scalability",
         "phase": "Optional Advanced",
         "estimate": "Only if needed",
@@ -591,6 +604,7 @@ def load_leetcode_course_modules(export_dir: Path = LEETCODE_EXPORT_DIR) -> list
         modules.append(
             {
                 "id": _leetcode_module_id(chapter_slug),
+                "track": "dsa-leetcode",
                 "title": _leetcode_module_title(chapter_title),
                 "phase": "LeetCode Course",
                 "countsTowardSchedule": False,
@@ -682,6 +696,108 @@ def load_dynamic_pipeline_only_modules(export_dir: Path = LEETCODE_EXPORT_DIR) -
 
 MODULES.extend(load_leetcode_course_modules())
 
+CURRICULUM_JSON_VERSION = 1
+CURRICULUM_JSON_OUTPUT = Path(__file__).resolve().parent / "curriculum.json"
+KNOWLEDGE_BASE_PATH = Path(__file__).resolve().parent / "knowledge-base.json"
+
+TRACKS = [
+    {"id": "dsa-leetcode", "label": "DSA & LeetCode"},
+    {"id": "system-design", "label": "System Design"},
+    {"id": "machine-learning", "label": "Machine Learning"},
+    {"id": "resume-behavioral", "label": "Resume & Behavioral"},
+]
+
+
+def _curriculum_items(module: dict) -> list[dict]:
+    mid = module["id"]
+    items = []
+    for i, r in enumerate(module.get("resources", [])):
+        items.append({"id": f"{mid}:read:{i}", "type": "read",
+                      "label": r["label"], "url": r["url"]})
+    for i, text in enumerate(module.get("items", [])):
+        items.append({"id": f"{mid}:do:{i}", "type": "do",
+                      "label": text, "url": None})
+    for i, text in enumerate(module.get("checks", [])):
+        items.append({"id": f"{mid}:check:{i}", "type": "check",
+                      "label": text, "url": None})
+    return items
+
+
+def _compute_prereq_module_ids(modules: list[dict]) -> dict[str, list[str]]:
+    if not KNOWLEDGE_BASE_PATH.exists():
+        return {m["id"]: [] for m in modules}
+
+    kb = json.loads(KNOWLEDGE_BASE_PATH.read_text(encoding="utf-8"))
+    planning_topics = kb.get("planning_topics", [])
+    planning_edges = kb.get("planning_topic_edges", [])
+
+    topic_to_modules: dict[str, set[str]] = {}
+    for pt in planning_topics:
+        tid = pt.get("planning_topic_id") or pt.get("id", "")
+        topic_to_modules[tid] = set(pt.get("module_ids", []))
+
+    prereq_edges: list[tuple[str, str]] = []
+    for edge in planning_edges:
+        if edge.get("type") == "prerequisite":
+            from_id = edge.get("from", "").replace("planning:", "")
+            to_id = edge.get("to", "").replace("planning:", "")
+            if from_id and to_id:
+                prereq_edges.append((from_id, to_id))
+
+    module_ids = {m["id"] for m in modules}
+    result: dict[str, list[str]] = {m["id"]: [] for m in modules}
+
+    for module in modules:
+        mid = module["id"]
+        topics_for_module = {
+            tid for tid, mids in topic_to_modules.items() if mid in mids
+        }
+        prereq_topic_ids: set[str] = set()
+        for tid in topics_for_module:
+            for (from_id, to_id) in prereq_edges:
+                if to_id == tid:
+                    prereq_topic_ids.add(from_id)
+
+        prereq_module_ids: set[str] = set()
+        for ptid in prereq_topic_ids:
+            for module_id in topic_to_modules.get(ptid, set()):
+                if module_id in module_ids and module_id != mid:
+                    prereq_module_ids.add(module_id)
+
+        result[mid] = sorted(prereq_module_ids)
+
+    return result
+
+
+def build_curriculum_json() -> None:
+    prereqs = _compute_prereq_module_ids(MODULES)
+    curriculum = {
+        "version": CURRICULUM_JSON_VERSION,
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "tracks": TRACKS,
+        "modules": [
+            {
+                "id": m["id"],
+                "title": m["title"],
+                "track": m.get("track", "dsa-leetcode"),
+                "phase": m["phase"],
+                "summary": m.get("summary", ""),
+                "estimate": m.get("estimate", ""),
+                "sessions": m.get("sessions", 0),
+                "countsTowardSchedule": m.get("countsTowardSchedule", True),
+                "sourceUrl": m.get("sourceUrl", ""),
+                "items": _curriculum_items(m),
+                "prerequisiteModuleIds": prereqs.get(m["id"], []),
+            }
+            for m in MODULES
+        ],
+    }
+    CURRICULUM_JSON_OUTPUT.write_text(
+        json.dumps(curriculum, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    print(f"Wrote curriculum.json with {len(curriculum['modules'])} modules.")
+
 
 def build_payload() -> dict:
     total_items = sum(len(module["items"]) for module in MODULES)
@@ -710,6 +826,7 @@ def main() -> None:
         f"{len(payload['sections'])} modules, {payload['totalItems']} checklist items, "
         f"and {payload['totalSessions']} core sessions."
     )
+    build_curriculum_json()
 
 
 if __name__ == "__main__":
