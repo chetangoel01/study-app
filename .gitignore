@@ -1,8 +1,16 @@
 node_modules/
 .env
 .venv/
+.claude/
+.superpowers/
 pipeline/.cache/
 knowledge-base.json
 crawl-audit.json
 course_exports/
 *.cookies.txt
+*_cookies.txt
+leetcode.com_cookies.txt
+client/dist/
+server/dist/
+data.js
+*.db

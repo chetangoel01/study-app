@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate study-app/data.js from a curated CIU study roadmap."""
+"""Generate curriculum.json from a curated CIU study roadmap."""
 
 from __future__ import annotations
 
@@ -7,8 +7,6 @@ import datetime
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-OUTPUT = Path(__file__).resolve().parent / "data.js"
 LEETCODE_EXPORT_DIR = Path(__file__).resolve().parent / "course_exports" / "leetcode-crash-course"
 
 MODULES = [
@@ -800,12 +798,14 @@ def build_curriculum_json() -> None:
 
 
 def build_payload() -> dict:
+    """Compatibility helper for tests that still assert on the public module set."""
     total_items = sum(len(module["items"]) for module in MODULES)
     total_sessions = sum(
         module["sessions"]
         for module in MODULES
-        if module["phase"] != "Optional Advanced" and module.get("countsTowardSchedule", True)
+        if module.get("countsTowardSchedule", True)
     )
+
     return {
         "title": "Coding Interview University Study Guide",
         "source": "README.md",
@@ -816,16 +816,6 @@ def build_payload() -> dict:
 
 
 def main() -> None:
-    payload = build_payload()
-    OUTPUT.write_text(
-        "window.STUDY_GUIDE_DATA = " + json.dumps(payload, indent=2, ensure_ascii=False) + ";\n",
-        encoding="utf-8",
-    )
-    print(
-        f"Wrote {OUTPUT.relative_to(ROOT)} with "
-        f"{len(payload['sections'])} modules, {payload['totalItems']} checklist items, "
-        f"and {payload['totalSessions']} core sessions."
-    )
     build_curriculum_json()
 
 
