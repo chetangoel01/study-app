@@ -10,7 +10,7 @@ export function ProtectedRoute() {
   useEffect(() => {
     api.get<AuthUser>('/api/auth/me').then(setUser).catch(() => setUser(null));
   }, []);
-  if (user === 'loading') return <div className="loading">Loading…</div>;
+  if (user === 'loading') return <div className="loading" role="status" aria-live="polite">Loading...</div>;
   if (user === null) return <Navigate to="/login" replace />;
   return (
     <Layout user={user}>

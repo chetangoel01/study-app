@@ -35,6 +35,14 @@ export interface PlanningTopic {
   study_guide_markdown?: string;
 }
 
+export interface SynthesizedTopic {
+  id: string;
+  planning_topic_id?: string;
+  label: string;
+  module_ids: string[];
+  study_guide_markdown?: string;
+}
+
 export interface CurriculumIndex {
   tracks: Track[];
   modules: CurriculumModule[];

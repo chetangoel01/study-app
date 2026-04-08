@@ -11,11 +11,14 @@ describe('LoginPage', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('heading', { name: 'Study Guide' })).toBeInTheDocument();
+    expect(screen.getByText('Interview prep, but calmer')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Reclaiming the focus in software mastery/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Continue with Google' }))
       .toHaveAttribute('href', '/api/auth/oauth/google');
     expect(screen.getByRole('link', { name: 'Continue with GitHub' }))
       .toHaveAttribute('href', '/api/auth/oauth/github');
     expect(screen.getByRole('button', { name: 'Log in' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Email')).toHaveAttribute('autocomplete', 'email');
+    expect(screen.getByLabelText('Password')).toHaveAttribute('autocomplete', 'current-password');
   });
 });

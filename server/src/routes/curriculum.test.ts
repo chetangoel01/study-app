@@ -24,7 +24,23 @@ const CURRICULUM = {
   }],
 };
 writeFileSync(resolve(dir, 'curriculum.json'), JSON.stringify(CURRICULUM));
-writeFileSync(resolve(dir, 'kb.json'), JSON.stringify({ version: '3', planning_topics: [] }));
+writeFileSync(resolve(dir, 'kb.json'), JSON.stringify({
+  version: '3',
+  planning_topics: [{
+    id: 'planning:complexity',
+    planning_topic_id: 'complexity',
+    label: 'Big-O Notation',
+    module_ids: ['big-o'],
+    study_guide_markdown: '',
+  }],
+  topics: [{
+    id: 'topic:big-o',
+    planning_topic_id: 'complexity',
+    label: 'Big-O Notation',
+    module_ids: ['big-o'],
+    study_guide_markdown: '## Big-O\nO(n) means linear time.',
+  }],
+}));
 
 const curriculumIndex = loadCurriculum({
   curriculumPath: resolve(dir, 'curriculum.json'),
@@ -175,6 +191,7 @@ describe('GET /api/module/:id/content', () => {
     const body = await res.json();
     expect(body.items).toHaveLength(1);
     expect(Array.isArray(body.topics)).toBe(true);
+    expect(body.topics[0].study_guide_markdown).toContain('O(n)');
   });
 
   it('returns 404 for unknown module', async () => {

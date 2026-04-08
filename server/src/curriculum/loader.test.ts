@@ -33,6 +33,13 @@ const KB = {
   planning_topics: [{
     id: 'planning:complexity', planning_topic_id: 'complexity',
     label: 'Big-O Notation', module_ids: ['big-o'],
+    study_guide_markdown: '',
+  }],
+  topics: [{
+    id: 'topic:big-o',
+    planning_topic_id: 'complexity',
+    label: 'Big-O Notation',
+    module_ids: ['big-o'],
     study_guide_markdown: '## Big-O\nO(n) means linear time.',
   }],
 };

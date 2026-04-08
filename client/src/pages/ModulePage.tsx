@@ -1,15 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { ChangeEvent } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useCurriculum, useModuleContent } from '../hooks/useCurriculum.js';
 import { useProgress } from '../hooks/useProgress.js';
 import { api } from '../api/client.js';
 import { MarkdownRenderer } from '../components/MarkdownRenderer.js';
 import { ModuleItemList } from '../components/ModuleItemList.js';
+import { ModuleCompletionModal } from '../components/ModuleCompletionModal.js';
 import { ReadDoTabs } from '../components/ReadDoTabs.js';
 
+const MODULE_STATUS_LABELS = {
+  done: 'Done',
+  'in-progress': 'In progress',
+  available: 'Available',
+  'soft-locked': 'Locked',
+};
+
 export function ModulePage() {
-  const navigate = useNavigate();
   const { trackId, moduleId } = useParams<{ trackId: string; moduleId: string }>();
   const {
     data: curriculum,
@@ -21,7 +28,20 @@ export function ModulePage() {
     loading: contentLoading,
     error: contentError,
   } = useModuleContent(moduleId ?? '');
-  const { toggle, isCompleted } = useProgress();
+  const {
+    toggle,
+    isCompleted,
+    isPending,
+    error: progressError,
+    statusMessage: progressStatusMessage,
+    clearError: clearProgressError,
+  } = useProgress();
+  const notesDescriptionId = useId();
+  const notesFieldHintId = useId();
+  const notesStatusId = useId();
+  const notesHeadingId = useId();
+  const [openTopicId, setOpenTopicId] = useState<string | null>(null);
+  const [showCompletion, setShowCompletion] = useState(false);
 
   const [notes, setNotes] = useState('');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -35,6 +55,8 @@ export function ModulePage() {
   const notesScopeRef = useRef(0);
   const notesDirtyRef = useRef(false);
   const retryCountRef = useRef(0);
+  const prevCompletionPctRef = useRef<number | null>(null);
+  const completionTriggeredByUserRef = useRef(false);
 
   useEffect(() => {
     if (!moduleId) return;
@@ -145,8 +167,24 @@ export function ModulePage() {
     }, 1000);
   };
 
-  if (curriculumLoading) return <div className="loading">Loading...</div>;
-  if (curriculumError) return <div className="error">Error: {curriculumError}</div>;
+  const topics = moduleContent?.topics ?? [];
+
+  useEffect(() => {
+    if (topics.length === 0) {
+      setOpenTopicId(null);
+      return;
+    }
+
+    setOpenTopicId((current) => {
+      if (current && topics.some((topic) => topic.id === current)) {
+        return current;
+      }
+      return topics[0].id;
+    });
+  }, [moduleId, topics]);
+
+  if (curriculumLoading) return <div className="loading" role="status" aria-live="polite">Loading...</div>;
+  if (curriculumError) return <div className="error" role="alert">Error: {curriculumError}</div>;
   if (!curriculum || !trackId || !moduleId) return null;
 
   const track = curriculum.tracks.find((candidate) => candidate.id === trackId);
@@ -155,7 +193,62 @@ export function ModulePage() {
   );
 
   if (!track || !module) {
-    return <div className="error">Module not found.</div>;
+    return <div className="error" role="alert">Module not found.</div>;
+  }
+
+  if (module.status === 'soft-locked') {
+    const firstBlockerId = module.blockedBy[0] ?? null;
+    const blockerModule = firstBlockerId
+      ? curriculum.modules.find((candidate) => candidate.id === firstBlockerId) ?? null
+      : null;
+    const blockerPct = blockerModule && blockerModule.totalItems > 0
+      ? Math.round((blockerModule.completedItems / blockerModule.totalItems) * 100)
+      : 0;
+
+    return (
+      <div className="locked-page">
+        <div className="locked-content surface-card">
+          <p className="panel-label">Step-by-Step Mastery</p>
+          <h1 className="locked-title">Patience is part of the process.</h1>
+          <p className="locked-body">
+            Before we dive into the complexities of <strong>{module.title}</strong>,
+            your foundation needs a little more strength.
+            Deep understanding requires a solid core.
+          </p>
+
+          {blockerModule && (
+            <div className="locked-prereq surface-card">
+              <p className="panel-label">Prerequisite Module</p>
+              <div className="locked-prereq-row">
+                <div className="locked-prereq-info">
+                  <strong className="locked-prereq-title">{blockerModule.title}</strong>
+                  <div className="progress-bar" style={{ marginTop: '0.5rem' }}>
+                    <div className="progress-fill" style={{ width: `${blockerPct}%` }} />
+                  </div>
+                  <p className="locked-prereq-pct">
+                    Completion progress: {blockerPct}%
+                  </p>
+                </div>
+                <Link
+                  to={`/track/${track.id}/module/${blockerModule.id}`}
+                  className="primary-action locked-prereq-btn"
+                >
+                  Complete Prerequisite →
+                </Link>
+              </div>
+            </div>
+          )}
+
+          <div className="locked-actions">
+            <Link to={`/track/${track.id}`} className="secondary-link">
+              View Syllabus
+            </Link>
+          </div>
+
+          <p className="locked-mantra">- THE MINDFUL WAY IS THE STEADY WAY -</p>
+        </div>
+      </div>
+    );
   }
 
   const trackModules = curriculum.modules.filter((candidate) => candidate.track === trackId);
@@ -166,12 +259,62 @@ export function ModulePage() {
     : null;
 
   const items = moduleContent?.items ?? module.items;
-  const topics = moduleContent?.topics ?? [];
+  const readItems = items.filter((item) => item.type === 'read');
+  const actionItems = items.filter((item) => item.type !== 'read');
+  const completedCount = items.filter((item) => isCompleted(module.id, item.id)).length;
+  const completionPct = items.length > 0 ? Math.round((completedCount / items.length) * 100) : 0;
   const noGeneratedContent = !contentLoading && !contentError && topics.length === 0;
+  const saveStatusLabel = saveStatus === 'saving'
+    ? 'Saving...'
+    : saveStatus === 'saved'
+      ? 'Saved'
+      : saveStatus === 'error'
+        ? saveError
+        : 'Autosave on';
+  const saveStatusAnnouncement = saveStatus === 'saving'
+    ? 'Saving notes.'
+    : saveStatus === 'saved'
+      ? 'Notes saved.'
+      : saveStatus === 'error'
+        ? saveError
+        : '';
+  const defaultWorkspaceTab = topics.length > 0 ? 'read' : 'do';
+  const readPanelHeading = topics.length > 0 ? 'Guide and study notes' : 'Resources to review';
+  const readPanelBadge = topics.length > 0 ? `${topics.length} topics` : `${readItems.length} resources`;
+  const workspaceReadLabel = topics.length > 0 ? 'Guide' : 'Resources';
+
+  useEffect(() => {
+    if (
+      completionTriggeredByUserRef.current &&
+      prevCompletionPctRef.current !== null &&
+      prevCompletionPctRef.current < 100 &&
+      completionPct === 100
+    ) {
+      setShowCompletion(true);
+      completionTriggeredByUserRef.current = false;
+    }
+    prevCompletionPctRef.current = completionPct;
+  }, [completionPct]);
+
+  const handleToggle = async (
+    targetModuleId: string,
+    itemId: string,
+    itemType: 'read' | 'do' | 'check',
+    label: string
+  ) => {
+    completionTriggeredByUserRef.current = true;
+    await toggle(targetModuleId, itemId, itemType, label);
+  };
 
   const readColumn = (
-    <div className="read-column">
-      <p className="panel-label">Read</p>
+    <section className="content-panel read-column">
+      <div className="content-panel-header">
+        <div>
+          <p className="panel-label">{workspaceReadLabel}</p>
+          <h2>{readPanelHeading}</h2>
+        </div>
+        <span className="panel-badge">{readPanelBadge}</span>
+      </div>
       {contentLoading ? (
         <MarkdownRenderer content="" loading />
       ) : contentError ? (
@@ -180,102 +323,226 @@ export function ModulePage() {
           error="Unable to load module content right now."
         />
       ) : noGeneratedContent ? (
-        <MarkdownRenderer content="" />
+        <>
+          <p className="content-intro">
+            No generated guide yet. Use the source links below as the lightweight version for now.
+          </p>
+          <MarkdownRenderer content="" />
+        </>
       ) : (
-        topics.map((topic) => (
-          <section key={topic.id} className="topic-section">
-            <h3>{topic.label}</h3>
-            <MarkdownRenderer
-              content={topic.study_guide_markdown}
-            />
-          </section>
-        ))
+        <div className="topic-stack" role="list" aria-label="Guide topics">
+          {topics.map((topic) => {
+            const isOpen = openTopicId === topic.id;
+            const panelId = `${topic.id}-panel`;
+
+            return (
+              <section
+                key={topic.id}
+                className={`topic-section topic-card${isOpen ? ' open' : ''}`}
+                role="listitem"
+              >
+                <button
+                  type="button"
+                  className="topic-toggle"
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  onClick={() => setOpenTopicId(isOpen ? null : topic.id)}
+                >
+                  <span className="topic-toggle-copy">
+                    <span className="topic-toggle-kicker">Topic</span>
+                    <span className="topic-toggle-title">{topic.label}</span>
+                  </span>
+                  <span className="topic-toggle-icon" aria-hidden="true">{isOpen ? '−' : '+'}</span>
+                </button>
+                {isOpen && (
+                  <div id={panelId} className="topic-panel">
+                    <MarkdownRenderer
+                      content={topic.study_guide_markdown}
+                    />
+                  </div>
+                )}
+              </section>
+            );
+          })}
+        </div>
       )}
       <div className="go-deeper">
-        <p className="panel-label">Go deeper</p>
+        <div className="section-copy-block">
+          <p className="panel-label">Go deeper</p>
+          <p className="content-intro">Keep source material and external explainers tucked underneath the guide.</p>
+        </div>
         <ModuleItemList
           items={items}
           moduleId={module.id}
           isCompleted={isCompleted}
-          onToggle={toggle}
+          isPending={isPending}
+          onToggle={handleToggle}
           filter={['read']}
         />
       </div>
-    </div>
+    </section>
   );
 
   const doColumn = (
-    <div className="do-column">
-      <p className="panel-label">Do</p>
+    <section className="content-panel do-column">
+      <div className="content-panel-header">
+        <div>
+          <p className="panel-label">Practice</p>
+          <h2>Practice and checkpoints</h2>
+        </div>
+        <span className="panel-badge">{actionItems.length} actions</span>
+      </div>
+      <p className="content-intro">
+        Work through the active checklist instead of juggling a guide and assignments side by side.
+      </p>
       <ModuleItemList
         items={items}
         moduleId={module.id}
         isCompleted={isCompleted}
-        onToggle={toggle}
+        isPending={isPending}
+        onToggle={handleToggle}
         filter={['do', 'check']}
       />
-    </div>
+    </section>
   );
 
   return (
     <div className="module-page">
-      <div className="module-topbar">
-        <Link to={`/track/${track.id}`} className="back-link">← {track.label}</Link>
-        <h1 className="module-page-title">{module.title}</h1>
-        <div className="module-nav">
-          {prevModule ? (
-            <button
-              type="button"
-              onClick={() => navigate(`/track/${track.id}/module/${prevModule.id}`)}
-            >
-              ← Prev
-            </button>
-          ) : <span />}
-          {nextModule ? (
-            <button
-              type="button"
-              onClick={() => navigate(`/track/${track.id}/module/${nextModule.id}`)}
-            >
-              Next →
-            </button>
-          ) : (
-            <span className="track-complete">
-              Track complete - <Link to="/">switch tracks</Link>
+      <section className="module-hero surface-card" data-track={track.id}>
+        <div className="module-hero-main">
+          <Link to={`/track/${track.id}`} className="back-link">Back to {track.label}</Link>
+          <div className="module-hero-badges">
+            <span className="phase-pill">{module.phase}</span>
+            <span className={`status-chip status-${module.status}`}>
+              {MODULE_STATUS_LABELS[module.status]}
             </span>
-          )}
+          </div>
+          <h1 className="module-page-title">{module.title}</h1>
+          <p className="module-page-summary">{module.summary}</p>
+          <div className="module-hero-meta">
+            <div className="hero-metric">
+              <span className="hero-metric-label">Time</span>
+              <strong>{module.estimate}</strong>
+            </div>
+            <div className="hero-metric">
+              <span className="hero-metric-label">Sessions</span>
+              <strong>{module.sessions}</strong>
+            </div>
+            <div className="hero-metric">
+              <span className="hero-metric-label">Items</span>
+              <strong>{completedCount}/{items.length}</strong>
+            </div>
+            <div className="hero-metric">
+              <span className="hero-metric-label">References</span>
+              <strong>{readItems.length}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div className="module-hero-side">
+          <div className="module-progress-card">
+            <span className="module-progress-label">Module progress</span>
+            <strong className="module-progress-value">{completionPct}%</strong>
+            <div className="progress-bar large">
+              <div className="progress-fill" style={{ width: `${completionPct}%` }} />
+            </div>
+            <p className="module-progress-copy">
+              {completedCount} of {items.length} items complete
+            </p>
+          </div>
+          <div className="module-nav">
+            {prevModule
+              ? (
+                  <Link to={`/track/${track.id}/module/${prevModule.id}`} className="nav-btn">
+                    Previous module
+                  </Link>
+                )
+              : <span className="nav-placeholder">Start of track</span>}
+            {nextModule
+              ? (
+                  <Link
+                    to={`/track/${track.id}/module/${nextModule.id}`}
+                    className="nav-btn nav-btn-primary"
+                  >
+                    Next module
+                  </Link>
+                )
+              : (
+                  <span className="track-complete">
+                    Track complete. <Link to="/">Switch tracks</Link>
+                  </span>
+                )}
+          </div>
+        </div>
+      </section>
+
+      {progressError && (
+        <div className="feedback-banner error" role="alert">
+          <span>{progressError}</span>
+          <button type="button" onClick={clearProgressError}>Dismiss</button>
+        </div>
+      )}
+      <p className="sr-only" role="status" aria-live="polite">
+        {progressStatusMessage}
+      </p>
+
+      <div className="module-workspace">
+        <div className="module-columns desktop-cols" aria-label="Study workspace">
+          {readColumn}
+          {doColumn}
+        </div>
+        <div className="mobile-tabs">
+          <ReadDoTabs
+            key={`${module.id}-${defaultWorkspaceTab}`}
+            readContent={readColumn}
+            doContent={doColumn}
+            readLabel={workspaceReadLabel}
+            doLabel="Practice"
+            defaultActive={defaultWorkspaceTab}
+            ariaLabel="Study workspace"
+          />
         </div>
       </div>
 
-      <div className="module-columns">
-        {readColumn}
-        {doColumn}
-      </div>
-
-      <div className="mobile-only">
-        <ReadDoTabs readContent={readColumn} doContent={doColumn} />
-      </div>
-
-      <div className="notes-section">
-        <label htmlFor="module-notes">
-          Notes
-          <span className={`save-status${saveStatus === 'error' ? ' error' : ''}`}>
-            {saveStatus === 'saving'
-              ? ' · Saving...'
-              : saveStatus === 'saved'
-                ? ' · Saved'
-                : saveStatus === 'error'
-                  ? ` · ${saveError}`
-                : ''}
+      <section className="notes-section surface-card">
+        <div className="notes-header">
+          <div>
+            <p className="panel-label">Notes</p>
+            <h2 id={notesHeadingId}>Capture the weak spots while they are fresh</h2>
+          </div>
+          <span className={`save-badge${saveStatus === 'error' ? ' error' : ''}`} aria-hidden="true">
+            {saveStatusLabel}
           </span>
-        </label>
+        </div>
+        <p id={notesDescriptionId} className="notes-copy">
+          Keep mistakes, patterns, and follow-up links in one place for the next pass.
+        </p>
+        <label htmlFor="module-notes" className="field-label notes-field-label">Study notes</label>
+        <p id={notesFieldHintId} className="field-hint">
+          Autosaves after a short pause so you can keep moving.
+        </p>
         <textarea
           id="module-notes"
           value={notes}
           onChange={handleNotesChange}
           placeholder="Capture weak spots, patterns, or links..."
+          aria-describedby={`${notesDescriptionId} ${notesFieldHintId} ${notesStatusId}`}
           rows={6}
         />
-      </div>
+        <p id={notesStatusId} className="sr-only" role="status" aria-live="polite">
+          {saveStatusAnnouncement}
+        </p>
+      </section>
+      {showCompletion && (
+        <ModuleCompletionModal
+          moduleTitle={module.title}
+          checksDone={completedCount}
+          nextModuleId={nextModule?.id ?? null}
+          nextModuleTitle={nextModule?.title ?? null}
+          trackId={track.id}
+          onClose={() => setShowCompletion(false)}
+        />
+      )}
     </div>
   );
 }

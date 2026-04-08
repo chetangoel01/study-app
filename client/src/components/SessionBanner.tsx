@@ -15,9 +15,12 @@ export function SessionBanner() {
   if (!expired) return null;
 
   return (
-    <div className="session-banner">
-      Session expired —{' '}
-      <button onClick={() => navigate(`/login?next=${encodeURIComponent(location.pathname)}`)}>
+    <div className="session-banner" role="alert" aria-live="assertive">
+      <span>Your session timed out.</span>{' '}
+      <button
+        type="button"
+        onClick={() => navigate(`/login?next=${encodeURIComponent(location.pathname)}`)}
+      >
         log back in
       </button>
     </div>

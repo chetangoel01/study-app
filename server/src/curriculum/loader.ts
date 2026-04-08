@@ -1,6 +1,13 @@
 import { readFileSync } from 'fs';
 import { config } from '../config.js';
-import type { CurriculumIndex, CurriculumModule, PlanningTopic, Track, TrackId } from './types.js';
+import type {
+  CurriculumIndex,
+  CurriculumModule,
+  PlanningTopic,
+  SynthesizedTopic,
+  Track,
+  TrackId,
+} from './types.js';
 
 interface LoadOptions {
   curriculumPath?: string;
@@ -56,7 +63,10 @@ export function loadCurriculum(opts: LoadOptions = {}): CurriculumIndex {
     modulesByTrack.set(m.track, list);
   }
 
-  const planningTopics: PlanningTopic[] = kb.planning_topics ?? [];
+  const planningTopics = mergePlanningTopics(
+    kb.planning_topics ?? [],
+    kb.topics ?? [],
+  );
   const topicsByModule = new Map<string, PlanningTopic[]>();
   for (const topic of planningTopics) {
     for (const moduleId of topic.module_ids ?? []) {
@@ -67,4 +77,44 @@ export function loadCurriculum(opts: LoadOptions = {}): CurriculumIndex {
   }
 
   return { tracks, modules, moduleById, modulesByTrack, topicsByModule, allTopics: planningTopics };
+}
+
+function mergePlanningTopics(
+  planningTopics: PlanningTopic[],
+  synthesizedTopics: SynthesizedTopic[],
+): PlanningTopic[] {
+  if (!planningTopics.length) {
+    return [];
+  }
+
+  const bestSynthesizedByPlanningTopic = new Map<string, SynthesizedTopic>();
+  for (const topic of synthesizedTopics) {
+    const planningTopicId = String(topic.planning_topic_id ?? '').trim();
+    if (!planningTopicId) {
+      continue;
+    }
+
+    const existing = bestSynthesizedByPlanningTopic.get(planningTopicId);
+    const existingLength = String(existing?.study_guide_markdown ?? '').trim().length;
+    const nextLength = String(topic.study_guide_markdown ?? '').trim().length;
+    if (!existing || nextLength > existingLength) {
+      bestSynthesizedByPlanningTopic.set(planningTopicId, topic);
+    }
+  }
+
+  return planningTopics.map((topic) => {
+    if (String(topic.study_guide_markdown ?? '').trim()) {
+      return topic;
+    }
+
+    const synthesized = bestSynthesizedByPlanningTopic.get(topic.planning_topic_id);
+    if (!synthesized) {
+      return topic;
+    }
+
+    return {
+      ...topic,
+      study_guide_markdown: synthesized.study_guide_markdown,
+    };
+  });
 }

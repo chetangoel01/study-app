@@ -16,7 +16,11 @@ export function MarkdownRenderer({
   fallbackLabel,
 }: Props) {
   if (loading) {
-    return <div className="markdown-loading">Loading content...</div>;
+    return (
+      <div className="markdown-loading" role="status" aria-live="polite">
+        Loading content...
+      </div>
+    );
   }
 
   if (error) {
@@ -28,11 +32,11 @@ export function MarkdownRenderer({
           rel="noreferrer"
           className="fallback-link"
         >
-          {fallbackLabel ?? 'Open in new tab ->'}
+          {fallbackLabel ?? 'Open in new tab'}
         </a>
       );
     }
-    return <p className="markdown-empty">{error}</p>;
+    return <p className="markdown-empty markdown-error" role="alert">{error}</p>;
   }
 
   if (!content) {
@@ -44,12 +48,12 @@ export function MarkdownRenderer({
           rel="noreferrer"
           className="fallback-link"
         >
-          {fallbackLabel ?? 'Open in new tab ->'}
+          {fallbackLabel ?? 'Open in new tab'}
         </a>
       );
     }
     return (
-      <p className="markdown-empty">
+      <p className="markdown-empty" role="status" aria-live="polite">
         Content not yet generated - run the enrichment pipeline and restart the server.
       </p>
     );
