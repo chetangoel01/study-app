@@ -70,6 +70,104 @@ describe('GET /api/curriculum', () => {
   });
 });
 
+describe('computeStatus with prerequisites', () => {
+  const prereqDir = resolve(tmpdir(), 'study-curriculum-prereq-test');
+  mkdirSync(prereqDir, { recursive: true });
+
+  const PREREQ_CURRICULUM = {
+    version: 1, generated_at: '2026-01-01T00:00:00Z',
+    tracks: [{ id: 'dsa-leetcode', label: 'DSA & LeetCode' }],
+    modules: [
+      {
+        id: 'mod-a', title: 'Module A', track: 'dsa-leetcode', phase: 'Core Track',
+        summary: 'A', estimate: '1 session', sessions: 1,
+        countsTowardSchedule: true, sourceUrl: 'https://x.com',
+        items: [{ id: 'mod-a:read:0', type: 'read', label: 'Read A', url: 'https://x.com' }],
+        prerequisiteModuleIds: [],
+      },
+      {
+        id: 'mod-b', title: 'Module B', track: 'dsa-leetcode', phase: 'Core Track',
+        summary: 'B', estimate: '1 session', sessions: 1,
+        countsTowardSchedule: true, sourceUrl: 'https://x.com',
+        items: [{ id: 'mod-b:read:0', type: 'read', label: 'Read B', url: 'https://x.com' }],
+        prerequisiteModuleIds: ['mod-a'],
+      },
+      {
+        id: 'zero-item-mod', title: 'Zero Items', track: 'dsa-leetcode', phase: 'Core Track',
+        summary: 'Z', estimate: '0 sessions', sessions: 0,
+        countsTowardSchedule: false, sourceUrl: 'https://x.com',
+        items: [],
+        prerequisiteModuleIds: [],
+      },
+      {
+        id: 'mod-c', title: 'Module C', track: 'dsa-leetcode', phase: 'Core Track',
+        summary: 'C', estimate: '1 session', sessions: 1,
+        countsTowardSchedule: true, sourceUrl: 'https://x.com',
+        items: [{ id: 'mod-c:read:0', type: 'read', label: 'Read C', url: 'https://x.com' }],
+        prerequisiteModuleIds: ['zero-item-mod'],
+      },
+    ],
+  };
+
+  writeFileSync(resolve(prereqDir, 'curriculum.json'), JSON.stringify(PREREQ_CURRICULUM));
+  writeFileSync(resolve(prereqDir, 'kb.json'), JSON.stringify({ version: '3', planning_topics: [] }));
+
+  const prereqIndex = loadCurriculum({
+    curriculumPath: resolve(prereqDir, 'curriculum.json'),
+    knowledgeBasePath: resolve(prereqDir, 'kb.json'),
+  });
+
+  let db2: Database.Database;
+  let app2: Hono;
+  let cookie2: string;
+
+  beforeEach(async () => {
+    db2 = new Database(':memory:');
+    applySchema(db2);
+    app2 = new Hono();
+    app2.route('/api/auth', makeAuthRouter(db2));
+    app2.route('/api', makeCurriculumRouter(db2, prereqIndex));
+
+    await app2.request('/api/auth/signup', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'u2@x.com', password: 'password123' }),
+    });
+    const res = await app2.request('/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'u2@x.com', password: 'password123' }),
+    });
+    const match = (res.headers.get('set-cookie') ?? '').match(/access_token=([^;]+)/);
+    cookie2 = match ? `access_token=${match[1]}` : '';
+  });
+  afterEach(() => db2.close());
+
+  it('marks module soft-locked when prereq is not complete', async () => {
+    const res = await app2.request('/api/curriculum', { headers: { Cookie: cookie2 } });
+    const body = await res.json() as { modules: { id: string; status: string; blockedBy: string[] }[] };
+    const modB = body.modules.find((m) => m.id === 'mod-b')!;
+    expect(modB.status).toBe('soft-locked');
+    expect(modB.blockedBy).toContain('mod-a');
+  });
+
+  it('marks module available when prereq is complete', async () => {
+    const { id: userId } = db2.prepare('SELECT id FROM users WHERE email = ?').get('u2@x.com') as { id: number };
+    db2.prepare('INSERT INTO progress (user_id, module_id, item_id, item_type, completed) VALUES (?, ?, ?, ?, 1)')
+      .run(userId, 'mod-a', 'mod-a:read:0', 'read');
+
+    const res = await app2.request('/api/curriculum', { headers: { Cookie: cookie2 } });
+    const body = await res.json() as { modules: { id: string; status: string }[] };
+    const modB = body.modules.find((m) => m.id === 'mod-b')!;
+    expect(modB.status).toBe('available');
+  });
+
+  it('treats zero-item prereq as satisfied (not soft-locked)', async () => {
+    const res = await app2.request('/api/curriculum', { headers: { Cookie: cookie2 } });
+    const body = await res.json() as { modules: { id: string; status: string }[] };
+    const modC = body.modules.find((m) => m.id === 'mod-c')!;
+    expect(modC.status).toBe('available');
+  });
+});
+
 describe('GET /api/module/:id/content', () => {
   it('returns topics and items', async () => {
     const res = await app.request('/api/module/big-o/content', { headers: { Cookie: accessCookie } });

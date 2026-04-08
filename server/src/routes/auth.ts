@@ -3,8 +3,8 @@ import { setCookie, getCookie } from 'hono/cookie';
 import { Google, GitHub, generateState, generateCodeVerifier, decodeIdToken } from 'arctic';
 import bcrypt from 'bcrypt';
 import type Database from 'better-sqlite3';
-import { signAccessToken, verifyAccessToken } from '../lib/jwt.js';
-import { createSession, rotateSession, revokeSession, getUserIdFromSession } from '../lib/session.js';
+import { signAccessToken } from '../lib/jwt.js';
+import { createSession, rotateSession, revokeSession } from '../lib/session.js';
 import { requireAuth } from '../middleware/auth.js';
 import { config } from '../config.js';
 
@@ -16,32 +16,34 @@ const COOKIE_OPTS = {
   path: '/',
 };
 
-async function upsertOAuthUser(
+function upsertOAuthUser(
   db: Database.Database,
   provider: 'google' | 'github',
   providerUserId: string,
   email: string,
-): Promise<{ id: number; email: string }> {
-  const existing = db
-    .prepare('SELECT user_id FROM oauth_accounts WHERE provider = ? AND provider_user_id = ?')
-    .get(provider, providerUserId) as { user_id: number } | undefined;
+): { id: number; email: string } {
+  return db.transaction(() => {
+    const existing = db
+      .prepare('SELECT user_id FROM oauth_accounts WHERE provider = ? AND provider_user_id = ?')
+      .get(provider, providerUserId) as { user_id: number } | undefined;
 
-  if (existing) {
-    return db.prepare('SELECT id, email FROM users WHERE id = ?').get(existing.user_id) as { id: number; email: string };
-  }
+    if (existing) {
+      return db.prepare('SELECT id, email FROM users WHERE id = ?').get(existing.user_id) as { id: number; email: string };
+    }
 
-  const existingUser = db
-    .prepare('SELECT id, email FROM users WHERE email = ?')
-    .get(email.toLowerCase()) as { id: number; email: string } | undefined;
+    const existingUser = db
+      .prepare('SELECT id, email FROM users WHERE email = ?')
+      .get(email.toLowerCase()) as { id: number; email: string } | undefined;
 
-  const userId = existingUser
-    ? existingUser.id
-    : (db.prepare('INSERT INTO users (email) VALUES (?) RETURNING id').get(email.toLowerCase()) as { id: number }).id;
+    const userId = existingUser
+      ? existingUser.id
+      : (db.prepare('INSERT INTO users (email) VALUES (?) RETURNING id').get(email.toLowerCase()) as { id: number }).id;
 
-  db.prepare('INSERT OR IGNORE INTO oauth_accounts (user_id, provider, provider_user_id) VALUES (?, ?, ?)')
-    .run(userId, provider, providerUserId);
+    db.prepare('INSERT OR IGNORE INTO oauth_accounts (user_id, provider, provider_user_id) VALUES (?, ?, ?)')
+      .run(userId, provider, providerUserId);
 
-  return { id: userId, email: email.toLowerCase() };
+    return { id: userId, email: email.toLowerCase() };
+  })();
 }
 
 export function makeAuthRouter(db: Database.Database): Hono {
@@ -99,27 +101,19 @@ export function makeAuthRouter(db: Database.Database): Hono {
   router.post('/refresh', async (c) => {
     const oldId = getCookie(c, 'refresh_token');
     if (!oldId) return c.json({ error: 'No refresh token' }, 401);
-    const newId = rotateSession(oldId, db);
-    if (!newId) return c.json({ error: 'Invalid or expired refresh token' }, 401);
-    const userId = getUserIdFromSession(newId, db);
-    if (!userId) return c.json({ error: 'Session error' }, 401);
-    const user = db.prepare('SELECT id, email FROM users WHERE id = ?').get(userId) as { id: number; email: string } | undefined;
+    const rotated = rotateSession(oldId, db);
+    if (!rotated) return c.json({ error: 'Invalid or expired refresh token' }, 401);
+    const user = db.prepare('SELECT id, email FROM users WHERE id = ?').get(rotated.userId) as { id: number; email: string } | undefined;
     if (!user) return c.json({ error: 'User not found' }, 401);
     const accessToken = await signAccessToken(user.id, user.email);
     setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 15 * 60 });
-    setCookie(c, 'refresh_token', newId, { ...COOKIE_OPTS, maxAge: 30 * 86400 });
+    setCookie(c, 'refresh_token', rotated.sessionId, { ...COOKIE_OPTS, maxAge: 30 * 86400 });
     return c.json({ ok: true });
   });
 
-  router.get('/me', async (c) => {
-    const token = getCookie(c, 'access_token');
-    if (!token) return c.json({ error: 'Unauthorized' }, 401);
-    try {
-      const payload = await verifyAccessToken(token);
-      return c.json({ id: Number(payload.sub), email: payload.email });
-    } catch {
-      return c.json({ error: 'Unauthorized' }, 401);
-    }
+  router.get('/me', requireAuth, (c) => {
+    const user = c.get('user');
+    return c.json({ id: user.id, email: user.email });
   });
 
   // OAuth — Google

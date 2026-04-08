@@ -24,7 +24,7 @@ describe('sessions', () => {
     const next = rotateSession(old, db);
     expect(next).not.toBeNull();
     expect(isSessionValid(old, db)).toBe(false);
-    expect(isSessionValid(next!, db)).toBe(true);
+    expect(isSessionValid(next!.sessionId, db)).toBe(true);
   });
 
   it('returns null for rotate of unknown token', () => {

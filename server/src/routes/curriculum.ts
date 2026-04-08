@@ -18,7 +18,7 @@ function computeStatus(
   for (const p of prereqs) {
     const t = totalByModule.get(p) ?? 0;
     const c = completedByModule.get(p) ?? new Set();
-    if (t === 0 || c.size < t) return 'soft-locked';
+    if (t > 0 && c.size < t) return 'soft-locked';
   }
   return 'available';
 }
@@ -51,7 +51,7 @@ export function makeCurriculumRouter(db: Database.Database, index: CurriculumInd
         ? m.prerequisiteModuleIds.filter((pid) => {
             const t = totalByModule.get(pid) ?? 0;
             const c = completedByModule.get(pid) ?? new Set();
-            return t === 0 || c.size < t;
+            return t > 0 && c.size < t;
           })
         : [];
       return {

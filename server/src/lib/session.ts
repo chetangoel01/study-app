@@ -24,13 +24,16 @@ export function getUserIdFromSession(tokenId: string, db: Database.Database): nu
   return row?.user_id ?? null;
 }
 
-export function rotateSession(oldId: string, db: Database.Database): string | null {
-  const row = db
-    .prepare("SELECT user_id FROM sessions WHERE id = ? AND revoked = 0 AND expires_at > datetime('now')")
-    .get(oldId) as { user_id: number } | undefined;
-  if (!row) return null;
-  db.prepare('UPDATE sessions SET revoked = 1 WHERE id = ?').run(oldId);
-  return createSession(row.user_id, db);
+export function rotateSession(oldId: string, db: Database.Database): { sessionId: string; userId: number } | null {
+  return db.transaction(() => {
+    const row = db
+      .prepare("SELECT user_id FROM sessions WHERE id = ? AND revoked = 0 AND expires_at > datetime('now')")
+      .get(oldId) as { user_id: number } | undefined;
+    if (!row) return null;
+    db.prepare('UPDATE sessions SET revoked = 1 WHERE id = ?').run(oldId);
+    const sessionId = createSession(row.user_id, db);
+    return { sessionId, userId: row.user_id };
+  })();
 }
 
 export function revokeSession(tokenId: string, db: Database.Database): void {

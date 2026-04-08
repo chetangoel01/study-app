@@ -95,6 +95,54 @@ describe('POST /api/auth/login', () => {
   });
 });
 
+describe('POST /api/auth/refresh', () => {
+  it('rotates session and returns new cookies', async () => {
+    await app.request('/api/auth/signup', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'refresh@example.com', password: 'password123' }),
+    });
+    const loginRes = await app.request('/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'refresh@example.com', password: 'password123' }),
+    });
+    const setCookieHeader = loginRes.headers.get('set-cookie') ?? '';
+    const refreshMatch = setCookieHeader.match(/refresh_token=([^;]+)/);
+    const refreshCookie = refreshMatch ? `refresh_token=${refreshMatch[1]}` : '';
+
+    const res = await app.request('/api/auth/refresh', {
+      method: 'POST',
+      headers: { Cookie: refreshCookie },
+    });
+    expect(res.status).toBe(200);
+    const newCookies = res.headers.get('set-cookie') ?? '';
+    expect(newCookies).toContain('access_token');
+    expect(newCookies).toContain('refresh_token');
+  });
+
+  it('returns 401 with no refresh token', async () => {
+    const res = await app.request('/api/auth/refresh', { method: 'POST' });
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 401 when refresh token is reused after rotation', async () => {
+    await app.request('/api/auth/signup', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'reuse@example.com', password: 'password123' }),
+    });
+    const loginRes = await app.request('/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'reuse@example.com', password: 'password123' }),
+    });
+    const refreshCookie = (loginRes.headers.get('set-cookie') ?? '').match(/refresh_token=([^;]+)/);
+    const cookie = refreshCookie ? `refresh_token=${refreshCookie[1]}` : '';
+
+    await app.request('/api/auth/refresh', { method: 'POST', headers: { Cookie: cookie } });
+    // reuse the old token
+    const res = await app.request('/api/auth/refresh', { method: 'POST', headers: { Cookie: cookie } });
+    expect(res.status).toBe(401);
+  });
+});
+
 describe('POST /api/auth/change-password', () => {
   let cookie: string;
   beforeEach(async () => {
