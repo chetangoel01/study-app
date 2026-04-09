@@ -86,11 +86,11 @@ describe('GET /api/curriculum', () => {
   });
 });
 
-describe('computeStatus with prerequisites', () => {
-  const prereqDir = resolve(tmpdir(), 'study-curriculum-prereq-test');
-  mkdirSync(prereqDir, { recursive: true });
+describe('sequential locking', () => {
+  const seqDir = resolve(tmpdir(), 'study-curriculum-seq-test');
+  mkdirSync(seqDir, { recursive: true });
 
-  const PREREQ_CURRICULUM = {
+  const SEQ_CURRICULUM = {
     version: 1, generated_at: '2026-01-01T00:00:00Z',
     tracks: [{ id: 'dsa-leetcode', label: 'DSA & LeetCode' }],
     modules: [
@@ -102,13 +102,6 @@ describe('computeStatus with prerequisites', () => {
         prerequisiteModuleIds: [],
       },
       {
-        id: 'mod-b', title: 'Module B', track: 'dsa-leetcode', phase: 'Core Track',
-        summary: 'B', estimate: '1 session', sessions: 1,
-        countsTowardSchedule: true, sourceUrl: 'https://x.com',
-        items: [{ id: 'mod-b:read:0', type: 'read', label: 'Read B', url: 'https://x.com' }],
-        prerequisiteModuleIds: ['mod-a'],
-      },
-      {
         id: 'zero-item-mod', title: 'Zero Items', track: 'dsa-leetcode', phase: 'Core Track',
         summary: 'Z', estimate: '0 sessions', sessions: 0,
         countsTowardSchedule: false, sourceUrl: 'https://x.com',
@@ -116,72 +109,81 @@ describe('computeStatus with prerequisites', () => {
         prerequisiteModuleIds: [],
       },
       {
-        id: 'mod-c', title: 'Module C', track: 'dsa-leetcode', phase: 'Core Track',
-        summary: 'C', estimate: '1 session', sessions: 1,
+        id: 'mod-b', title: 'Module B', track: 'dsa-leetcode', phase: 'Core Track',
+        summary: 'B', estimate: '1 session', sessions: 1,
         countsTowardSchedule: true, sourceUrl: 'https://x.com',
-        items: [{ id: 'mod-c:read:0', type: 'read', label: 'Read C', url: 'https://x.com' }],
-        prerequisiteModuleIds: ['zero-item-mod'],
+        items: [{ id: 'mod-b:read:0', type: 'read', label: 'Read B', url: 'https://x.com' }],
+        prerequisiteModuleIds: [],
       },
     ],
   };
 
-  writeFileSync(resolve(prereqDir, 'curriculum.json'), JSON.stringify(PREREQ_CURRICULUM));
-  writeFileSync(resolve(prereqDir, 'kb.json'), JSON.stringify({ version: '3', planning_topics: [] }));
+  writeFileSync(resolve(seqDir, 'curriculum.json'), JSON.stringify(SEQ_CURRICULUM));
+  writeFileSync(resolve(seqDir, 'kb.json'), JSON.stringify({ version: '3', planning_topics: [] }));
 
-  const prereqIndex = loadCurriculum({
-    curriculumPath: resolve(prereqDir, 'curriculum.json'),
-    knowledgeBasePath: resolve(prereqDir, 'kb.json'),
+  const seqIndex = loadCurriculum({
+    curriculumPath: resolve(seqDir, 'curriculum.json'),
+    knowledgeBasePath: resolve(seqDir, 'kb.json'),
   });
 
-  let db2: Database.Database;
-  let app2: Hono;
-  let cookie2: string;
+  let db3: Database.Database;
+  let app3: Hono;
+  let cookie3: string;
 
   beforeEach(async () => {
-    db2 = new Database(':memory:');
-    applySchema(db2);
-    app2 = new Hono();
-    app2.route('/api/auth', makeAuthRouter(db2));
-    app2.route('/api', makeCurriculumRouter(db2, prereqIndex));
+    db3 = new Database(':memory:');
+    applySchema(db3);
+    app3 = new Hono();
+    app3.route('/api/auth', makeAuthRouter(db3));
+    app3.route('/api', makeCurriculumRouter(db3, seqIndex));
 
-    await app2.request('/api/auth/signup', {
+    await app3.request('/api/auth/signup', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'u2@x.com', password: 'password123' }),
+      body: JSON.stringify({ email: 'seq@x.com', password: 'password123' }),
     });
-    const res = await app2.request('/api/auth/login', {
+    const res = await app3.request('/api/auth/login', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'u2@x.com', password: 'password123' }),
+      body: JSON.stringify({ email: 'seq@x.com', password: 'password123' }),
     });
     const match = (res.headers.get('set-cookie') ?? '').match(/access_token=([^;]+)/);
-    cookie2 = match ? `access_token=${match[1]}` : '';
+    cookie3 = match ? `access_token=${match[1]}` : '';
   });
-  afterEach(() => db2.close());
+  afterEach(() => db3.close());
 
-  it('keeps module available and surfaces unmet prerequisites as advisory context', async () => {
-    const res = await app2.request('/api/curriculum', { headers: { Cookie: cookie2 } });
-    const body = await res.json() as { modules: { id: string; status: string; blockedBy: string[] }[] };
+  it('first module in track is always unlocked (blockedBy is empty)', async () => {
+    const res = await app3.request('/api/curriculum', { headers: { Cookie: cookie3 } });
+    const body = await res.json() as { modules: { id: string; blockedBy: string[] }[] };
+    const modA = body.modules.find((m) => m.id === 'mod-a')!;
+    expect(modA.blockedBy).toEqual([]);
+  });
+
+  it('second substantive module is blocked by the first when first is not done', async () => {
+    const res = await app3.request('/api/curriculum', { headers: { Cookie: cookie3 } });
+    const body = await res.json() as { modules: { id: string; blockedBy: string[] }[] };
     const modB = body.modules.find((m) => m.id === 'mod-b')!;
-    expect(modB.status).toBe('available');
-    expect(modB.blockedBy).toContain('mod-a');
+    expect(modB.blockedBy).toEqual(['mod-a']);
   });
 
-  it('marks module available when prereq is complete', async () => {
-    const { id: userId } = db2.prepare('SELECT id FROM users WHERE email = ?').get('u2@x.com') as { id: number };
-    db2.prepare('INSERT INTO progress (user_id, module_id, item_id, item_type, completed) VALUES (?, ?, ?, ?, 1)')
+  it('module unlocks (empty blockedBy) when its predecessor is completed', async () => {
+    const { id: userId } = db3.prepare('SELECT id FROM users WHERE email = ?').get('seq@x.com') as { id: number };
+    db3.prepare('INSERT INTO progress (user_id, module_id, item_id, item_type, completed) VALUES (?, ?, ?, ?, 1)')
       .run(userId, 'mod-a', 'mod-a:read:0', 'read');
 
-    const res = await app2.request('/api/curriculum', { headers: { Cookie: cookie2 } });
-    const body = await res.json() as { modules: { id: string; status: string }[] };
+    const res = await app3.request('/api/curriculum', { headers: { Cookie: cookie3 } });
+    const body = await res.json() as { modules: { id: string; blockedBy: string[] }[] };
     const modB = body.modules.find((m) => m.id === 'mod-b')!;
-    expect(modB.status).toBe('available');
+    expect(modB.blockedBy).toEqual([]);
   });
 
-  it('treats zero-item prereq as satisfied (no advisory blocker)', async () => {
-    const res = await app2.request('/api/curriculum', { headers: { Cookie: cookie2 } });
-    const body = await res.json() as { modules: { id: string; status: string; blockedBy: string[] }[] };
-    const modC = body.modules.find((m) => m.id === 'mod-c')!;
-    expect(modC.status).toBe('available');
-    expect(modC.blockedBy).toEqual([]);
+  it('zero-item modules are never blocked and never act as blockers', async () => {
+    const res = await app3.request('/api/curriculum', { headers: { Cookie: cookie3 } });
+    const body = await res.json() as { modules: { id: string; blockedBy: string[] }[] };
+    const zeroMod = body.modules.find((m) => m.id === 'zero-item-mod')!;
+    const modB = body.modules.find((m) => m.id === 'mod-b')!;
+    // zero-item-mod is not blocked
+    expect(zeroMod.blockedBy).toEqual([]);
+    // mod-b is blocked by mod-a (the last substantive module before it), not zero-item-mod
+    expect(modB.blockedBy).toEqual(['mod-a']);
   });
 });
 

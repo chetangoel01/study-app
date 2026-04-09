@@ -39,13 +39,31 @@ export function makeCurriculumRouter(db: Database.Database, index: CurriculumInd
 
     const totalByModule = new Map(index.modules.map((m) => [m.id, m.items.length]));
 
+    // Build sequential blocker map: for each substantive module (items > 0),
+    // its blocker is the nearest previous substantive module in the same track.
+    // Zero-item modules are skipped both as blockers and as blockees.
+    const sequentialBlocker = new Map<string, string>();
+    const trackLastSubstantial = new Map<string, string>();
+    for (const m of index.modules) {
+      const total = totalByModule.get(m.id) ?? 0;
+      if (total === 0) continue; // skip zero-item modules entirely
+      const prev = trackLastSubstantial.get(m.track);
+      if (prev !== undefined) {
+        sequentialBlocker.set(m.id, prev);
+      }
+      trackLastSubstantial.set(m.track, m.id);
+    }
+
+    const isDone = (moduleId: string): boolean => {
+      const completed = (completedByModule.get(moduleId) ?? new Set()).size;
+      const total = totalByModule.get(moduleId) ?? 0;
+      return total > 0 && completed >= total;
+    };
+
     const modules = index.modules.map((m) => {
       const status = computeStatus(m.id, completedByModule, totalByModule);
-      const blockedBy = m.prerequisiteModuleIds.filter((pid) => {
-        const t = totalByModule.get(pid) ?? 0;
-        const c = completedByModule.get(pid) ?? new Set();
-        return t > 0 && c.size < t;
-      });
+      const blockerId = sequentialBlocker.get(m.id);
+      const blockedBy = blockerId && !isDone(blockerId) ? [blockerId] : [];
       return {
         id: m.id, title: m.title, track: m.track, phase: m.phase,
         summary: m.summary, estimate: m.estimate, sessions: m.sessions,
