@@ -32,6 +32,13 @@ function pickMostRecentCompletedModule(modules: CurriculumModule[]): CurriculumM
   return null;
 }
 
+function getModuleActionLabel(module: CurriculumModule, locked: boolean): string {
+  if (locked) return 'Finish recommended modules first';
+  if (module.status === 'done') return 'Review module';
+  if (module.status === 'in-progress') return 'Continue session';
+  return 'Start module';
+}
+
 export function TrackPage() {
   const { trackId } = useParams<{ trackId: string }>();
   const { data, loading, error } = useCurriculum();
@@ -63,28 +70,28 @@ export function TrackPage() {
         <span className="page-breadcrumb-current">{track.label}</span>
       </nav>
 
-      <header className="track-page-header-stitch">
-        <div className="track-page-header-main">
-          <h1 className="track-page-title-stitch">
-            {track.label}
-          </h1>
-          <p className="track-meta track-meta-stitch">{TRACK_BLURBS[track.id]}</p>
-        </div>
-        <div className="track-summary-pill">
-          <div className="track-summary-cell">
-            <span className="track-summary-val">{done}/{modules.length}</span>
-            <span className="track-summary-lbl">Modules done</span>
+      <section className="track-overview-shell">
+        <div className="track-overview-inner">
+          <div className="track-overview-text">
+            <p className="track-page-eyebrow">Track roadmap</p>
+            <h1 className="track-page-title">
+              {track.label}
+            </h1>
+            <p className="track-meta">{TRACK_BLURBS[track.id]}</p>
           </div>
-          <div className="track-summary-divider" aria-hidden="true" />
-          <div className="track-summary-cell">
-            <span className="track-summary-val">{pct}%</span>
-            <span className="track-summary-lbl">Progress</span>
+          <div className="track-summary-pill">
+            <div className="track-summary-cell">
+              <span className="track-summary-val">{done}/{modules.length}</span>
+              <span className="track-summary-lbl">Modules done</span>
+            </div>
+            <div className="track-summary-divider" aria-hidden="true" />
+            <div className="track-summary-cell">
+              <span className="track-summary-val">{pct}%</span>
+              <span className="track-summary-lbl">Progress</span>
+            </div>
           </div>
         </div>
-      </header>
-      <div className="track-hero-progress-wide">
-        <div className="track-hero-progress-wide-fill" style={{ width: `${pct}%` }} />
-      </div>
+      </section>
 
       <div className="timeline" aria-label="Module roadmap">
         {modules.map((m, i) => {
@@ -98,6 +105,12 @@ export function TrackPage() {
           const blockerTitles = (m.blockedBy ?? [])
             .map((moduleId) => moduleTitleById.get(moduleId) ?? moduleId)
             .join(', ');
+          const actionLabel = getModuleActionLabel(m, isLocked);
+          const actionClass = isLocked
+            ? 'timeline-cta timeline-cta--muted'
+            : m.status === 'done'
+              ? 'timeline-cta timeline-cta--secondary'
+              : 'timeline-cta';
 
           return (
             <div key={m.id} className={`timeline-row timeline-row-${side}`}>
@@ -122,9 +135,12 @@ export function TrackPage() {
                 {blockerTitles ? (
                   <p className="timeline-card-advisory">Recommended first: {blockerTitles}</p>
                 ) : null}
-                {m.status === 'in-progress' && !isLocked && (
-                  <span className="timeline-cta">Continue Session →</span>
-                )}
+                <span className={actionClass}>
+                  <span>{actionLabel}</span>
+                  {!isLocked && (
+                    <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                  )}
+                </span>
               </Link>
               <div className="timeline-spine" aria-hidden="true">
                 <div className={`timeline-node node-${displayStatus}`}>{stepNum}</div>

@@ -3590,16 +3590,28 @@ html[data-theme="dark"] .peer-empty {
   padding: clamp(1.1rem, 2.5vw, 1.5rem);
   border-radius: var(--radius-xl);
   border: 1px solid var(--ghost-border);
-  background:
-    radial-gradient(circle at top right, rgba(79, 93, 140, 0.15), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(245, 243, 240, 0.96));
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
   box-shadow: var(--shadow-soft);
 }
 
 html[data-theme="dark"] .track-overview-shell {
-  background:
-    radial-gradient(circle at top right, rgba(120, 137, 198, 0.18), transparent 36%),
-    linear-gradient(180deg, rgba(17, 23, 38, 0.9), rgba(12, 18, 32, 0.98));
+  background: rgba(19, 26, 43, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.track-overview-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.25rem;
+}
+
+.track-overview-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
 .track-page-eyebrow {
@@ -3610,19 +3622,21 @@ html[data-theme="dark"] .track-overview-shell {
   color: var(--muted-strong);
 }
 
-.track-hero-progress-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
+.track-page-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.3vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  margin-top: 0;
+  color: var(--text);
 }
 
-.track-hero-progress-labels {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
+.track-meta {
+  max-width: 44rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  font-weight: 400;
   color: var(--muted-strong);
 }
 
@@ -5216,34 +5230,6 @@ html[data-theme="dark"] .dashboard-focus-stats-panel {
   }
 }
 
-.track-page-header-stitch {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem 1.25rem;
-  margin-bottom: 0;
-}
-
-.track-page-title-stitch {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 3.3vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.02;
-  margin-top: 0;
-  color: var(--text);
-}
-
-.track-meta-stitch {
-  margin-top: 0.2rem;
-  max-width: 44rem;
-  font-size: 1rem;
-  line-height: 1.65;
-  font-weight: 400;
-  color: var(--muted-strong);
-}
-
 .track-summary-pill {
   display: flex;
   align-items: center;
@@ -5292,21 +5278,6 @@ html[data-theme="dark"] .track-summary-pill {
   width: 1px;
   height: 2.6rem;
   background: var(--ghost-border);
-}
-
-.track-hero-progress-wide {
-  height: 10px;
-  border-radius: 9999px;
-  background: var(--surface-container-high);
-  overflow: hidden;
-  margin-bottom: 0;
-}
-
-.track-hero-progress-wide-fill {
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #4f5d8c 0%, #b9c7fc 100%);
-  transition: width 0.35s ease;
 }
 
 .timeline-card.status-in-progress {
@@ -5455,10 +5426,6 @@ html[data-theme="dark"] .track-summary-pill {
 }
 
 @media (max-width: 900px) {
-  .track-page-header-stitch {
-    align-items: flex-start;
-  }
-
   .track-summary-pill {
     width: 100%;
     justify-content: flex-start;
@@ -5470,10 +5437,14 @@ html[data-theme="dark"] .track-summary-pill {
     padding: 0.95rem;
   }
 
-  .track-hero-progress-labels {
+  .track-overview-inner {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.25rem;
+  }
+
+  .track-summary-pill {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .timeline-row {
