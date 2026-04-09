@@ -5,7 +5,6 @@ node_modules/
 .superpowers/
 .cursor/
 pipeline/.cache/
-knowledge-base.json
 crawl-audit.json
 course_exports/
 *.cookies.txt
