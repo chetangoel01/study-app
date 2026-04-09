@@ -7,6 +7,8 @@ import { CurriculumPage } from './pages/CurriculumPage.js';
 import { TrackPage } from './pages/TrackPage.js';
 import { ModulePage } from './pages/ModulePage.js';
 import { PracticePage } from './pages/PracticePage.js';
+import { PracticeSessionPage } from './pages/PracticeSessionPage.js';
+import { SolveChallengePage } from './pages/SolveChallengePage.js';
 import { CommunityPage } from './pages/CommunityPage.js';
 import { SettingsPage } from './pages/SettingsPage.js';
 import { ProtectedRoute } from './components/ProtectedRoute.js';
@@ -25,6 +27,8 @@ const router = createBrowserRouter([
       { path: 'track/:trackId', element: <TrackPage /> },
       { path: 'track/:trackId/module/:moduleId', element: <ModulePage /> },
       { path: 'practice', element: <PracticePage /> },
+      { path: 'practice/session', element: <PracticeSessionPage /> },
+      { path: 'practice/challenge', element: <SolveChallengePage /> },
       { path: 'community', element: <CommunityPage /> },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'settings/:section', element: <SettingsPage /> },

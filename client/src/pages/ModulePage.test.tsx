@@ -105,4 +105,20 @@ describe('ModulePage', () => {
 
     expect(await screen.findByRole('heading', { name: 'Big-O and asymptotic analysis' })).toBeInTheDocument();
   });
+
+  test('shows a clear start path for a fresh module', async () => {
+    scenario.current = 'available';
+
+    render(
+      <MemoryRouter initialEntries={['/track/dsa-leetcode/module/big-o']}>
+        <Routes>
+          <Route path="/track/:trackId/module/:moduleId" element={<ModulePage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    expect(await screen.findByRole('heading', { name: 'Begin with Complexity intuition' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Start section 1' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Jump to practice' })).toBeInTheDocument();
+  });
 });

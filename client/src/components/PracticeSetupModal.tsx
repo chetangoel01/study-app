@@ -10,6 +10,7 @@ export interface PracticeModuleOption {
 }
 
 interface Props {
+  tracks: { id: string; label: string }[];
   moduleOptions: PracticeModuleOption[];
   onBegin: (config: {
     moduleId: string;
@@ -20,10 +21,19 @@ interface Props {
   onClose: () => void;
 }
 
-export function PracticeSetupModal({ moduleOptions, onBegin, onClose }: Props) {
-  const [moduleId, setModuleId] = useState(moduleOptions[0]?.moduleId ?? '');
+export function PracticeSetupModal({ tracks, moduleOptions, onBegin, onClose }: Props) {
+  const [trackId, setTrackId] = useState(tracks[0]?.id ?? '');
+  const [moduleId, setModuleId] = useState('');
   const [difficulty, setDifficulty] = useState<Difficulty>('Medium');
   const [duration, setDuration] = useState(45);
+
+  const availableModules = moduleOptions.filter((m) => m.trackId === trackId);
+
+  useEffect(() => {
+    if (availableModules.length > 0 && !availableModules.some(m => m.moduleId === moduleId)) {
+      setModuleId(availableModules[0].moduleId);
+    }
+  }, [trackId, availableModules, moduleId]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -74,16 +84,31 @@ export function PracticeSetupModal({ moduleOptions, onBegin, onClose }: Props) {
         </p>
 
         <div className="practice-form">
-          <label className="field-label" htmlFor="practice-topic">Focus Module</label>
+          <label className="field-label" htmlFor="practice-track">Study Track</label>
+          <select
+            id="practice-track"
+            className="practice-select"
+            value={trackId}
+            onChange={(event) => setTrackId(event.target.value)}
+          >
+            {tracks.map((track) => (
+              <option key={track.id} value={track.id}>
+                {track.label}
+              </option>
+            ))}
+          </select>
+
+          <label className="field-label" htmlFor="practice-topic" style={{ marginTop: '16px' }}>Focus Module</label>
           <select
             id="practice-topic"
             className="practice-select"
             value={moduleId}
             onChange={(event) => setModuleId(event.target.value)}
+            disabled={availableModules.length === 0}
           >
-            {moduleOptions.map((entry) => (
+            {availableModules.map((entry) => (
               <option key={entry.moduleId} value={entry.moduleId}>
-                {entry.title} · {entry.trackLabel}
+                {entry.title}
               </option>
             ))}
           </select>

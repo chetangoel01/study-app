@@ -71,12 +71,14 @@ const SCHEMA_DDL = `
   );
 
   CREATE TABLE IF NOT EXISTS daily_challenge_pool (
-    id            INTEGER PRIMARY KEY,
-    title         TEXT NOT NULL,
-    difficulty    TEXT,
-    leetcode_url  TEXT,
-    duration_mins INTEGER DEFAULT 30,
-    active_date   TEXT UNIQUE NOT NULL
+    id                   INTEGER PRIMARY KEY,
+    title                TEXT NOT NULL,
+    difficulty           TEXT,
+    leetcode_url         TEXT,
+    description_markdown TEXT,
+    starter_code         TEXT,
+    duration_mins        INTEGER DEFAULT 30,
+    active_date          TEXT UNIQUE NOT NULL
   );
 
   CREATE TABLE IF NOT EXISTS daily_challenge_completions (
@@ -113,4 +115,6 @@ export function applySchema(db: Database.Database): void {
   addCol("ALTER TABLE users ADD COLUMN bio TEXT DEFAULT ''");
   addCol("ALTER TABLE user_preferences ADD COLUMN dashboard_density TEXT DEFAULT 'expansive'");
   addCol("ALTER TABLE user_preferences ADD COLUMN allow_mock_interviews INTEGER DEFAULT 0");
+  addCol("ALTER TABLE daily_challenge_pool ADD COLUMN description_markdown TEXT DEFAULT ''");
+  addCol("ALTER TABLE daily_challenge_pool ADD COLUMN starter_code TEXT DEFAULT ''");
 }

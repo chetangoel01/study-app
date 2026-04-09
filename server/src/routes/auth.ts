@@ -64,7 +64,7 @@ export function makeAuthRouter(db: Database.Database): Hono {
 
     const accessToken = await signAccessToken(user.id, user.email);
     const refreshId = createSession(user.id, db);
-    setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 15 * 60 });
+    setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 48 * 60 * 60 });
     setCookie(c, 'refresh_token', refreshId, { ...COOKIE_OPTS, maxAge: 30 * 86400 });
     return c.json({ id: user.id, email: user.email }, 201);
   });
@@ -85,7 +85,7 @@ export function makeAuthRouter(db: Database.Database): Hono {
 
     const accessToken = await signAccessToken(user.id, user.email);
     const refreshId = createSession(user.id, db);
-    setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 15 * 60 });
+    setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 48 * 60 * 60 });
     setCookie(c, 'refresh_token', refreshId, { ...COOKIE_OPTS, maxAge: 30 * 86400 });
     return c.json({ id: user.id, email: user.email });
   });
@@ -106,7 +106,7 @@ export function makeAuthRouter(db: Database.Database): Hono {
     const user = db.prepare('SELECT id, email FROM users WHERE id = ?').get(rotated.userId) as { id: number; email: string } | undefined;
     if (!user) return c.json({ error: 'User not found' }, 401);
     const accessToken = await signAccessToken(user.id, user.email);
-    setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 15 * 60 });
+    setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 48 * 60 * 60 });
     setCookie(c, 'refresh_token', rotated.sessionId, { ...COOKIE_OPTS, maxAge: 30 * 86400 });
     return c.json({ ok: true });
   });
@@ -145,7 +145,7 @@ export function makeAuthRouter(db: Database.Database): Hono {
       const user = await upsertOAuthUser(db, 'google', claims.sub, claims.email);
       const accessToken = await signAccessToken(user.id, user.email);
       const refreshId = createSession(user.id, db);
-      setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 15 * 60 });
+      setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 48 * 60 * 60 });
       setCookie(c, 'refresh_token', refreshId, { ...COOKIE_OPTS, maxAge: 30 * 86400 });
       return c.redirect('/');
     } catch { return c.json({ error: 'OAuth failed' }, 400); }
@@ -185,7 +185,7 @@ export function makeAuthRouter(db: Database.Database): Hono {
       const user = await upsertOAuthUser(db, 'github', String(ghUser.id), primary.email);
       const accessToken = await signAccessToken(user.id, user.email);
       const refreshId = createSession(user.id, db);
-      setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 15 * 60 });
+      setCookie(c, 'access_token', accessToken, { ...COOKIE_OPTS, maxAge: 48 * 60 * 60 });
       setCookie(c, 'refresh_token', refreshId, { ...COOKIE_OPTS, maxAge: 30 * 86400 });
       return c.redirect('/');
     } catch { return c.json({ error: 'OAuth failed' }, 400); }

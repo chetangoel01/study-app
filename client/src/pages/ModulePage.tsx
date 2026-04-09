@@ -327,6 +327,18 @@ export function ModulePage() {
   const isPracticeStep = currentTopicIndex >= topics.length;
   const isFirstStep = currentTopicIndex === 0;
   const isLastStep = currentTopicIndex >= totalSteps - 1;
+  const firstTopic = topics[0] ?? null;
+  const firstResource = readItems.find((item) => item.url) ?? null;
+  const launchpadTitle = firstTopic
+    ? `Begin with ${firstTopic.label}`
+    : firstResource
+      ? `Open ${firstResource.label}`
+      : 'Start with the practice checklist';
+  const launchpadDescription = firstTopic
+    ? 'Read the first section to get oriented, move through the guide in order, then finish in practice to turn the concept into reps.'
+    : firstResource
+      ? 'This module does not have a generated guide yet, so start with the source material and then work through the practice checklist below.'
+      : 'This module starts directly in practice. Work the checklist below and capture your takeaways in notes as you go.';
 
   const goToStep = (index: number) => {
     setCurrentTopicIndex(index);
@@ -342,6 +354,8 @@ export function ModulePage() {
     ...topics.map((topic) => ({ id: topic.id, label: topic.label })),
     { id: '__practice__', label: 'Practice' },
   ];
+  const moduleGuideSummary = topics.length > 0 ? `${topics.length} sections` : 'Resources only';
+  const practiceSummary = actionItems.length > 0 ? `${actionItems.length} checkpoints` : 'No checklist yet';
 
   return (
     <div className={`mp-main${sidebarOpen ? ' mp-sidebar-open' : ''}`}>
@@ -352,8 +366,27 @@ export function ModulePage() {
           <span className="material-symbols-outlined mp-nav-chevron" aria-hidden="true">chevron_right</span>
           <span className="mp-nav-current">{module.title}</span>
         </nav>
-        <h1 className="mp-title">{module.title}</h1>
-        <p className="mp-description">{module.summary}</p>
+        <div className="mp-header-main">
+          <div className="mp-header-copy">
+            <p className="mp-eyebrow">{track.label} · {module.phase}</p>
+            <h1 className="mp-title">{module.title}</h1>
+            <p className="mp-description">{module.summary}</p>
+          </div>
+          <div className="mp-header-stats" aria-label="Module snapshot">
+            <div className="mp-header-stat">
+              <span className="mp-header-stat-value">{module.estimate}</span>
+              <span className="mp-header-stat-label">Estimated pace</span>
+            </div>
+            <div className="mp-header-stat">
+              <span className="mp-header-stat-value">{moduleGuideSummary}</span>
+              <span className="mp-header-stat-label">Guide flow</span>
+            </div>
+            <div className="mp-header-stat">
+              <span className="mp-header-stat-value">{practiceSummary}</span>
+              <span className="mp-header-stat-label">Practice</span>
+            </div>
+          </div>
+        </div>
       </header>
 
       {/* Progress error banner */}
@@ -366,6 +399,78 @@ export function ModulePage() {
       <p className="sr-only" role="status" aria-live="polite">
         {progressStatusMessage}
       </p>
+
+      <section className="mp-launchpad" aria-labelledby="mp-launchpad-title">
+        <div className="mp-launchpad-main">
+          <div className="mp-launchpad-copy">
+            <p className="mp-launchpad-eyebrow">{completionPct > 0 ? 'Next best step' : 'Start here'}</p>
+            <h2 id="mp-launchpad-title" className="mp-launchpad-title">{launchpadTitle}</h2>
+            <p className="mp-launchpad-description">{launchpadDescription}</p>
+          </div>
+          <div className="mp-launchpad-actions">
+            {firstTopic ? (
+              <button type="button" className="mp-launchpad-primary" onClick={() => goToStep(0)}>
+                Start section 1
+                <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+              </button>
+            ) : firstResource?.url ? (
+              <button type="button" className="mp-launchpad-primary" onClick={() => setPendingUrl(firstResource.url)}>
+                Open first resource
+                <span className="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+              </button>
+            ) : (
+              <button type="button" className="mp-launchpad-primary" onClick={() => goToStep(topics.length)}>
+                Open practice checklist
+                <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+              </button>
+            )}
+
+            {actionItems.length > 0 ? (
+              <button type="button" className="mp-launchpad-secondary" onClick={() => goToStep(topics.length)}>
+                Jump to practice
+              </button>
+            ) : (
+              <Link to={`/track/${track.id}`} className="mp-launchpad-secondary">
+                Back to track roadmap
+              </Link>
+            )}
+          </div>
+        </div>
+
+        <div className="mp-launchpad-steps" aria-label="How to work this module">
+          <article className="mp-launchpad-step">
+            <span className="mp-launchpad-step-number">1</span>
+            <div>
+              <h3 className="mp-launchpad-step-title">Get oriented</h3>
+              <p className="mp-launchpad-step-copy">
+                {firstTopic
+                  ? `Start with "${firstTopic.label}" and work the sections from left to right.`
+                  : firstResource
+                    ? 'Open the first source link to ground yourself before you start checking items off.'
+                    : 'Open the checklist and use it as your starting brief.'}
+              </p>
+            </div>
+          </article>
+          <article className="mp-launchpad-step">
+            <span className="mp-launchpad-step-number">2</span>
+            <div>
+              <h3 className="mp-launchpad-step-title">Turn it into reps</h3>
+              <p className="mp-launchpad-step-copy">
+                Use the practice step to translate the concept into concrete checkpoints instead of passive reading.
+              </p>
+            </div>
+          </article>
+          <article className="mp-launchpad-step">
+            <span className="mp-launchpad-step-number">3</span>
+            <div>
+              <h3 className="mp-launchpad-step-title">Capture what sticks</h3>
+              <p className="mp-launchpad-step-copy">
+                Keep mistakes, patterns, and interview-ready phrasing in your notes so the next pass is faster.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
 
       {/* --- Layout: sidebar + content --- */}
       <div className="mp-layout">

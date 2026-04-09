@@ -1,15 +1,19 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { PracticeSetupModal } from '../components/PracticeSetupModal.js';
+import { DetailedReportModal } from '../components/DetailedReportModal.js';
+import { PracticeHistoryModal } from '../components/PracticeHistoryModal.js';
 import { useCurriculum } from '../hooks/useCurriculum.js';
 import { useDailyChallenge, usePracticeStats, useMockPeers } from '../hooks/usePractice.js';
 
 export function PracticePage() {
   const navigate = useNavigate();
   const [showSetup, setShowSetup] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const { data, loading, error } = useCurriculum();
   const { data: dailyChallenge, markComplete } = useDailyChallenge();
-  const { data: stats } = usePracticeStats();
+  const { data: stats, refetch: refetchStats } = usePracticeStats();
   const { peers, scheduleMock } = useMockPeers();
 
   const practiceModules = useMemo(() => {
@@ -29,13 +33,15 @@ export function PracticePage() {
   const handleBeginSession = ({
     moduleId,
     trackId,
+    difficulty,
+    duration,
   }: {
     moduleId: string;
     trackId: string;
     difficulty: 'Easy' | 'Medium' | 'Hard';
     duration: number;
   }) => {
-    navigate(`/track/${trackId}/module/${moduleId}`);
+    navigate(`/practice/session?trackId=${trackId}&moduleId=${moduleId}&difficulty=${difficulty}&duration=${duration}`);
   };
 
   if (loading) return <div className="loading" role="status" aria-live="polite">Loading practice...</div>;
@@ -61,21 +67,28 @@ export function PracticePage() {
             <div className="practice-daily-content">
               <div className="practice-daily-top">
                 <span className="practice-daily-badge">DAILY CHALLENGE</span>
-                <h2>{dailyChallenge?.title || 'Optimal Partitioning of Strings'}</h2>
-                <p>Given a string s, partition the string into substrings such that...</p>
+                <h2>{dailyChallenge?.title || 'No challenge today'}</h2>
+                <p>
+                  {dailyChallenge?.descriptionMarkdown
+                    ? dailyChallenge.descriptionMarkdown.replace(/^#+\s.*\n?/, '').slice(0, 120) + '…'
+                    : dailyChallenge
+                    ? 'Open on LeetCode to get started.'
+                    : 'Check back later — challenges are seeded daily.'}
+                </p>
               </div>
               <div className="practice-daily-bottom">
-                <button 
-                  className={`practice-btn-solve ${dailyChallenge?.completed ? 'completed' : ''}`}
-                 onClick={() => {
-                   if (dailyChallenge?.leetcodeUrl) {
-                     window.open(dailyChallenge.leetcodeUrl, '_blank');
-                     markComplete();
-                   }
-                 }}
+                <button
+                  className={`practice-btn-solve ${dailyChallenge?.completed ? 'completed' : ''} ${!dailyChallenge?.leetcodeUrl ? 'disabled' : ''}`}
+                  disabled={!dailyChallenge?.leetcodeUrl || dailyChallenge?.completed}
+                  onClick={() => {
+                    if (dailyChallenge?.leetcodeUrl) {
+                      window.open(dailyChallenge.leetcodeUrl, '_blank');
+                      markComplete().then(refetchStats);
+                    }
+                  }}
                 >
-                  {dailyChallenge?.completed ? 'Completed ✓' : 'Solve Challenge'}
-                  {!dailyChallenge?.completed && <span className="practice-btn-icon">→</span>}
+                  {dailyChallenge?.completed ? 'Completed ✓' : dailyChallenge?.leetcodeUrl ? 'Solve Challenge' : 'Coming Soon'}
+                  {!dailyChallenge?.completed && dailyChallenge?.leetcodeUrl && <span className="practice-btn-icon">→</span>}
                 </button>
                 <div className="practice-daily-meta">
                   <span className="meta-dot"></span>
@@ -93,7 +106,7 @@ export function PracticePage() {
             {/* DSA */}
             <div className="practice-category-card dsa-card">
               <div className="category-icon-bg dsa-bg">
-                <div className="category-icon dsa-icon"></div>
+                <div className="category-icon dsa-icon">📚</div>
               </div>
               <h3>Topic-Specific</h3>
               <p>Sharpen your knowledge in DSA, System Design, or Concurrency through targeted drills.</p>
@@ -113,7 +126,7 @@ export function PracticePage() {
             {/* Mock Interviews */}
             <div className="practice-category-card mock-card">
               <div className="category-icon-bg mock-bg">
-                <div className="category-icon mock-icon"></div>
+                <div className="category-icon mock-icon">🎙️</div>
               </div>
               <h3>Mock Interviews</h3>
               <p>Simulate real-world pressure with AI-led or peer-to-peer technical interviews.</p>
@@ -142,7 +155,7 @@ export function PracticePage() {
           <div className="practice-recent-sessions">
             <div className="recent-sessions-header">
               <h3>Recent Sessions</h3>
-              <button className="view-all-btn">View All</button>
+              <button className="view-all-btn" onClick={() => setShowHistory(true)}>View All</button>
             </div>
             <div className="recent-sessions-list">
               {(stats?.recentSessions || []).length > 0 ? (
@@ -182,7 +195,7 @@ export function PracticePage() {
           {/* Practice Streaks */}
           <div className="sidebar-card">
             <div className="sidebar-card-header">
-              <div className="streak-icon"></div>
+              <div className="streak-icon">🔥</div>
               <h3>{stats?.streakDays || 0} Day Streak</h3>
             </div>
             <div className="streak-metric">
@@ -225,14 +238,18 @@ export function PracticePage() {
                 </div>
               )}
             </div>
-            <button className="skill-btn">Detailed Report</button>
+            <button className="skill-btn" onClick={() => setShowReport(true)}>Detailed Report</button>
           </div>
 
         </aside>
       </div>
 
+      {showReport && <DetailedReportModal onClose={() => setShowReport(false)} />}
+      {showHistory && <PracticeHistoryModal onClose={() => setShowHistory(false)} />}
+
       {showSetup && practiceModules.length > 0 && (
         <PracticeSetupModal
+          tracks={data?.tracks || []}
           moduleOptions={practiceModules}
           onBegin={handleBeginSession}
           onClose={() => setShowSetup(false)}

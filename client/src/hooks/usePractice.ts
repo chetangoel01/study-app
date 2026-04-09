@@ -18,21 +18,34 @@ export function useDailyChallenge() {
     setData({ ...data, completed: true, completedAt: new Date().toISOString() });
   };
 
-  return { data, loading, markComplete };
+  const submitCode = async (code: string) => {
+    if (!data?.id) return { passed: false, output: 'No challenge loaded' };
+    const result = await api.post<any>('/api/practice/challenge/submit', { challengeId: data.id, code });
+    if (result.passed) {
+      setData({ ...data, completed: true, completedAt: new Date().toISOString() });
+    }
+    return result;
+  };
+
+  return { data, loading, markComplete, submitCode };
 }
 
 export function usePracticeStats() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
+    setLoading(true);
     api.get<any>('/api/practice/stats')
       .then(setData)
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [tick]);
 
-  return { data, loading };
+  const refetch = () => setTick((t) => t + 1);
+
+  return { data, loading, refetch };
 }
 
 export function useMockPeers() {

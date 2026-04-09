@@ -20,6 +20,31 @@ function renderTrackPage() {
 }
 
 describe('TrackPage refresher CTAs', () => {
+  test('shows a clear start CTA for available modules', () => {
+    useCurriculumMock.mockReturnValue({
+      data: {
+        tracks: [{ id: 'dsa-leetcode', label: 'DSA & LeetCode' }],
+        modules: [
+          {
+            id: 'big-o',
+            title: 'Big-O',
+            summary: 'big-o',
+            track: 'dsa-leetcode',
+            status: 'available',
+            latest_progress_updated_at: null,
+            blockedBy: [],
+          },
+        ],
+      },
+      loading: false,
+      error: '',
+    });
+
+    renderTrackPage();
+
+    expect(screen.getByText('Start module')).toBeInTheDocument();
+  });
+
   test('links Review Past Modules to the most recently completed module by timestamp', () => {
     useCurriculumMock.mockReturnValue({
       data: {

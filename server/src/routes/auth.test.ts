@@ -65,6 +65,18 @@ describe('POST /api/auth/login', () => {
     expect(cookies).toContain('refresh_token');
   });
 
+  it('sets the access token cookie for 48 hours', async () => {
+    const res = await app.request('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'login@example.com', password: 'password123' }),
+    });
+
+    expect(res.status).toBe(200);
+    const cookies = res.headers.get('set-cookie') ?? '';
+    expect(cookies).toMatch(/access_token=[^;]+;[^]*Max-Age=172800/i);
+  });
+
   it('returns 401 on wrong password', async () => {
     const res = await app.request('/api/auth/login', {
       method: 'POST',

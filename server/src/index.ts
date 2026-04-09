@@ -15,6 +15,7 @@ import { config } from './config.js';
 
 const db = createDb();
 const curriculumIndex = loadCurriculum();
+const serveBuiltClient = process.env.NODE_ENV !== 'development';
 
 // Populate PROXY_ALLOWLIST from knowledge-base.json source URLs at startup.
 // LeetCode is explicitly excluded per spec.
@@ -41,8 +42,21 @@ app.route('/api/proxy', makeProxyRouter());
 app.route('/api/user', makeUserRouter(db));
 app.route('/api/practice', makePracticeRouter(db));
 
-app.use('/*', serveStatic({ root: config.clientDistPath }));
-app.get('/*', serveStatic({ path: `${config.clientDistPath}/index.html` }));
+if (serveBuiltClient) {
+  app.use('/*', serveStatic({ root: config.clientDistPath }));
+  app.get('/*', serveStatic({ path: `${config.clientDistPath}/index.html` }));
+}
+
+app.notFound((c) => {
+  if (!serveBuiltClient && !c.req.path.startsWith('/api')) {
+    return c.text(
+      'Development API server is running on http://localhost:3000. Use http://localhost:5173 for the frontend.',
+      404,
+    );
+  }
+
+  return c.json({ error: 'Not Found' }, 404);
+});
 
 serve({ fetch: app.fetch, port: config.port }, () => {
   console.log(`Server running on http://localhost:${config.port}`);
