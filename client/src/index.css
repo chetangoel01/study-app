@@ -3382,7 +3382,7 @@ html[data-theme="dark"] .peer-empty {
 
 .timeline-row {
   display: grid;
-  grid-template-columns: 1fr 56px 1fr;
+  grid-template-columns: 1fr 64px 1fr;
   align-items: start;
   min-height: 0;
   gap: clamp(1rem, 4vw, 3rem);
