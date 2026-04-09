@@ -10,6 +10,7 @@ import { makeProgressRouter } from './routes/progress.js';
 import { makeNotesRouter } from './routes/notes.js';
 import { makeProxyRouter } from './routes/proxy.js';
 import { makeUserRouter } from './routes/user.js';
+import { makePracticeRouter } from './routes/practice.js';
 import { config } from './config.js';
 
 const db = createDb();
@@ -38,6 +39,7 @@ app.route('/api/progress', makeProgressRouter(db, curriculumIndex));
 app.route('/api/notes', makeNotesRouter(db));
 app.route('/api/proxy', makeProxyRouter());
 app.route('/api/user', makeUserRouter(db));
+app.route('/api/practice', makePracticeRouter(db));
 
 app.use('/*', serveStatic({ root: config.clientDistPath }));
 app.get('/*', serveStatic({ path: `${config.clientDistPath}/index.html` }));

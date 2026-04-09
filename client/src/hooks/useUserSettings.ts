@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api/client.js';
+import { applyDashboardDensity } from '../lib/dashboardDensity.js';
+import type { DashboardDensity } from '../lib/dashboardDensity.js';
 
 export interface UserProfile {
   email: string;
@@ -12,11 +14,30 @@ export interface UserPreferences {
   notifyDailyChallenge: boolean;
   notifyWeeklyProgress: boolean;
   notifyCommunity: boolean;
+  dashboardDensity: DashboardDensity;
+  allowMockInterviews: boolean;
 }
 
 export interface OAuthConnections {
   google: boolean;
   github: boolean;
+}
+
+const THEME_STORAGE_KEY = 'me-theme';
+
+function isTheme(theme: unknown): theme is UserPreferences['theme'] {
+  return theme === 'light' || theme === 'dark';
+}
+
+function syncThemePreference(theme: UserPreferences['theme']) {
+  try {
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch {
+    // Ignore storage failures in constrained environments.
+  }
+
+  document.documentElement.dataset.theme = theme;
+  window.dispatchEvent(new CustomEvent('me-theme-change', { detail: { theme } }));
 }
 
 export function useUserSettings() {
@@ -39,6 +60,8 @@ export function useUserSettings() {
         setProfile(profileResult);
         setPrefs(prefsResult);
         setOAuthConnections(oauthResult);
+        const density = prefsResult.dashboardDensity === 'dense' ? 'dense' : 'expansive';
+        applyDashboardDensity(density);
       })
       .catch(() => {
         if (!cancelled) setError('Failed to load settings');
@@ -60,6 +83,13 @@ export function useUserSettings() {
   const savePreferences = useCallback(async (data: Partial<UserPreferences>) => {
     await api.put('/api/user/preferences', data);
     setPrefs((current) => (current ? { ...current, ...data } : current));
+
+    if (isTheme(data.theme)) {
+      syncThemePreference(data.theme);
+    }
+    if (data.dashboardDensity === 'dense' || data.dashboardDensity === 'expansive') {
+      applyDashboardDensity(data.dashboardDensity);
+    }
   }, []);
 
   const disconnectOAuth = useCallback(async (provider: 'google' | 'github') => {

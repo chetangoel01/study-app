@@ -83,9 +83,34 @@ describe('PUT then GET /api/user/preferences', () => {
       headers: { Cookie: await authCookie(row.id, 'a@b.com') },
     });
 
-    const body = await res.json() as { theme: string; notifyDailyChallenge: boolean };
+    const body = await res.json() as { theme: string; notifyDailyChallenge: boolean; dashboardDensity: string };
     expect(body.theme).toBe('dark');
     expect(body.notifyDailyChallenge).toBe(false);
+    expect(body.dashboardDensity).toBe('expansive');
+    db.close();
+  });
+
+  it('stores and returns dashboard layout density', async () => {
+    const { db, app } = setup();
+    const row = db.prepare(
+      "INSERT INTO users (email) VALUES ('a@b.com') RETURNING id"
+    ).get() as { id: number };
+
+    await app.request('/api/user/preferences', {
+      method: 'PUT',
+      headers: {
+        Cookie: await authCookie(row.id, 'a@b.com'),
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ dashboardDensity: 'dense' }),
+    });
+
+    const res = await app.request('/api/user/preferences', {
+      headers: { Cookie: await authCookie(row.id, 'a@b.com') },
+    });
+
+    const body = await res.json() as { dashboardDensity: string };
+    expect(body.dashboardDensity).toBe('dense');
     db.close();
   });
 });

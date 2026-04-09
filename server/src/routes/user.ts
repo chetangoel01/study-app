@@ -22,11 +22,13 @@ interface PreferencesRow {
   notify_daily_challenge: number | null;
   notify_weekly_progress: number | null;
   notify_community: number | null;
+  dashboard_density: string | null;
+  allow_mock_interviews: number | null;
 }
 
 function readPreferences(db: Database.Database, userId: number) {
   const row = db.prepare(
-    `SELECT theme, notify_daily_challenge, notify_weekly_progress, notify_community
+    `SELECT theme, notify_daily_challenge, notify_weekly_progress, notify_community, dashboard_density, allow_mock_interviews
       FROM user_preferences
       WHERE user_id = ?`
   ).get(userId) as PreferencesRow | undefined;
@@ -36,6 +38,8 @@ function readPreferences(db: Database.Database, userId: number) {
     notifyDailyChallenge: Boolean(row?.notify_daily_challenge ?? 1),
     notifyWeeklyProgress: Boolean(row?.notify_weekly_progress ?? 1),
     notifyCommunity: Boolean(row?.notify_community ?? 0),
+    dashboardDensity: row?.dashboard_density === 'dense' ? 'dense' : 'expansive',
+    allowMockInterviews: Boolean(row?.allow_mock_interviews ?? 0),
   };
 }
 
@@ -99,11 +103,15 @@ export function makeUserRouter(db: Database.Database): Hono {
       notifyDailyChallenge?: boolean;
       notifyWeeklyProgress?: boolean;
       notifyCommunity?: boolean;
+      dashboardDensity?: string;
+      allowMockInterviews?: boolean;
     } = await c.req.json<{
       theme?: string;
       notifyDailyChallenge?: boolean;
       notifyWeeklyProgress?: boolean;
       notifyCommunity?: boolean;
+      dashboardDensity?: string;
+      allowMockInterviews?: boolean;
     }>().catch(() => ({}));
     const current = readPreferences(db, user.id);
     const next = {
@@ -111,24 +119,33 @@ export function makeUserRouter(db: Database.Database): Hono {
       notifyDailyChallenge: body.notifyDailyChallenge ?? current.notifyDailyChallenge,
       notifyWeeklyProgress: body.notifyWeeklyProgress ?? current.notifyWeeklyProgress,
       notifyCommunity: body.notifyCommunity ?? current.notifyCommunity,
+      dashboardDensity:
+        body.dashboardDensity === 'dense' || body.dashboardDensity === 'expansive'
+          ? body.dashboardDensity
+          : current.dashboardDensity,
+      allowMockInterviews: body.allowMockInterviews ?? current.allowMockInterviews,
     };
 
     db.prepare(`
       INSERT INTO user_preferences
-        (user_id, theme, notify_daily_challenge, notify_weekly_progress, notify_community)
-      VALUES (?, ?, ?, ?, ?)
+        (user_id, theme, notify_daily_challenge, notify_weekly_progress, notify_community, dashboard_density, allow_mock_interviews)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(user_id) DO UPDATE SET
         theme = excluded.theme,
         notify_daily_challenge = excluded.notify_daily_challenge,
         notify_weekly_progress = excluded.notify_weekly_progress,
         notify_community = excluded.notify_community,
+        dashboard_density = excluded.dashboard_density,
+        allow_mock_interviews = excluded.allow_mock_interviews,
         updated_at = datetime('now')
     `).run(
       user.id,
       next.theme,
       next.notifyDailyChallenge ? 1 : 0,
       next.notifyWeeklyProgress ? 1 : 0,
-      next.notifyCommunity ? 1 : 0
+      next.notifyCommunity ? 1 : 0,
+      next.dashboardDensity,
+      next.allowMockInterviews ? 1 : 0
     );
 
     return c.json(next);
