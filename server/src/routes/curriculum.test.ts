@@ -157,11 +157,11 @@ describe('computeStatus with prerequisites', () => {
   });
   afterEach(() => db2.close());
 
-  it('marks module soft-locked when prereq is not complete', async () => {
+  it('keeps module available and surfaces unmet prerequisites as advisory context', async () => {
     const res = await app2.request('/api/curriculum', { headers: { Cookie: cookie2 } });
     const body = await res.json() as { modules: { id: string; status: string; blockedBy: string[] }[] };
     const modB = body.modules.find((m) => m.id === 'mod-b')!;
-    expect(modB.status).toBe('soft-locked');
+    expect(modB.status).toBe('available');
     expect(modB.blockedBy).toContain('mod-a');
   });
 
@@ -176,11 +176,12 @@ describe('computeStatus with prerequisites', () => {
     expect(modB.status).toBe('available');
   });
 
-  it('treats zero-item prereq as satisfied (not soft-locked)', async () => {
+  it('treats zero-item prereq as satisfied (no advisory blocker)', async () => {
     const res = await app2.request('/api/curriculum', { headers: { Cookie: cookie2 } });
-    const body = await res.json() as { modules: { id: string; status: string }[] };
+    const body = await res.json() as { modules: { id: string; status: string; blockedBy: string[] }[] };
     const modC = body.modules.find((m) => m.id === 'mod-c')!;
     expect(modC.status).toBe('available');
+    expect(modC.blockedBy).toEqual([]);
   });
 });
 

@@ -29,5 +29,6 @@ describe('Layout', () => {
     expect(screen.getByRole('link', { name: 'Curriculum' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Practice' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Community' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Help' })).not.toBeInTheDocument();
   });
 });

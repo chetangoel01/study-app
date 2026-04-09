@@ -24,6 +24,7 @@ function addRecent(query: string) {
 export function SearchOverlay({ onClose }: Props) {
   const [query, setQuery] = useState('');
   const [recent, setRecent] = useState<string[]>(getRecent);
+  const [selectedTrack, setSelectedTrack] = useState<string>('all');
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { data } = useCurriculum();
@@ -41,21 +42,26 @@ export function SearchOverlay({ onClose }: Props) {
     return () => document.removeEventListener('keydown', handler);
   }, [onClose]);
 
-  const filters = ['Curriculum', 'Documentation', 'Community Threads', 'Live Workshops'];
   const normalizedQuery = query.trim().toLowerCase();
+  const trackOptions = useMemo(() => {
+    return [{ id: 'all', label: 'All Tracks' }, ...(data?.tracks ?? [])];
+  }, [data?.tracks]);
 
   const trackLabels = useMemo(() => {
     return new Map((data?.tracks ?? []).map((track) => [track.id, track.label]));
   }, [data?.tracks]);
 
-  const results = normalizedQuery.length > 1
-    ? (data?.modules ?? [])
-        .filter((module) => {
-          return module.title.toLowerCase().includes(normalizedQuery)
-            || module.summary.toLowerCase().includes(normalizedQuery);
-        })
-        .slice(0, 6)
-    : [];
+  const results = useMemo(() => {
+    if (normalizedQuery.length <= 1) return [];
+
+    return (data?.modules ?? [])
+      .filter((module) => selectedTrack === 'all' || module.track === selectedTrack)
+      .filter((module) => {
+        return module.title.toLowerCase().includes(normalizedQuery)
+          || module.summary.toLowerCase().includes(normalizedQuery);
+      })
+      .slice(0, 6);
+  }, [data?.modules, normalizedQuery, selectedTrack]);
 
   const goToModule = (moduleId: string, trackId: string, label: string) => {
     addRecent(label);
@@ -95,12 +101,29 @@ export function SearchOverlay({ onClose }: Props) {
             ref={inputRef}
             type="search"
             className="search-input"
-            placeholder="Search curriculum, modules, or forum..."
+            placeholder="Search modules by title or summary..."
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             aria-label="Search"
           />
           <kbd className="search-esc" aria-label="Press Escape to close">ESC</kbd>
+        </div>
+
+        <div className="search-section">
+          <p className="search-section-label">Tracks</p>
+          <div className="search-filters">
+            {trackOptions.map((track) => (
+              <button
+                key={track.id}
+                type="button"
+                className={`search-filter-pill${selectedTrack === track.id ? ' active' : ''}`}
+                aria-pressed={selectedTrack === track.id}
+                onClick={() => setSelectedTrack(track.id)}
+              >
+                {track.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {normalizedQuery.length > 1 && results.length > 0 ? (
@@ -148,16 +171,6 @@ export function SearchOverlay({ onClose }: Props) {
                 ))}
               </div>
             )}
-            <div className="search-section">
-              <p className="search-section-label">Quick Filters</p>
-              <div className="search-filters">
-                {filters.map((entry) => (
-                  <button key={entry} type="button" className="search-filter-pill">
-                    {entry}
-                  </button>
-                ))}
-              </div>
-            </div>
           </>
         )}
       </div>

@@ -1,20 +1,87 @@
-import { useEffect, useId, useRef, useState } from 'react';
-import type { ChangeEvent } from 'react';
+import { useEffect, useId, useRef, useState, useCallback } from 'react';
+import type { ChangeEvent, RefObject } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useCurriculum, useModuleContent } from '../hooks/useCurriculum.js';
 import { useProgress } from '../hooks/useProgress.js';
 import { api } from '../api/client.js';
 import { MarkdownRenderer } from '../components/MarkdownRenderer.js';
-import { ModuleItemList } from '../components/ModuleItemList.js';
 import { ModuleCompletionModal } from '../components/ModuleCompletionModal.js';
-import { ReadDoTabs } from '../components/ReadDoTabs.js';
+import { ExternalLinkModal } from '../components/ExternalLinkModal.js';
 
-const MODULE_STATUS_LABELS = {
-  done: 'Done',
-  'in-progress': 'In progress',
-  available: 'Available',
-  'soft-locked': 'Locked',
+const RESOURCE_ICON_MAP: Record<string, string> = {
+  read: 'menu_book',
+  do: 'code',
+  check: 'task_alt',
 };
+
+function extractDomain(url: string | null): string {
+  if (!url) return 'Checklist item';
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return 'External resource';
+  }
+}
+
+/* ── Toolbar helpers ───────────────────────────────────────── */
+
+function wrapSelection(
+  textareaRef: RefObject<HTMLTextAreaElement | null>,
+  before: string,
+  after: string,
+  setNotes: (v: string) => void,
+  onDirty: () => void,
+) {
+  const el = textareaRef.current;
+  if (!el) return;
+  const { selectionStart: s, selectionEnd: e, value } = el;
+  const selected = value.slice(s, e);
+  const replacement = `${before}${selected || 'text'}${after}`;
+  const next = value.slice(0, s) + replacement + value.slice(e);
+  setNotes(next);
+  onDirty();
+  // Re-focus and position cursor after react re-render
+  requestAnimationFrame(() => {
+    el.focus();
+    const cursorPos = selected
+      ? s + replacement.length
+      : s + before.length;
+    const cursorEnd = selected
+      ? s + replacement.length
+      : s + before.length + 'text'.length;
+    el.setSelectionRange(cursorPos, selected ? cursorPos : cursorEnd);
+  });
+}
+
+function insertBullet(
+  textareaRef: RefObject<HTMLTextAreaElement | null>,
+  setNotes: (v: string) => void,
+  onDirty: () => void,
+) {
+  const el = textareaRef.current;
+  if (!el) return;
+  const { selectionStart: s, value } = el;
+  // Find start of current line
+  const lineStart = value.lastIndexOf('\n', s - 1) + 1;
+  const currentLine = value.slice(lineStart, s);
+  let next: string;
+  let cursorPos: number;
+  if (/^\s*- /.test(currentLine)) {
+    // Already a bullet line — just add a new bullet below
+    next = value.slice(0, s) + '\n- ' + value.slice(s);
+    cursorPos = s + 3;
+  } else {
+    // Prepend bullet to current line
+    next = value.slice(0, lineStart) + '- ' + value.slice(lineStart);
+    cursorPos = s + 2;
+  }
+  setNotes(next);
+  onDirty();
+  requestAnimationFrame(() => {
+    el.focus();
+    el.setSelectionRange(cursorPos, cursorPos);
+  });
+}
 
 export function ModulePage() {
   const { trackId, moduleId } = useParams<{ trackId: string; moduleId: string }>();
@@ -40,8 +107,12 @@ export function ModulePage() {
   const notesFieldHintId = useId();
   const notesStatusId = useId();
   const notesHeadingId = useId();
-  const [openTopicId, setOpenTopicId] = useState<string | null>(null);
+  const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
   const [showCompletion, setShowCompletion] = useState(false);
+  const [pendingUrl, setPendingUrl] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const guideTopRef = useRef<HTMLElement | null>(null);
 
   const [notes, setNotes] = useState('');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -151,13 +222,7 @@ export function ModulePage() {
     }
   };
 
-  const handleNotesChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    if (!moduleId) return;
-    const value = event.target.value;
-    notesDirtyRef.current = true;
-    retryCountRef.current = 0;
-    setNotes(value);
-    currentNotesRef.current = value;
+  const triggerSave = useCallback(() => {
     setSaveStatus('saving');
     setSaveError('');
     if (saveTimer.current) clearTimeout(saveTimer.current);
@@ -165,125 +230,59 @@ export function ModulePage() {
     saveTimer.current = setTimeout(() => {
       void flushNotesSave();
     }, 1000);
+  }, [moduleId]);
+
+  const handleNotesChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    if (!moduleId) return;
+    const value = event.target.value;
+    notesDirtyRef.current = true;
+    retryCountRef.current = 0;
+    setNotes(value);
+    currentNotesRef.current = value;
+    triggerSave();
   };
 
+  // For toolbar: programmatic updates that also trigger save
+  const setNotesAndSave = useCallback((value: string) => {
+    if (!moduleId) return;
+    notesDirtyRef.current = true;
+    retryCountRef.current = 0;
+    setNotes(value);
+    currentNotesRef.current = value;
+    triggerSave();
+  }, [moduleId, triggerSave]);
+
   const topics = moduleContent?.topics ?? [];
-
-  useEffect(() => {
-    if (topics.length === 0) {
-      setOpenTopicId(null);
-      return;
-    }
-
-    setOpenTopicId((current) => {
-      if (current && topics.some((topic) => topic.id === current)) {
-        return current;
-      }
-      return topics[0].id;
-    });
-  }, [moduleId, topics]);
-
-  if (curriculumLoading) return <div className="loading" role="status" aria-live="polite">Loading...</div>;
-  if (curriculumError) return <div className="error" role="alert">Error: {curriculumError}</div>;
-  if (!curriculum || !trackId || !moduleId) return null;
-
-  const track = curriculum.tracks.find((candidate) => candidate.id === trackId);
-  const module = curriculum.modules.find(
+  const track = curriculum?.tracks.find((candidate) => candidate.id === trackId) ?? null;
+  const module = curriculum?.modules.find(
     (candidate) => candidate.id === moduleId && candidate.track === trackId
-  );
-
-  if (!track || !module) {
-    return <div className="error" role="alert">Module not found.</div>;
-  }
-
-  if (module.status === 'soft-locked') {
-    const firstBlockerId = module.blockedBy[0] ?? null;
-    const blockerModule = firstBlockerId
-      ? curriculum.modules.find((candidate) => candidate.id === firstBlockerId) ?? null
-      : null;
-    const blockerPct = blockerModule && blockerModule.totalItems > 0
-      ? Math.round((blockerModule.completedItems / blockerModule.totalItems) * 100)
-      : 0;
-
-    return (
-      <div className="locked-page">
-        <div className="locked-content surface-card">
-          <p className="panel-label">Step-by-Step Mastery</p>
-          <h1 className="locked-title">Patience is part of the process.</h1>
-          <p className="locked-body">
-            Before we dive into the complexities of <strong>{module.title}</strong>,
-            your foundation needs a little more strength.
-            Deep understanding requires a solid core.
-          </p>
-
-          {blockerModule && (
-            <div className="locked-prereq surface-card">
-              <p className="panel-label">Prerequisite Module</p>
-              <div className="locked-prereq-row">
-                <div className="locked-prereq-info">
-                  <strong className="locked-prereq-title">{blockerModule.title}</strong>
-                  <div className="progress-bar" style={{ marginTop: '0.5rem' }}>
-                    <div className="progress-fill" style={{ width: `${blockerPct}%` }} />
-                  </div>
-                  <p className="locked-prereq-pct">
-                    Completion progress: {blockerPct}%
-                  </p>
-                </div>
-                <Link
-                  to={`/track/${track.id}/module/${blockerModule.id}`}
-                  className="primary-action locked-prereq-btn"
-                >
-                  Complete Prerequisite →
-                </Link>
-              </div>
-            </div>
-          )}
-
-          <div className="locked-actions">
-            <Link to={`/track/${track.id}`} className="secondary-link">
-              View Syllabus
-            </Link>
-          </div>
-
-          <p className="locked-mantra">- THE MINDFUL WAY IS THE STEADY WAY -</p>
-        </div>
-      </div>
-    );
-  }
-
-  const trackModules = curriculum.modules.filter((candidate) => candidate.track === trackId);
-  const currentIndex = trackModules.findIndex((candidate) => candidate.id === moduleId);
-  const prevModule = currentIndex > 0 ? trackModules[currentIndex - 1] : null;
+  ) ?? null;
+  const trackModules = trackId && curriculum
+    ? curriculum.modules.filter((candidate) => candidate.track === trackId)
+    : [];
+  const currentIndex = moduleId ? trackModules.findIndex((candidate) => candidate.id === moduleId) : -1;
   const nextModule = currentIndex >= 0 && currentIndex < trackModules.length - 1
     ? trackModules[currentIndex + 1]
     : null;
-
-  const items = moduleContent?.items ?? module.items;
+  const items = module ? (moduleContent?.items ?? module.items) : [];
   const readItems = items.filter((item) => item.type === 'read');
   const actionItems = items.filter((item) => item.type !== 'read');
-  const completedCount = items.filter((item) => isCompleted(module.id, item.id)).length;
+  const completedCount = module ? items.filter((item) => isCompleted(module.id, item.id)).length : 0;
   const completionPct = items.length > 0 ? Math.round((completedCount / items.length) * 100) : 0;
-  const noGeneratedContent = !contentLoading && !contentError && topics.length === 0;
-  const saveStatusLabel = saveStatus === 'saving'
-    ? 'Saving...'
-    : saveStatus === 'saved'
-      ? 'Saved'
-      : saveStatus === 'error'
-        ? saveError
-        : 'Autosave on';
-  const saveStatusAnnouncement = saveStatus === 'saving'
-    ? 'Saving notes.'
-    : saveStatus === 'saved'
-      ? 'Notes saved.'
-      : saveStatus === 'error'
-        ? saveError
-        : '';
-  const defaultWorkspaceTab = topics.length > 0 ? 'read' : 'do';
-  const readPanelHeading = topics.length > 0 ? 'Guide and study notes' : 'Resources to review';
-  const readPanelBadge = topics.length > 0 ? `${topics.length} topics` : `${readItems.length} resources`;
-  const workspaceReadLabel = topics.length > 0 ? 'Guide' : 'Resources';
+  const actionCompletedCount = module ? actionItems.filter((item) => isCompleted(module.id, item.id)).length : 0;
+
+  // Reset topic index when module changes
+  useEffect(() => {
+    setCurrentTopicIndex(0);
+  }, [moduleId]);
 
   useEffect(() => {
+    if (!module) {
+      prevCompletionPctRef.current = null;
+      completionTriggeredByUserRef.current = false;
+      return;
+    }
+
     if (
       completionTriggeredByUserRef.current &&
       prevCompletionPctRef.current !== null &&
@@ -293,8 +292,25 @@ export function ModulePage() {
       setShowCompletion(true);
       completionTriggeredByUserRef.current = false;
     }
+
     prevCompletionPctRef.current = completionPct;
-  }, [completionPct]);
+  }, [completionPct, module?.id]);
+
+  if (curriculumLoading) return <div className="loading" role="status" aria-live="polite">Loading...</div>;
+  if (curriculumError) return <div className="error" role="alert">Error: {curriculumError}</div>;
+  if (!curriculum || !trackId || !moduleId) return null;
+
+  if (!track || !module) {
+    return <div className="error" role="alert">Module not found.</div>;
+  }
+
+  const saveStatusAnnouncement = saveStatus === 'saving'
+    ? 'Saving notes.'
+    : saveStatus === 'saved'
+      ? 'Notes saved.'
+      : saveStatus === 'error'
+        ? saveError
+        : '';
 
   const handleToggle = async (
     targetModuleId: string,
@@ -306,176 +322,41 @@ export function ModulePage() {
     await toggle(targetModuleId, itemId, itemType, label);
   };
 
-  const readColumn = (
-    <section className="content-panel read-column">
-      <div className="content-panel-header">
-        <div>
-          <p className="panel-label">{workspaceReadLabel}</p>
-          <h2>{readPanelHeading}</h2>
-        </div>
-        <span className="panel-badge">{readPanelBadge}</span>
-      </div>
-      {contentLoading ? (
-        <MarkdownRenderer content="" loading />
-      ) : contentError ? (
-        <MarkdownRenderer
-          content=""
-          error="Unable to load module content right now."
-        />
-      ) : noGeneratedContent ? (
-        <>
-          <p className="content-intro">
-            No generated guide yet. Use the source links below as the lightweight version for now.
-          </p>
-          <MarkdownRenderer content="" />
-        </>
-      ) : (
-        <div className="topic-stack" role="list" aria-label="Guide topics">
-          {topics.map((topic) => {
-            const isOpen = openTopicId === topic.id;
-            const panelId = `${topic.id}-panel`;
+  const currentTopic = topics.length > 0 ? topics[currentTopicIndex] ?? null : null;
+  const totalSteps = topics.length + 1; // topics + practice
+  const isPracticeStep = currentTopicIndex >= topics.length;
+  const isFirstStep = currentTopicIndex === 0;
+  const isLastStep = currentTopicIndex >= totalSteps - 1;
 
-            return (
-              <section
-                key={topic.id}
-                className={`topic-section topic-card${isOpen ? ' open' : ''}`}
-                role="listitem"
-              >
-                <button
-                  type="button"
-                  className="topic-toggle"
-                  aria-expanded={isOpen}
-                  aria-controls={panelId}
-                  onClick={() => setOpenTopicId(isOpen ? null : topic.id)}
-                >
-                  <span className="topic-toggle-copy">
-                    <span className="topic-toggle-kicker">Topic</span>
-                    <span className="topic-toggle-title">{topic.label}</span>
-                  </span>
-                  <span className="topic-toggle-icon" aria-hidden="true">{isOpen ? '−' : '+'}</span>
-                </button>
-                {isOpen && (
-                  <div id={panelId} className="topic-panel">
-                    <MarkdownRenderer
-                      content={topic.study_guide_markdown}
-                    />
-                  </div>
-                )}
-              </section>
-            );
-          })}
-        </div>
-      )}
-      <div className="go-deeper">
-        <div className="section-copy-block">
-          <p className="panel-label">Go deeper</p>
-          <p className="content-intro">Keep source material and external explainers tucked underneath the guide.</p>
-        </div>
-        <ModuleItemList
-          items={items}
-          moduleId={module.id}
-          isCompleted={isCompleted}
-          isPending={isPending}
-          onToggle={handleToggle}
-          filter={['read']}
-        />
-      </div>
-    </section>
-  );
+  const goToStep = (index: number) => {
+    setCurrentTopicIndex(index);
+    guideTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
-  const doColumn = (
-    <section className="content-panel do-column">
-      <div className="content-panel-header">
-        <div>
-          <p className="panel-label">Practice</p>
-          <h2>Practice and checkpoints</h2>
-        </div>
-        <span className="panel-badge">{actionItems.length} actions</span>
-      </div>
-      <p className="content-intro">
-        Work through the active checklist instead of juggling a guide and assignments side by side.
-      </p>
-      <ModuleItemList
-        items={items}
-        moduleId={module.id}
-        isCompleted={isCompleted}
-        isPending={isPending}
-        onToggle={handleToggle}
-        filter={['do', 'check']}
-      />
-    </section>
-  );
+  const handleBold = () => wrapSelection(textareaRef, '**', '**', setNotesAndSave, triggerSave);
+  const handleItalic = () => wrapSelection(textareaRef, '*', '*', setNotesAndSave, triggerSave);
+  const handleBullet = () => insertBullet(textareaRef, setNotesAndSave, triggerSave);
+
+  // Build step entries for the stepper
+  const stepEntries = [
+    ...topics.map((topic) => ({ id: topic.id, label: topic.label })),
+    { id: '__practice__', label: 'Practice' },
+  ];
 
   return (
-    <div className="module-page">
-      <section className="module-hero surface-card" data-track={track.id}>
-        <div className="module-hero-main">
-          <Link to={`/track/${track.id}`} className="back-link">Back to {track.label}</Link>
-          <div className="module-hero-badges">
-            <span className="phase-pill">{module.phase}</span>
-            <span className={`status-chip status-${module.status}`}>
-              {MODULE_STATUS_LABELS[module.status]}
-            </span>
-          </div>
-          <h1 className="module-page-title">{module.title}</h1>
-          <p className="module-page-summary">{module.summary}</p>
-          <div className="module-hero-meta">
-            <div className="hero-metric">
-              <span className="hero-metric-label">Time</span>
-              <strong>{module.estimate}</strong>
-            </div>
-            <div className="hero-metric">
-              <span className="hero-metric-label">Sessions</span>
-              <strong>{module.sessions}</strong>
-            </div>
-            <div className="hero-metric">
-              <span className="hero-metric-label">Items</span>
-              <strong>{completedCount}/{items.length}</strong>
-            </div>
-            <div className="hero-metric">
-              <span className="hero-metric-label">References</span>
-              <strong>{readItems.length}</strong>
-            </div>
-          </div>
-        </div>
+    <div className={`mp-main${sidebarOpen ? ' mp-sidebar-open' : ''}`}>
+      {/* --- Header --- */}
+      <header className="mp-header">
+        <nav className="mp-nav" aria-label="Breadcrumb">
+          <Link to="/curriculum">Curriculum</Link>
+          <span className="material-symbols-outlined mp-nav-chevron" aria-hidden="true">chevron_right</span>
+          <span className="mp-nav-current">{module.title}</span>
+        </nav>
+        <h1 className="mp-title">{module.title}</h1>
+        <p className="mp-description">{module.summary}</p>
+      </header>
 
-        <div className="module-hero-side">
-          <div className="module-progress-card">
-            <span className="module-progress-label">Module progress</span>
-            <strong className="module-progress-value">{completionPct}%</strong>
-            <div className="progress-bar large">
-              <div className="progress-fill" style={{ width: `${completionPct}%` }} />
-            </div>
-            <p className="module-progress-copy">
-              {completedCount} of {items.length} items complete
-            </p>
-          </div>
-          <div className="module-nav">
-            {prevModule
-              ? (
-                  <Link to={`/track/${track.id}/module/${prevModule.id}`} className="nav-btn">
-                    Previous module
-                  </Link>
-                )
-              : <span className="nav-placeholder">Start of track</span>}
-            {nextModule
-              ? (
-                  <Link
-                    to={`/track/${track.id}/module/${nextModule.id}`}
-                    className="nav-btn nav-btn-primary"
-                  >
-                    Next module
-                  </Link>
-                )
-              : (
-                  <span className="track-complete">
-                    Track complete. <Link to="/">Switch tracks</Link>
-                  </span>
-                )}
-          </div>
-        </div>
-      </section>
-
+      {/* Progress error banner */}
       {progressError && (
         <div className="feedback-banner error" role="alert">
           <span>{progressError}</span>
@@ -486,53 +367,384 @@ export function ModulePage() {
         {progressStatusMessage}
       </p>
 
-      <div className="module-workspace">
-        <div className="module-columns desktop-cols" aria-label="Study workspace">
-          {readColumn}
-          {doColumn}
-        </div>
-        <div className="mobile-tabs">
-          <ReadDoTabs
-            key={`${module.id}-${defaultWorkspaceTab}`}
-            readContent={readColumn}
-            doContent={doColumn}
-            readLabel={workspaceReadLabel}
-            doLabel="Practice"
-            defaultActive={defaultWorkspaceTab}
-            ariaLabel="Study workspace"
-          />
-        </div>
-      </div>
+      {/* --- Layout: sidebar + content --- */}
+      <div className="mp-layout">
+        {/* Sidebar navigation */}
+        {topics.length > 0 && (
+          <nav className={`mp-sidebar${sidebarOpen ? '' : ' mp-sidebar-collapsed'}`} aria-label="Section navigation">
+            <div className="mp-sidebar-header">
+              <span className="mp-sidebar-heading">Sections</span>
+              <button
+                type="button"
+                className="mp-sidebar-toggle"
+                onClick={() => setSidebarOpen((prev) => !prev)}
+                aria-label={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+                title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+              >
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  {sidebarOpen ? 'left_panel_close' : 'left_panel_open'}
+                </span>
+              </button>
+            </div>
+            {sidebarOpen && (
+              <ul className="mp-sidebar-list">
+                {stepEntries.map((entry, idx) => (
+                  <li key={entry.id}>
+                    <button
+                      type="button"
+                      className={`mp-sidebar-item${idx === currentTopicIndex ? ' mp-sidebar-active' : ''}${idx < currentTopicIndex ? ' mp-sidebar-done' : ''}`}
+                      onClick={() => goToStep(idx)}
+                    >
+                      <span className="mp-sidebar-num">
+                        {idx < topics.length ? idx + 1 : (
+                          <span className="material-symbols-outlined" style={{ fontSize: 14 }} aria-hidden="true">fitness_center</span>
+                        )}
+                      </span>
+                      <span className="mp-sidebar-label">{entry.label}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </nav>
+        )}
 
-      <section className="notes-section surface-card">
-        <div className="notes-header">
-          <div>
-            <p className="panel-label">Notes</p>
-            <h2 id={notesHeadingId}>Capture the weak spots while they are fresh</h2>
+        {/* Collapsed toggle (when sidebar is hidden) */}
+        {topics.length > 0 && !sidebarOpen && (
+          <button
+            type="button"
+            className="mp-sidebar-fab"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open sidebar"
+            title="Open sidebar"
+          >
+            <span className="material-symbols-outlined" aria-hidden="true">left_panel_open</span>
+          </button>
+        )}
+
+        {/* Main content column */}
+        <div className="mp-content">
+
+      {/* --- Guide + Practice (paginated reader) --- */}
+      <section className="mp-guide" aria-label="Study guide" ref={guideTopRef}>
+        {contentLoading ? (
+          <div className="mp-guide-bg" style={{ padding: 32 }}>
+            <MarkdownRenderer content="" loading />
           </div>
-          <span className={`save-badge${saveStatus === 'error' ? ' error' : ''}`} aria-hidden="true">
-            {saveStatusLabel}
-          </span>
+        ) : contentError ? (
+          <div className="mp-guide-bg" style={{ padding: 32 }}>
+            <MarkdownRenderer content="" error="Unable to load module content right now." />
+          </div>
+        ) : topics.length > 0 ? (
+          <>
+            {/* Step indicator */}
+            <div className="mp-stepper" role="tablist" aria-label="Guide sections">
+              {stepEntries.map((entry, idx) => (
+                <button
+                  key={entry.id}
+                  type="button"
+                  className={`mp-step${idx === currentTopicIndex ? ' mp-step-active' : ''}${idx < currentTopicIndex ? ' mp-step-done' : ''}`}
+                  role="tab"
+                  aria-selected={idx === currentTopicIndex}
+                  onClick={() => goToStep(idx)}
+                  title={entry.label}
+                >
+                  <span className="mp-step-number">
+                    {idx < topics.length ? idx + 1 : (
+                      <span className="material-symbols-outlined" style={{ fontSize: 14 }} aria-hidden="true">fitness_center</span>
+                    )}
+                  </span>
+                  <span className="mp-step-label">{entry.label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Current step content */}
+            {isPracticeStep ? (
+              /* ── Practice step ── */
+              <div className="mp-reader">
+                <div className="mp-reader-header">
+                  <span className="mp-reader-kicker">Step {totalSteps} of {totalSteps}</span>
+                  <h2 className="mp-reader-title">Practice</h2>
+                </div>
+                <div className="mp-reader-body">
+                  {/* Deep Dive Resources */}
+                  {readItems.length > 0 && (
+                    <div className="mp-resources" style={{ marginBottom: 32 }}>
+                      <p className="mp-resources-label">Deep Dive Resources</p>
+                      <div className="mp-resources-grid">
+                        {readItems.map((item) => (
+                          <button
+                            key={item.id}
+                            type="button"
+                            className="mp-resource-link"
+                            onClick={() => item.url && setPendingUrl(item.url)}
+                          >
+                            <div className={`mp-resource-icon mp-${item.type}`}>
+                              <span className="material-symbols-outlined" aria-hidden="true">
+                                {RESOURCE_ICON_MAP[item.type] ?? 'link'}
+                              </span>
+                            </div>
+                            <div className="mp-resource-info">
+                              <span className="mp-resource-title">{item.label}</span>
+                              <span className="mp-resource-subtitle">{extractDomain(item.url)}</span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Checkpoints */}
+                  <div className="mp-practice-header" style={{ marginBottom: 16 }}>
+                    <h3 className="mp-practice-title">Checkpoints</h3>
+                    <span className="mp-practice-badge">{actionCompletedCount} of {actionItems.length}</span>
+                  </div>
+                  <div className="mp-checkpoints">
+                    {actionItems.map((item) => {
+                      const done = isCompleted(module.id, item.id);
+                      const pending = isPending(module.id, item.id);
+
+                      return (
+                        <div
+                          key={item.id}
+                          className={`mp-checkpoint${done ? ' mp-done' : ''}${!done ? '-unchecked' : ''}${pending ? ' mp-pending' : ''}`}
+                        >
+                          <button
+                            type="button"
+                            className={done ? 'mp-checkbox-done' : 'mp-checkbox-empty'}
+                            onClick={() => handleToggle(module.id, item.id, item.type, item.label)}
+                            disabled={pending}
+                            aria-label={`${done ? 'Unmark' : 'Mark'} "${item.label}" as complete`}
+                          >
+                            {done && (
+                              <span className="material-symbols-outlined mp-check-icon" aria-hidden="true">check</span>
+                            )}
+                          </button>
+                          <div className="mp-checkpoint-info">
+                            <span className="mp-checkpoint-title">{item.label}</span>
+                            {item.url && (
+                              <span className="mp-checkpoint-hint">{extractDomain(item.url)}</span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* CTA + nav */}
+                <div className="mp-reader-nav">
+                  <button
+                    type="button"
+                    className="mp-reader-btn mp-reader-prev"
+                    onClick={() => goToStep(currentTopicIndex - 1)}
+                    disabled={isFirstStep}
+                  >
+                    <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                    Previous
+                  </button>
+                  <span className="mp-reader-progress">
+                    {totalSteps} / {totalSteps}
+                  </span>
+                  {nextModule ? (
+                    <Link
+                      to={`/track/${track.id}/module/${nextModule.id}`}
+                      className="mp-reader-btn mp-reader-next mp-reader-finish"
+                    >
+                      Next module
+                      <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                    </Link>
+                  ) : (
+                    <Link to={`/track/${track.id}`} className="mp-reader-btn mp-reader-next mp-reader-finish">
+                      Back to track
+                      <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ) : currentTopic ? (
+              /* ── Topic step ── */
+              <div className="mp-reader">
+                <div className="mp-reader-header">
+                  <span className="mp-reader-kicker">Section {currentTopicIndex + 1} of {totalSteps}</span>
+                  <h2 className="mp-reader-title">{currentTopic.label}</h2>
+                </div>
+                <div className="mp-reader-body">
+                  <MarkdownRenderer content={currentTopic.study_guide_markdown} />
+                </div>
+                <div className="mp-reader-nav">
+                  <button
+                    type="button"
+                    className="mp-reader-btn mp-reader-prev"
+                    onClick={() => goToStep(currentTopicIndex - 1)}
+                    disabled={isFirstStep}
+                  >
+                    <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                    Previous
+                  </button>
+                  <span className="mp-reader-progress">
+                    {currentTopicIndex + 1} / {totalSteps}
+                  </span>
+                  <button
+                    type="button"
+                    className="mp-reader-btn mp-reader-next"
+                    onClick={() => goToStep(currentTopicIndex + 1)}
+                  >
+                    {currentTopicIndex === topics.length - 1 ? 'Continue to practice' : 'Next section'}
+                    <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                  </button>
+                </div>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          /* No topics — show resources + practice directly */
+          <>
+            <div className="mp-guide-bg" style={{ padding: 32 }}>
+              <p className="mp-guide-text">
+                No generated guide yet. Use the source links below to get started.
+              </p>
+            </div>
+            {readItems.length > 0 && (
+              <div className="mp-resources">
+                <p className="mp-resources-label">Deep Dive Resources</p>
+                <div className="mp-resources-grid">
+                  {readItems.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="mp-resource-link"
+                      onClick={() => item.url && setPendingUrl(item.url)}
+                    >
+                      <div className={`mp-resource-icon mp-${item.type}`}>
+                        <span className="material-symbols-outlined" aria-hidden="true">
+                          {RESOURCE_ICON_MAP[item.type] ?? 'link'}
+                        </span>
+                      </div>
+                      <div className="mp-resource-info">
+                        <span className="mp-resource-title">{item.label}</span>
+                        <span className="mp-resource-subtitle">{extractDomain(item.url)}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {actionItems.length > 0 && (
+              <div className="mp-practice-card">
+                <div className="mp-practice-header">
+                  <h2 className="mp-practice-title">Practice</h2>
+                  <span className="mp-practice-badge">{actionCompletedCount} of {actionItems.length}</span>
+                </div>
+                <div className="mp-checkpoints">
+                  {actionItems.map((item) => {
+                    const done = isCompleted(module.id, item.id);
+                    const pending = isPending(module.id, item.id);
+                    return (
+                      <div
+                        key={item.id}
+                        className={`mp-checkpoint${done ? ' mp-done' : ''}${!done ? '-unchecked' : ''}${pending ? ' mp-pending' : ''}`}
+                      >
+                        <button
+                          type="button"
+                          className={done ? 'mp-checkbox-done' : 'mp-checkbox-empty'}
+                          onClick={() => handleToggle(module.id, item.id, item.type, item.label)}
+                          disabled={pending}
+                          aria-label={`${done ? 'Unmark' : 'Mark'} "${item.label}" as complete`}
+                        >
+                          {done && (
+                            <span className="material-symbols-outlined mp-check-icon" aria-hidden="true">check</span>
+                          )}
+                        </button>
+                        <div className="mp-checkpoint-info">
+                          <span className="mp-checkpoint-title">{item.label}</span>
+                          {item.url && (
+                            <span className="mp-checkpoint-hint">{extractDomain(item.url)}</span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {nextModule ? (
+                  <Link to={`/track/${track.id}/module/${nextModule.id}`} className="mp-cta-btn">
+                    Continue to next module
+                    <span className="material-symbols-outlined mp-cta-icon" aria-hidden="true">arrow_forward</span>
+                  </Link>
+                ) : (
+                  <Link to={`/track/${track.id}`} className="mp-cta-btn">
+                    Back to track overview
+                    <span className="material-symbols-outlined mp-cta-icon" aria-hidden="true">arrow_forward</span>
+                  </Link>
+                )}
+              </div>
+            )}
+          </>
+        )}
+      </section>
+
+      {/* --- Notes Editor Section --- */}
+      <section className="mp-notes" aria-labelledby={notesHeadingId}>
+        <div className="mp-notes-header">
+          <div className="mp-notes-header-left">
+            <h2 id={notesHeadingId} className="mp-notes-title">Your Study Notes</h2>
+          </div>
+          <div className="mp-notes-toolbar">
+            <button type="button" className="mp-toolbar-btn" aria-label="Bold" title="Bold" onClick={handleBold}>
+              <span className="material-symbols-outlined" aria-hidden="true">format_bold</span>
+            </button>
+            <button type="button" className="mp-toolbar-btn" aria-label="Italic" title="Italic" onClick={handleItalic}>
+              <span className="material-symbols-outlined" aria-hidden="true">format_italic</span>
+            </button>
+            <div className="mp-toolbar-divider" />
+            <button type="button" className="mp-toolbar-btn" aria-label="Bullet list" title="Bullet list" onClick={handleBullet}>
+              <span className="material-symbols-outlined" aria-hidden="true">format_list_bulleted</span>
+            </button>
+            {/* Ask AI — commented out for now; will revisit as a chat interface
+            <button type="button" className="mp-toolbar-action" aria-label="Ask AI">
+              <span className="material-symbols-outlined" style={{ fontSize: 16 }} aria-hidden="true">auto_awesome</span>
+              Ask AI
+            </button>
+            */}
+          </div>
         </div>
-        <p id={notesDescriptionId} className="notes-copy">
+        <p id={notesDescriptionId} className="sr-only">
           Keep mistakes, patterns, and follow-up links in one place for the next pass.
         </p>
-        <label htmlFor="module-notes" className="field-label notes-field-label">Study notes</label>
-        <p id={notesFieldHintId} className="field-hint">
+        <p id={notesFieldHintId} className="sr-only">
           Autosaves after a short pause so you can keep moving.
         </p>
-        <textarea
-          id="module-notes"
-          value={notes}
-          onChange={handleNotesChange}
-          placeholder="Capture weak spots, patterns, or links..."
-          aria-describedby={`${notesDescriptionId} ${notesFieldHintId} ${notesStatusId}`}
-          rows={6}
-        />
+        <div className="mp-notes-body">
+          <textarea
+            ref={textareaRef}
+            id="module-notes"
+            value={notes}
+            onChange={handleNotesChange}
+            placeholder="Start typing your study notes here..."
+            aria-describedby={`${notesDescriptionId} ${notesFieldHintId} ${notesStatusId}`}
+            aria-label="Study notes"
+            rows={8}
+          />
+        </div>
         <p id={notesStatusId} className="sr-only" role="status" aria-live="polite">
           {saveStatusAnnouncement}
         </p>
       </section>
+
+        </div>{/* end mp-content */}
+      </div>{/* end mp-layout */}
+
+      {/* External link confirmation modal */}
+      {pendingUrl && (
+        <ExternalLinkModal
+          url={pendingUrl}
+          onConfirm={() => setPendingUrl(null)}
+          onCancel={() => setPendingUrl(null)}
+        />
+      )}
+
+      {/* Module completion celebration */}
       {showCompletion && (
         <ModuleCompletionModal
           moduleTitle={module.title}

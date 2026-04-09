@@ -5,23 +5,22 @@ const STATUS_LABELS = {
   done: 'Done',
   'in-progress': 'In progress',
   available: 'Available',
-  'soft-locked': 'Locked',
 };
 
 interface Props {
   module: CurriculumModule;
   compact?: boolean;
   linked?: boolean;
-  allModules?: CurriculumModule[];  // needed for soft-locked prereq name display
+  allModules?: CurriculumModule[];  // needed for prerequisite name display
 }
 
 export function ModuleCard({ module: m, compact = false, linked = true, allModules = [] }: Props) {
   const pct = m.totalItems > 0 ? Math.round((m.completedItems / m.totalItems) * 100) : 0;
-  const prereqNames = m.status === 'soft-locked' && m.blockedBy.length > 0
+  const prereqNames = m.blockedBy.length > 0
     ? m.blockedBy.map((pid) => allModules.find((mod) => mod.id === pid)?.title ?? pid)
     : [];
   const footerMeta = compact ? m.estimate : `${m.completedItems}/${m.totalItems} items`;
-  const ctaLabel = m.status === 'soft-locked' ? 'Locked' : m.status === 'done' ? 'Review' : 'Open';
+  const ctaLabel = m.status === 'done' ? 'Review' : 'Open';
   const cardClassName = `module-card status-${m.status}${compact ? ' compact' : ''}`;
 
   const content = (
@@ -39,7 +38,7 @@ export function ModuleCard({ module: m, compact = false, linked = true, allModul
             <span className="module-sessions">{m.sessions} sessions</span>
           </div>
           {prereqNames.length > 0 && (
-            <span className="prereq-hint">Requires: {prereqNames.join(', ')}</span>
+            <span className="prereq-hint">Recommended first: {prereqNames.join(', ')}</span>
           )}
           <div className="progress-bar"><div className="progress-fill" style={{ width: `${pct}%` }} /></div>
         </>

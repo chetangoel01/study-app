@@ -1,5 +1,5 @@
 export type TrackId = 'dsa-leetcode' | 'system-design' | 'machine-learning' | 'resume-behavioral';
-export type ModuleStatus = 'done' | 'in-progress' | 'available' | 'soft-locked';
+export type ModuleStatus = 'done' | 'in-progress' | 'available';
 export type ItemType = 'read' | 'do' | 'check';
 
 export interface Track { id: TrackId; label: string; }
@@ -15,7 +15,7 @@ export interface CurriculumModule {
   prerequisiteModuleIds: string[];
   items: CurriculumItem[];                    // all items (no markdown); enables next-unchecked lookup
   totalItems: number; completedItems: number; status: ModuleStatus;
-  blockedBy: string[];                        // IDs of unmet prerequisites (soft-locked only)
+  blockedBy: string[];                        // IDs of unmet prerequisites shown as guidance only
   latest_progress_updated_at: string | null;  // ISO timestamp of most recent progress row
 }
 

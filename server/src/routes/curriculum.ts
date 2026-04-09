@@ -3,11 +3,10 @@ import type Database from 'better-sqlite3';
 import { requireAuth } from '../middleware/auth.js';
 import type { CurriculumIndex } from '../curriculum/types.js';
 
-type Status = 'done' | 'in-progress' | 'available' | 'soft-locked';
+type Status = 'done' | 'in-progress' | 'available';
 
 function computeStatus(
   moduleId: string,
-  prereqs: string[],
   completedByModule: Map<string, Set<string>>,
   totalByModule: Map<string, number>,
 ): Status {
@@ -15,11 +14,6 @@ function computeStatus(
   const total = totalByModule.get(moduleId) ?? 0;
   if (total > 0 && completed.size === total) return 'done';
   if (completed.size > 0) return 'in-progress';
-  for (const p of prereqs) {
-    const t = totalByModule.get(p) ?? 0;
-    const c = completedByModule.get(p) ?? new Set();
-    if (t > 0 && c.size < t) return 'soft-locked';
-  }
   return 'available';
 }
 
@@ -46,14 +40,12 @@ export function makeCurriculumRouter(db: Database.Database, index: CurriculumInd
     const totalByModule = new Map(index.modules.map((m) => [m.id, m.items.length]));
 
     const modules = index.modules.map((m) => {
-      const status = computeStatus(m.id, m.prerequisiteModuleIds, completedByModule, totalByModule);
-      const blockedBy = status === 'soft-locked'
-        ? m.prerequisiteModuleIds.filter((pid) => {
-            const t = totalByModule.get(pid) ?? 0;
-            const c = completedByModule.get(pid) ?? new Set();
-            return t > 0 && c.size < t;
-          })
-        : [];
+      const status = computeStatus(m.id, completedByModule, totalByModule);
+      const blockedBy = m.prerequisiteModuleIds.filter((pid) => {
+        const t = totalByModule.get(pid) ?? 0;
+        const c = completedByModule.get(pid) ?? new Set();
+        return t > 0 && c.size < t;
+      });
       return {
         id: m.id, title: m.title, track: m.track, phase: m.phase,
         summary: m.summary, estimate: m.estimate, sessions: m.sessions,

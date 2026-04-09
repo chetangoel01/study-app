@@ -59,10 +59,20 @@ export function AccountMenu({ user }: { user: AuthUser }) {
             <span className="account-menu-role">Member</span>
           </div>
           <hr className="account-menu-divider" aria-hidden="true" />
-          <Link to="/settings" className="account-menu-item" role="menuitem" onClick={() => setOpen(false)}>
+          <Link
+            to="/settings/profile"
+            className="account-menu-item"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
             My Profile
           </Link>
-          <Link to="/settings" className="account-menu-item" role="menuitem" onClick={() => setOpen(false)}>
+          <Link
+            to="/settings/preferences"
+            className="account-menu-item"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
             Settings
           </Link>
           <Link

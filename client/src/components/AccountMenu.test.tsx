@@ -20,6 +20,15 @@ describe('AccountMenu', () => {
     expect(screen.getByText('alex@example.com')).toBeInTheDocument();
   });
 
+  test('links to the expected settings sections', () => {
+    render(<MemoryRouter><AccountMenu user={user} /></MemoryRouter>);
+    fireEvent.click(screen.getByRole('button', { name: 'Account menu' }));
+
+    expect(screen.getByRole('menuitem', { name: 'My Profile' })).toHaveAttribute('href', '/settings/profile');
+    expect(screen.getByRole('menuitem', { name: 'Settings' })).toHaveAttribute('href', '/settings/preferences');
+    expect(screen.getByRole('menuitem', { name: 'Change Password' })).toHaveAttribute('href', '/settings/security');
+  });
+
   test('closes menu when clicking outside', () => {
     render(<MemoryRouter><AccountMenu user={user} /></MemoryRouter>);
     fireEvent.click(screen.getByRole('button', { name: 'Account menu' }));

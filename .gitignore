@@ -3,6 +3,7 @@ node_modules/
 .venv/
 .claude/
 .superpowers/
+.cursor/
 pipeline/.cache/
 knowledge-base.json
 crawl-audit.json

@@ -1,4 +1,4 @@
-const BASE = import.meta.env.DEV ? 'http://localhost:3000' : '';
+const BASE = import.meta.env.VITE_API_BASE ?? '';
 
 async function apiFetch<T>(path: string, options: RequestInit & { skipRefresh?: boolean } = {}): Promise<T> {
   const { skipRefresh, ...opts } = options;

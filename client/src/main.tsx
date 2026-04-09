@@ -3,21 +3,25 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage.js';
 import { DashboardPage } from './pages/DashboardPage.js';
+import { CurriculumPage } from './pages/CurriculumPage.js';
 import { TrackPage } from './pages/TrackPage.js';
 import { ModulePage } from './pages/ModulePage.js';
 import { PracticePage } from './pages/PracticePage.js';
 import { CommunityPage } from './pages/CommunityPage.js';
 import { SettingsPage } from './pages/SettingsPage.js';
 import { ProtectedRoute } from './components/ProtectedRoute.js';
+import { RouteErrorBoundary } from './components/RouteErrorBoundary.js';
 import './index.css';
 
 const router = createBrowserRouter([
-  { path: '/login', element: <LoginPage /> },
+  { path: '/login', element: <LoginPage />, errorElement: <RouteErrorBoundary /> },
   {
     path: '/',
     element: <ProtectedRoute />,
+    errorElement: <RouteErrorBoundary />,
     children: [
       { index: true, element: <DashboardPage /> },
+      { path: 'curriculum', element: <CurriculumPage /> },
       { path: 'track/:trackId', element: <TrackPage /> },
       { path: 'track/:trackId/module/:moduleId', element: <ModulePage /> },
       { path: 'practice', element: <PracticePage /> },

@@ -1,23 +1,27 @@
 import { useEffect, useState } from 'react';
 
+type Difficulty = 'Easy' | 'Medium' | 'Hard';
+
+export interface PracticeModuleOption {
+  moduleId: string;
+  title: string;
+  trackId: string;
+  trackLabel: string;
+}
+
 interface Props {
+  moduleOptions: PracticeModuleOption[];
+  onBegin: (config: {
+    moduleId: string;
+    trackId: string;
+    difficulty: Difficulty;
+    duration: number;
+  }) => void;
   onClose: () => void;
 }
 
-type Difficulty = 'Easy' | 'Medium' | 'Hard';
-
-const TOPICS = [
-  'Arrays',
-  'Linked Lists',
-  'Trees',
-  'Graphs',
-  'Dynamic Programming',
-  'System Design',
-  'Concurrency',
-];
-
-export function PracticeSetupModal({ onClose }: Props) {
-  const [topic, setTopic] = useState('Arrays');
+export function PracticeSetupModal({ moduleOptions, onBegin, onClose }: Props) {
+  const [moduleId, setModuleId] = useState(moduleOptions[0]?.moduleId ?? '');
   const [difficulty, setDifficulty] = useState<Difficulty>('Medium');
   const [duration, setDuration] = useState(45);
 
@@ -30,8 +34,25 @@ export function PracticeSetupModal({ onClose }: Props) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
+  useEffect(() => {
+    setModuleId((current) => {
+      if (moduleOptions.some((option) => option.moduleId === current)) {
+        return current;
+      }
+      return moduleOptions[0]?.moduleId ?? '';
+    });
+  }, [moduleOptions]);
+
   const handleBegin = () => {
-    window.alert(`Starting ${difficulty} session on ${topic} for ${duration} min`);
+    const selectedModule = moduleOptions.find((option) => option.moduleId === moduleId);
+    if (!selectedModule) return;
+
+    onBegin({
+      moduleId: selectedModule.moduleId,
+      trackId: selectedModule.trackId,
+      difficulty,
+      duration,
+    });
     onClose();
   };
 
@@ -47,20 +68,24 @@ export function PracticeSetupModal({ onClose }: Props) {
     >
       <div className="modal-panel practice-modal" onClick={(event) => event.stopPropagation()}>
         <p className="modal-kicker">Deep Work</p>
-        <h2 id="practice-setup-title" className="modal-title">Configure Mock Interview</h2>
+        <h2 id="practice-setup-title" className="modal-title">Configure Practice Session</h2>
         <p className="modal-body">
-          Fine-tune your environment to simulate a real-world technical assessment.
+          Pick a live module, tune the session difficulty, and jump straight into a deliberate practice block.
         </p>
 
         <div className="practice-form">
-          <label className="field-label" htmlFor="practice-topic">Topic</label>
+          <label className="field-label" htmlFor="practice-topic">Focus Module</label>
           <select
             id="practice-topic"
             className="practice-select"
-            value={topic}
-            onChange={(event) => setTopic(event.target.value)}
+            value={moduleId}
+            onChange={(event) => setModuleId(event.target.value)}
           >
-            {TOPICS.map((entry) => <option key={entry} value={entry}>{entry}</option>)}
+            {moduleOptions.map((entry) => (
+              <option key={entry.moduleId} value={entry.moduleId}>
+                {entry.title} · {entry.trackLabel}
+              </option>
+            ))}
           </select>
 
           <fieldset className="practice-difficulty-group">
@@ -102,8 +127,8 @@ export function PracticeSetupModal({ onClose }: Props) {
           <button type="button" className="secondary-link" onClick={onClose}>
             Cancel
           </button>
-          <button type="button" className="primary-action" onClick={handleBegin}>
-            Begin Session →
+          <button type="button" className="primary-action" onClick={handleBegin} disabled={!moduleId}>
+            Start Session →
           </button>
         </div>
       </div>

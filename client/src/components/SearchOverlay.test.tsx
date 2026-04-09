@@ -14,8 +14,18 @@ vi.mock('../hooks/useCurriculum', () => ({
           track: 'dsa-leetcode',
           status: 'available',
         },
+        {
+          id: 'ml-trees',
+          title: 'Trees for Machine Learning',
+          summary: 'feature trees',
+          track: 'machine-learning',
+          status: 'available',
+        },
       ],
-      tracks: [],
+      tracks: [
+        { id: 'dsa-leetcode', label: 'DSA / LeetCode' },
+        { id: 'machine-learning', label: 'Machine Learning' },
+      ],
     },
     loading: false,
     error: null,
@@ -32,6 +42,17 @@ describe('SearchOverlay', () => {
     render(<MemoryRouter><SearchOverlay onClose={vi.fn()} /></MemoryRouter>);
     fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'Trees' } });
     expect(screen.getByText('Trees & BSTs')).toBeInTheDocument();
+  });
+
+  test('filters results by selected track', () => {
+    render(<MemoryRouter><SearchOverlay onClose={vi.fn()} /></MemoryRouter>);
+
+    expect(screen.getByRole('button', { name: 'All Tracks' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Machine Learning' }));
+    fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'Trees' } });
+
+    expect(screen.queryByText('Trees & BSTs')).not.toBeInTheDocument();
+    expect(screen.getByText('Trees for Machine Learning')).toBeInTheDocument();
   });
 
   test('calls onClose on Escape key', () => {
