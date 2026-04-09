@@ -98,6 +98,15 @@ const SCHEMA_DDL = `
     score_percentage INTEGER DEFAULT 0,
     created_at       TEXT DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS module_guide_progress (
+    id          INTEGER PRIMARY KEY,
+    user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    module_id   TEXT NOT NULL,
+    max_step    INTEGER NOT NULL DEFAULT 0,
+    updated_at  TEXT DEFAULT (datetime('now')),
+    UNIQUE(user_id, module_id)
+  );
 `;
 
 export function applySchema(db: Database.Database): void {

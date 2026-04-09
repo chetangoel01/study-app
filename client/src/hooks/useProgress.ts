@@ -1,10 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { api } from '../api/client.js';
 import type { ItemType } from '../types.js';
+import { useCurriculum } from '../context/CurriculumContext.js';
 
 interface ProgressRow { module_id: string; item_id: string; completed: boolean; }
 
 export function useProgress() {
+  const { refetch: refetchCurriculum } = useCurriculum();
   const [progress, setProgress] = useState<Map<string, boolean>>(new Map());
   const [pendingKeys, setPendingKeys] = useState<Set<string>>(new Set());
   const [error, setError] = useState('');
@@ -38,6 +40,7 @@ export function useProgress() {
     try {
       await api.put(`/api/progress/${moduleId}/${itemId}?itemType=${itemType}`);
       setStatusMessage(`${next ? 'Completed' : 'Reopened'}: ${label}.`);
+      void refetchCurriculum();
     } catch {
       setProgress((prev) => new Map(prev).set(key, current));
       setError(`Unable to update "${label}" right now.`);
@@ -49,7 +52,7 @@ export function useProgress() {
         return nextPending;
       });
     }
-  }, [progress]);
+  }, [progress, refetchCurriculum]);
 
   const isCompleted = useCallback(
     (moduleId: string, itemId: string) => progress.get(`${moduleId}:${itemId}`) ?? false,

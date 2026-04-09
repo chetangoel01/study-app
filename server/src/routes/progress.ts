@@ -7,6 +7,33 @@ export function makeProgressRouter(db: Database.Database, index: CurriculumIndex
   const router = new Hono();
   router.use('*', requireAuth);
 
+  router.put('/:moduleId/guide-step', async (c) => {
+    const userId = c.get('user').id;
+    const { moduleId } = c.req.param();
+    const module = index.moduleById.get(moduleId);
+    if (!module) return c.json({ error: 'Module not found' }, 404);
+
+    const topicCount = (index.topicsByModule.get(moduleId) ?? []).length;
+    if (topicCount === 0) return c.json({ error: 'This module has no guided sections' }, 400);
+
+    const body = await c.req.json().catch(() => ({})) as { step?: unknown };
+    const step = typeof body.step === 'number' ? body.step : NaN;
+    const maxValid = topicCount;
+    if (!Number.isInteger(step) || step < 0 || step > maxValid) {
+      return c.json({ error: 'Invalid step' }, 400);
+    }
+
+    db.prepare(
+      `INSERT INTO module_guide_progress (user_id, module_id, max_step, updated_at)
+       VALUES (?, ?, ?, datetime('now'))
+       ON CONFLICT(user_id, module_id) DO UPDATE SET
+         max_step = MAX(module_guide_progress.max_step, excluded.max_step),
+         updated_at = datetime('now')`
+    ).run(userId, moduleId, step);
+
+    return c.json({ moduleId, step });
+  });
+
   router.get('/', (c) => {
     const rows = db
       .prepare('SELECT module_id, item_id, item_type, completed, updated_at FROM progress WHERE user_id = ?')

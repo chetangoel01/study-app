@@ -89,6 +89,7 @@ export function ModulePage() {
     data: curriculum,
     loading: curriculumLoading,
     error: curriculumError,
+    refetch: refetchCurriculum,
   } = useCurriculum();
   const {
     data: moduleContent,
@@ -277,6 +278,21 @@ export function ModulePage() {
   }, [moduleId]);
 
   useEffect(() => {
+    const topicCount = moduleContent?.topics?.length ?? 0;
+    if (!moduleId || topicCount === 0) return;
+    if (currentTopicIndex < 0 || currentTopicIndex > topicCount) return;
+    const timer = setTimeout(() => {
+      void api
+        .put(`/api/progress/${moduleId}/guide-step`, { step: currentTopicIndex })
+        .then(() => {
+          void refetchCurriculum();
+        })
+        .catch(() => {});
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [moduleId, moduleContent?.topics, currentTopicIndex, refetchCurriculum]);
+
+  useEffect(() => {
     if (!module) {
       prevCompletionPctRef.current = null;
       completionTriggeredByUserRef.current = false;
@@ -326,24 +342,96 @@ export function ModulePage() {
   const totalSteps = topics.length + 1; // topics + practice
   const isPracticeStep = currentTopicIndex >= topics.length;
   const isFirstStep = currentTopicIndex === 0;
-  const isLastStep = currentTopicIndex >= totalSteps - 1;
-  const firstTopic = topics[0] ?? null;
-  const firstResource = readItems.find((item) => item.url) ?? null;
-  const launchpadTitle = firstTopic
-    ? `Begin with ${firstTopic.label}`
-    : firstResource
-      ? `Open ${firstResource.label}`
-      : 'Start with the practice checklist';
-  const launchpadDescription = firstTopic
-    ? 'Read the first section to get oriented, move through the guide in order, then finish in practice to turn the concept into reps.'
-    : firstResource
-      ? 'This module does not have a generated guide yet, so start with the source material and then work through the practice checklist below.'
-      : 'This module starts directly in practice. Work the checklist below and capture your takeaways in notes as you go.';
-
   const goToStep = (index: number) => {
     setCurrentTopicIndex(index);
     guideTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
+
+  const renderTopicForwardAction = () => (
+    <button
+      type="button"
+      className="mp-reader-btn mp-reader-next mp-reader-header-action"
+      onClick={() => goToStep(currentTopicIndex + 1)}
+    >
+      {currentTopicIndex === topics.length - 1 ? 'Continue to practice' : 'Next session'}
+      <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+    </button>
+  );
+
+  const renderPracticeForwardAction = () =>
+    nextModule ? (
+      <Link
+        to={`/track/${track.id}/module/${nextModule.id}`}
+        className="mp-reader-btn mp-reader-next mp-reader-finish mp-reader-header-action"
+      >
+        Next module
+        <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+      </Link>
+    ) : (
+      <Link
+        to={`/track/${track.id}`}
+        className="mp-reader-btn mp-reader-next mp-reader-finish mp-reader-header-action"
+      >
+        Back to track
+        <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+      </Link>
+    );
+
+  const renderTopicReaderNavBottom = () => (
+    <div className="mp-reader-nav">
+      <button
+        type="button"
+        className="mp-reader-btn mp-reader-prev"
+        onClick={() => goToStep(currentTopicIndex - 1)}
+        disabled={isFirstStep}
+      >
+        <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+        Previous
+      </button>
+      <span className="mp-reader-progress">
+        {currentTopicIndex + 1} / {totalSteps}
+      </span>
+      <button
+        type="button"
+        className="mp-reader-btn mp-reader-next"
+        onClick={() => goToStep(currentTopicIndex + 1)}
+      >
+        {currentTopicIndex === topics.length - 1 ? 'Continue to practice' : 'Next session'}
+        <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+      </button>
+    </div>
+  );
+
+  const renderPracticeReaderNavBottom = () => (
+    <div className="mp-reader-nav">
+      <button
+        type="button"
+        className="mp-reader-btn mp-reader-prev"
+        onClick={() => goToStep(currentTopicIndex - 1)}
+        disabled={isFirstStep}
+      >
+        <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+        Previous
+      </button>
+      <span className="mp-reader-progress">
+        {totalSteps} / {totalSteps}
+      </span>
+      {nextModule ? (
+        <Link
+          to={`/track/${track.id}/module/${nextModule.id}`}
+          className="mp-reader-btn mp-reader-next mp-reader-finish"
+        >
+          Next module
+          <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </Link>
+      ) : (
+        <Link to={`/track/${track.id}`} className="mp-reader-btn mp-reader-next mp-reader-finish">
+          Back to track
+          <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </Link>
+      )}
+    </div>
+  );
 
   const handleBold = () => wrapSelection(textareaRef, '**', '**', setNotesAndSave, triggerSave);
   const handleItalic = () => wrapSelection(textareaRef, '*', '*', setNotesAndSave, triggerSave);
@@ -354,37 +442,30 @@ export function ModulePage() {
     ...topics.map((topic) => ({ id: topic.id, label: topic.label })),
     { id: '__practice__', label: 'Practice' },
   ];
-  const moduleGuideSummary = topics.length > 0 ? `${topics.length} sections` : 'Resources only';
-  const practiceSummary = actionItems.length > 0 ? `${actionItems.length} checkpoints` : 'No checklist yet';
+
+  const sidebarLayoutClass =
+    topics.length > 0
+      ? sidebarOpen
+        ? ' mp-layout--sidebar-expanded'
+        : ' mp-layout--sidebar-collapsed'
+      : '';
 
   return (
-    <div className={`mp-main${sidebarOpen ? ' mp-sidebar-open' : ''}`}>
+    <div className={`mp-main${sidebarLayoutClass}`}>
       {/* --- Header --- */}
       <header className="mp-header">
         <nav className="mp-nav" aria-label="Breadcrumb">
           <Link to="/curriculum">Curriculum</Link>
           <span className="material-symbols-outlined mp-nav-chevron" aria-hidden="true">chevron_right</span>
+          <Link to={`/track/${trackId}`}>{track.label}</Link>
+          <span className="material-symbols-outlined mp-nav-chevron" aria-hidden="true">chevron_right</span>
           <span className="mp-nav-current">{module.title}</span>
         </nav>
         <div className="mp-header-main">
           <div className="mp-header-copy">
-            <p className="mp-eyebrow">{track.label} · {module.phase}</p>
+            <p className="mp-eyebrow">{module.phase}</p>
             <h1 className="mp-title">{module.title}</h1>
             <p className="mp-description">{module.summary}</p>
-          </div>
-          <div className="mp-header-stats" aria-label="Module snapshot">
-            <div className="mp-header-stat">
-              <span className="mp-header-stat-value">{module.estimate}</span>
-              <span className="mp-header-stat-label">Estimated pace</span>
-            </div>
-            <div className="mp-header-stat">
-              <span className="mp-header-stat-value">{moduleGuideSummary}</span>
-              <span className="mp-header-stat-label">Guide flow</span>
-            </div>
-            <div className="mp-header-stat">
-              <span className="mp-header-stat-value">{practiceSummary}</span>
-              <span className="mp-header-stat-label">Practice</span>
-            </div>
           </div>
         </div>
       </header>
@@ -400,85 +481,13 @@ export function ModulePage() {
         {progressStatusMessage}
       </p>
 
-      <section className="mp-launchpad" aria-labelledby="mp-launchpad-title">
-        <div className="mp-launchpad-main">
-          <div className="mp-launchpad-copy">
-            <p className="mp-launchpad-eyebrow">{completionPct > 0 ? 'Next best step' : 'Start here'}</p>
-            <h2 id="mp-launchpad-title" className="mp-launchpad-title">{launchpadTitle}</h2>
-            <p className="mp-launchpad-description">{launchpadDescription}</p>
-          </div>
-          <div className="mp-launchpad-actions">
-            {firstTopic ? (
-              <button type="button" className="mp-launchpad-primary" onClick={() => goToStep(0)}>
-                Start section 1
-                <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-              </button>
-            ) : firstResource?.url ? (
-              <button type="button" className="mp-launchpad-primary" onClick={() => setPendingUrl(firstResource.url)}>
-                Open first resource
-                <span className="material-symbols-outlined" aria-hidden="true">open_in_new</span>
-              </button>
-            ) : (
-              <button type="button" className="mp-launchpad-primary" onClick={() => goToStep(topics.length)}>
-                Open practice checklist
-                <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-              </button>
-            )}
-
-            {actionItems.length > 0 ? (
-              <button type="button" className="mp-launchpad-secondary" onClick={() => goToStep(topics.length)}>
-                Jump to practice
-              </button>
-            ) : (
-              <Link to={`/track/${track.id}`} className="mp-launchpad-secondary">
-                Back to track roadmap
-              </Link>
-            )}
-          </div>
-        </div>
-
-        <div className="mp-launchpad-steps" aria-label="How to work this module">
-          <article className="mp-launchpad-step">
-            <span className="mp-launchpad-step-number">1</span>
-            <div>
-              <h3 className="mp-launchpad-step-title">Get oriented</h3>
-              <p className="mp-launchpad-step-copy">
-                {firstTopic
-                  ? `Start with "${firstTopic.label}" and work the sections from left to right.`
-                  : firstResource
-                    ? 'Open the first source link to ground yourself before you start checking items off.'
-                    : 'Open the checklist and use it as your starting brief.'}
-              </p>
-            </div>
-          </article>
-          <article className="mp-launchpad-step">
-            <span className="mp-launchpad-step-number">2</span>
-            <div>
-              <h3 className="mp-launchpad-step-title">Turn it into reps</h3>
-              <p className="mp-launchpad-step-copy">
-                Use the practice step to translate the concept into concrete checkpoints instead of passive reading.
-              </p>
-            </div>
-          </article>
-          <article className="mp-launchpad-step">
-            <span className="mp-launchpad-step-number">3</span>
-            <div>
-              <h3 className="mp-launchpad-step-title">Capture what sticks</h3>
-              <p className="mp-launchpad-step-copy">
-                Keep mistakes, patterns, and interview-ready phrasing in your notes so the next pass is faster.
-              </p>
-            </div>
-          </article>
-        </div>
-      </section>
-
       {/* --- Layout: sidebar + content --- */}
       <div className="mp-layout">
         {/* Sidebar navigation */}
         {topics.length > 0 && (
           <nav className={`mp-sidebar${sidebarOpen ? '' : ' mp-sidebar-collapsed'}`} aria-label="Section navigation">
             <div className="mp-sidebar-header">
-              <span className="mp-sidebar-heading">Sections</span>
+              {sidebarOpen && <span className="mp-sidebar-heading">Sections</span>}
               <button
                 type="button"
                 className="mp-sidebar-toggle"
@@ -514,19 +523,6 @@ export function ModulePage() {
           </nav>
         )}
 
-        {/* Collapsed toggle (when sidebar is hidden) */}
-        {topics.length > 0 && !sidebarOpen && (
-          <button
-            type="button"
-            className="mp-sidebar-fab"
-            onClick={() => setSidebarOpen(true)}
-            aria-label="Open sidebar"
-            title="Open sidebar"
-          >
-            <span className="material-symbols-outlined" aria-hidden="true">left_panel_open</span>
-          </button>
-        )}
-
         {/* Main content column */}
         <div className="mp-content">
 
@@ -542,35 +538,16 @@ export function ModulePage() {
           </div>
         ) : topics.length > 0 ? (
           <>
-            {/* Step indicator */}
-            <div className="mp-stepper" role="tablist" aria-label="Guide sections">
-              {stepEntries.map((entry, idx) => (
-                <button
-                  key={entry.id}
-                  type="button"
-                  className={`mp-step${idx === currentTopicIndex ? ' mp-step-active' : ''}${idx < currentTopicIndex ? ' mp-step-done' : ''}`}
-                  role="tab"
-                  aria-selected={idx === currentTopicIndex}
-                  onClick={() => goToStep(idx)}
-                  title={entry.label}
-                >
-                  <span className="mp-step-number">
-                    {idx < topics.length ? idx + 1 : (
-                      <span className="material-symbols-outlined" style={{ fontSize: 14 }} aria-hidden="true">fitness_center</span>
-                    )}
-                  </span>
-                  <span className="mp-step-label">{entry.label}</span>
-                </button>
-              ))}
-            </div>
-
             {/* Current step content */}
             {isPracticeStep ? (
               /* ── Practice step ── */
               <div className="mp-reader">
-                <div className="mp-reader-header">
-                  <span className="mp-reader-kicker">Step {totalSteps} of {totalSteps}</span>
-                  <h2 className="mp-reader-title">Practice</h2>
+                <div className="mp-reader-header mp-reader-header--split">
+                  <div className="mp-reader-header-text">
+                    <span className="mp-reader-kicker">Step {totalSteps} of {totalSteps}</span>
+                    <h2 className="mp-reader-title">Practice</h2>
+                  </div>
+                  <div className="mp-reader-header-actions">{renderPracticeForwardAction()}</div>
                 </div>
                 <div className="mp-reader-body">
                   {/* Deep Dive Resources */}
@@ -638,68 +615,22 @@ export function ModulePage() {
                   </div>
                 </div>
 
-                {/* CTA + nav */}
-                <div className="mp-reader-nav">
-                  <button
-                    type="button"
-                    className="mp-reader-btn mp-reader-prev"
-                    onClick={() => goToStep(currentTopicIndex - 1)}
-                    disabled={isFirstStep}
-                  >
-                    <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
-                    Previous
-                  </button>
-                  <span className="mp-reader-progress">
-                    {totalSteps} / {totalSteps}
-                  </span>
-                  {nextModule ? (
-                    <Link
-                      to={`/track/${track.id}/module/${nextModule.id}`}
-                      className="mp-reader-btn mp-reader-next mp-reader-finish"
-                    >
-                      Next module
-                      <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-                    </Link>
-                  ) : (
-                    <Link to={`/track/${track.id}`} className="mp-reader-btn mp-reader-next mp-reader-finish">
-                      Back to track
-                      <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-                    </Link>
-                  )}
-                </div>
+                {renderPracticeReaderNavBottom()}
               </div>
             ) : currentTopic ? (
               /* ── Topic step ── */
               <div className="mp-reader">
-                <div className="mp-reader-header">
-                  <span className="mp-reader-kicker">Section {currentTopicIndex + 1} of {totalSteps}</span>
-                  <h2 className="mp-reader-title">{currentTopic.label}</h2>
+                <div className="mp-reader-header mp-reader-header--split">
+                  <div className="mp-reader-header-text">
+                    <span className="mp-reader-kicker">Section {currentTopicIndex + 1} of {totalSteps}</span>
+                    <h2 className="mp-reader-title">{currentTopic.label}</h2>
+                  </div>
+                  <div className="mp-reader-header-actions">{renderTopicForwardAction()}</div>
                 </div>
                 <div className="mp-reader-body">
                   <MarkdownRenderer content={currentTopic.study_guide_markdown} />
                 </div>
-                <div className="mp-reader-nav">
-                  <button
-                    type="button"
-                    className="mp-reader-btn mp-reader-prev"
-                    onClick={() => goToStep(currentTopicIndex - 1)}
-                    disabled={isFirstStep}
-                  >
-                    <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
-                    Previous
-                  </button>
-                  <span className="mp-reader-progress">
-                    {currentTopicIndex + 1} / {totalSteps}
-                  </span>
-                  <button
-                    type="button"
-                    className="mp-reader-btn mp-reader-next"
-                    onClick={() => goToStep(currentTopicIndex + 1)}
-                  >
-                    {currentTopicIndex === topics.length - 1 ? 'Continue to practice' : 'Next section'}
-                    <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-                  </button>
-                </div>
+                {renderTopicReaderNavBottom()}
               </div>
             ) : null}
           </>

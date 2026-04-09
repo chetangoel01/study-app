@@ -7,6 +7,7 @@ import type { UserPreferences } from '../hooks/useUserSettings.js';
 import { applyDashboardDensity, getStoredDashboardDensity } from '../lib/dashboardDensity.js';
 import { Layout } from './Layout.js';
 import { SessionBanner } from './SessionBanner.js';
+import { CurriculumProvider } from '../hooks/useCurriculum.js';
 
 const THEME_STORAGE_KEY = 'me-theme';
 
@@ -102,7 +103,9 @@ export function ProtectedRoute() {
       <ThemeBootstrap />
       <DensityBootstrap />
       <SessionBanner />
-      <Outlet context={{ user } satisfies AppOutletContext} />
+      <CurriculumProvider>
+        <Outlet context={{ user } satisfies AppOutletContext} />
+      </CurriculumProvider>
     </Layout>
   );
 }

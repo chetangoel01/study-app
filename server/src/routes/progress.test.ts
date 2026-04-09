@@ -6,20 +6,37 @@ import { makeAuthRouter } from './auth.js';
 import { makeProgressRouter } from './progress.js';
 import type { CurriculumIndex } from '../curriculum/types.js';
 
+const bigOModule = {
+  id: 'big-o',
+  title: 'Big-O',
+  track: 'dsa-leetcode' as const,
+  phase: 'Core Track',
+  summary: '',
+  estimate: '',
+  sessions: 0,
+  countsTowardSchedule: true,
+  sourceUrl: '',
+  prerequisiteModuleIds: [] as string[],
+  items: [{ id: 'big-o:read:0', type: 'read' as const, label: 'Read X', url: 'https://x.com' }],
+};
+
+const plainModule = {
+  ...bigOModule,
+  id: 'plain',
+  items: [{ id: 'plain:read:0', type: 'read' as const, label: 'Read', url: 'https://x.com' }],
+};
+
 const mockIndex: CurriculumIndex = {
   tracks: [],
-  modules: [{
-    id: 'big-o', title: 'Big-O', track: 'dsa-leetcode', phase: 'Core Track',
-    summary: '', estimate: '', sessions: 0, countsTowardSchedule: true, sourceUrl: '',
-    prerequisiteModuleIds: [],
-    items: [{ id: 'big-o:read:0', type: 'read', label: 'Read X', url: 'https://x.com' }],
-  }],
-  moduleById: new Map([['big-o', { id: 'big-o', title: 'Big-O', track: 'dsa-leetcode', phase: 'Core Track',
-    summary: '', estimate: '', sessions: 0, countsTowardSchedule: true, sourceUrl: '',
-    prerequisiteModuleIds: [],
-    items: [{ id: 'big-o:read:0', type: 'read', label: 'Read X', url: 'https://x.com' }] }]]),
+  modules: [bigOModule, plainModule],
+  moduleById: new Map([
+    ['big-o', bigOModule],
+    ['plain', plainModule],
+  ]),
   modulesByTrack: new Map(),
-  topicsByModule: new Map(),
+  topicsByModule: new Map([
+    ['big-o', [{ id: 't1', planning_topic_id: 'p1', label: 'Topic', module_ids: ['big-o'] }]],
+  ]),
   allTopics: [],
 };
 
@@ -58,4 +75,31 @@ it('PUT marks item complete, second call toggles back', async () => {
   expect((await first.json()).completed).toBe(true);
   const second = await app.request(url, { method: 'PUT', headers: { Cookie: cookie } });
   expect((await second.json()).completed).toBe(false);
+});
+
+it('PUT guide-step records furthest section index', async () => {
+  const res = await app.request('/api/progress/big-o/guide-step', {
+    method: 'PUT',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ step: 0 }),
+  });
+  expect(res.status).toBe(200);
+});
+
+it('PUT guide-step rejects out-of-range step', async () => {
+  const res = await app.request('/api/progress/big-o/guide-step', {
+    method: 'PUT',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ step: 99 }),
+  });
+  expect(res.status).toBe(400);
+});
+
+it('PUT guide-step returns 400 when module has no guide topics', async () => {
+  const res = await app.request('/api/progress/plain/guide-step', {
+    method: 'PUT',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ step: 0 }),
+  });
+  expect(res.status).toBe(400);
 });

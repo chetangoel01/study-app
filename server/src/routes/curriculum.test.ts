@@ -8,6 +8,7 @@ import { applySchema } from '../db/schema.js';
 import { loadCurriculum } from '../curriculum/loader.js';
 import { makeAuthRouter } from './auth.js';
 import { makeCurriculumRouter } from './curriculum.js';
+import { makeProgressRouter } from './progress.js';
 
 const dir = resolve(tmpdir(), 'study-curriculum-route-test');
 mkdirSync(dir, { recursive: true });
@@ -57,6 +58,7 @@ beforeEach(async () => {
   app = new Hono();
   app.route('/api/auth', makeAuthRouter(db));
   app.route('/api', makeCurriculumRouter(db, curriculumIndex));
+  app.route('/api/progress', makeProgressRouter(db, curriculumIndex));
 
   await app.request('/api/auth/signup', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -83,6 +85,20 @@ describe('GET /api/curriculum', () => {
     expect(body.tracks).toHaveLength(1);
     expect(body.modules[0].status).toBe('available');
     expect(body.modules[0]).not.toHaveProperty('study_guide_markdown');
+  });
+
+  it('marks module in-progress after guide step 0 is saved (max_step can be zero)', async () => {
+    const put = await app.request('/api/progress/big-o/guide-step', {
+      method: 'PUT',
+      headers: { Cookie: accessCookie, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ step: 0 }),
+    });
+    expect(put.status).toBe(200);
+
+    const res = await app.request('/api/curriculum', { headers: { Cookie: accessCookie } });
+    expect(res.status).toBe(200);
+    const body = await res.json() as { modules: { id: string; status: string }[] };
+    expect(body.modules[0].status).toBe('in-progress');
   });
 });
 
@@ -119,7 +135,17 @@ describe('sequential locking', () => {
   };
 
   writeFileSync(resolve(seqDir, 'curriculum.json'), JSON.stringify(SEQ_CURRICULUM));
-  writeFileSync(resolve(seqDir, 'kb.json'), JSON.stringify({ version: '3', planning_topics: [] }));
+  writeFileSync(resolve(seqDir, 'kb.json'), JSON.stringify({
+    version: '3',
+    planning_topics: [{
+      id: 'mod-a-guide',
+      planning_topic_id: 'mod-a-plan',
+      label: 'Section A',
+      module_ids: ['mod-a'],
+      study_guide_markdown: '## A',
+    }],
+    topics: [],
+  }));
 
   const seqIndex = loadCurriculum({
     curriculumPath: resolve(seqDir, 'curriculum.json'),
@@ -136,6 +162,7 @@ describe('sequential locking', () => {
     app3 = new Hono();
     app3.route('/api/auth', makeAuthRouter(db3));
     app3.route('/api', makeCurriculumRouter(db3, seqIndex));
+    app3.route('/api/progress', makeProgressRouter(db3, seqIndex));
 
     await app3.request('/api/auth/signup', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -168,6 +195,20 @@ describe('sequential locking', () => {
     const { id: userId } = db3.prepare('SELECT id FROM users WHERE email = ?').get('seq@x.com') as { id: number };
     db3.prepare('INSERT INTO progress (user_id, module_id, item_id, item_type, completed) VALUES (?, ?, ?, ?, 1)')
       .run(userId, 'mod-a', 'mod-a:read:0', 'read');
+
+    const res = await app3.request('/api/curriculum', { headers: { Cookie: cookie3 } });
+    const body = await res.json() as { modules: { id: string; blockedBy: string[] }[] };
+    const modB = body.modules.find((m) => m.id === 'mod-b')!;
+    expect(modB.blockedBy).toEqual([]);
+  });
+
+  it('module unlocks when predecessor reaches practice via guide progress (without all items checked)', async () => {
+    const put = await app3.request('/api/progress/mod-a/guide-step', {
+      method: 'PUT',
+      headers: { Cookie: cookie3, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ step: 1 }),
+    });
+    expect(put.status).toBe(200);
 
     const res = await app3.request('/api/curriculum', { headers: { Cookie: cookie3 } });
     const body = await res.json() as { modules: { id: string; blockedBy: string[] }[] };

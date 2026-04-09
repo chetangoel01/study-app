@@ -19,6 +19,7 @@ describe('applySchema', () => {
     expect(names).toContain('sessions');
     expect(names).toContain('progress');
     expect(names).toContain('notes');
+    expect(names).toContain('module_guide_progress');
   });
 
   it('is idempotent — applying schema twice does not throw', () => {

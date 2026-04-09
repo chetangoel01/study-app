@@ -9,11 +9,19 @@ function computeStatus(
   moduleId: string,
   completedByModule: Map<string, Set<string>>,
   totalByModule: Map<string, number>,
+  topicCount: number,
+  maxGuideStep: number,
+  hasGuideRow: boolean,
 ): Status {
   const completed = completedByModule.get(moduleId) ?? new Set();
   const total = totalByModule.get(moduleId) ?? 0;
-  if (total > 0 && completed.size === total) return 'done';
-  if (completed.size > 0) return 'in-progress';
+  const guideFlowComplete = topicCount > 0 && maxGuideStep >= topicCount;
+  const allItemsDone = total > 0 && completed.size === total;
+
+  if (allItemsDone || guideFlowComplete) return 'done';
+  // max_step can be 0 for the first section; a row in module_guide_progress still means started.
+  const guideStarted = topicCount > 0 && hasGuideRow;
+  if (completed.size > 0 || guideStarted) return 'in-progress';
   return 'available';
 }
 
@@ -39,6 +47,16 @@ export function makeCurriculumRouter(db: Database.Database, index: CurriculumInd
 
     const totalByModule = new Map(index.modules.map((m) => [m.id, m.items.length]));
 
+    const guideRows = db
+      .prepare('SELECT module_id, max_step FROM module_guide_progress WHERE user_id = ?')
+      .all(userId) as { module_id: string; max_step: number }[];
+    const maxGuideStepByModule = new Map<string, number>();
+    const hasGuideProgressRow = new Set<string>();
+    for (const row of guideRows) {
+      maxGuideStepByModule.set(row.module_id, row.max_step);
+      hasGuideProgressRow.add(row.module_id);
+    }
+
     // Build sequential blocker map: for each substantive module (items > 0),
     // its blocker is the nearest previous substantive module in the same track.
     // Zero-item modules are skipped both as blockers and as blockees.
@@ -57,11 +75,24 @@ export function makeCurriculumRouter(db: Database.Database, index: CurriculumInd
     const isDone = (moduleId: string): boolean => {
       const completed = (completedByModule.get(moduleId) ?? new Set()).size;
       const total = totalByModule.get(moduleId) ?? 0;
+      const topicCount = (index.topicsByModule.get(moduleId) ?? []).length;
+      const maxGuideStep = maxGuideStepByModule.get(moduleId) ?? 0;
+      const guideFlowComplete = topicCount > 0 && maxGuideStep >= topicCount;
+      if (guideFlowComplete) return true;
       return total > 0 && completed >= total;
     };
 
     const modules = index.modules.map((m) => {
-      const status = computeStatus(m.id, completedByModule, totalByModule);
+      const topicCount = (index.topicsByModule.get(m.id) ?? []).length;
+      const maxGuideStep = maxGuideStepByModule.get(m.id) ?? 0;
+      const status = computeStatus(
+        m.id,
+        completedByModule,
+        totalByModule,
+        topicCount,
+        maxGuideStep,
+        hasGuideProgressRow.has(m.id),
+      );
       const blockerId = sequentialBlocker.get(m.id);
       const blockedBy = blockerId && !isDone(blockerId) ? [blockerId] : [];
       return {

@@ -15,7 +15,7 @@ vi.mock('../api/client.js', () => ({
 vi.mock('../hooks/useCurriculum', () => ({
   useCurriculum: () => {
     if (scenario.current === 'loading') {
-      return { data: null, loading: true, error: '' };
+      return { data: null, loading: true, error: '', refetch: vi.fn() };
     }
 
     return {
@@ -47,6 +47,7 @@ vi.mock('../hooks/useCurriculum', () => ({
       },
       loading: false,
       error: '',
+      refetch: vi.fn(),
     };
   },
   useModuleContent: () => {
@@ -106,7 +107,7 @@ describe('ModulePage', () => {
     expect(await screen.findByRole('heading', { name: 'Big-O and asymptotic analysis' })).toBeInTheDocument();
   });
 
-  test('shows a clear start path for a fresh module', async () => {
+  test('renders section sidebar without the removed launchpad block', async () => {
     scenario.current = 'available';
 
     render(
@@ -117,8 +118,8 @@ describe('ModulePage', () => {
       </MemoryRouter>
     );
 
-    expect(await screen.findByRole('heading', { name: 'Begin with Complexity intuition' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Start section 1' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Jump to practice' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Big-O and asymptotic analysis' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Begin with Complexity intuition' })).not.toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'Section navigation' })).toBeInTheDocument();
   });
 });

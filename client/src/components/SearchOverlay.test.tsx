@@ -28,7 +28,8 @@ vi.mock('../hooks/useCurriculum', () => ({
       ],
     },
     loading: false,
-    error: null,
+    error: '',
+    refetch: vi.fn(),
   }),
 }));
 

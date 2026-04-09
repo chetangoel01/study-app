@@ -75,6 +75,10 @@ describe('ProtectedRoute theme bootstrap', () => {
         return preferencesPromise as never;
       }
 
+      if (path === '/api/curriculum') {
+        return Promise.resolve({ tracks: [], modules: [] }) as never;
+      }
+
       throw new Error(`Unexpected path: ${path}`);
     });
 

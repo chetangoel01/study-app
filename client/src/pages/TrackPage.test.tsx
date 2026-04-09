@@ -19,7 +19,7 @@ function renderTrackPage() {
   );
 }
 
-describe('TrackPage refresher CTAs', () => {
+describe('TrackPage', () => {
   test('shows a clear start CTA for available modules', () => {
     useCurriculumMock.mockReturnValue({
       data: {
@@ -38,6 +38,7 @@ describe('TrackPage refresher CTAs', () => {
       },
       loading: false,
       error: '',
+      refetch: vi.fn(),
     });
 
     renderTrackPage();
@@ -45,42 +46,7 @@ describe('TrackPage refresher CTAs', () => {
     expect(screen.getByText('Start module')).toBeInTheDocument();
   });
 
-  test('links Review Past Modules to the most recently completed module by timestamp', () => {
-    useCurriculumMock.mockReturnValue({
-      data: {
-        tracks: [{ id: 'dsa-leetcode', label: 'DSA & LeetCode' }],
-        modules: [
-          {
-            id: 'arrays',
-            title: 'Arrays',
-            summary: 'arrays',
-            track: 'dsa-leetcode',
-            status: 'done',
-            latest_progress_updated_at: '2026-04-08T10:00:00.000Z',
-          },
-          {
-            id: 'trees',
-            title: 'Trees',
-            summary: 'trees',
-            track: 'dsa-leetcode',
-            status: 'done',
-            latest_progress_updated_at: '2026-04-07T10:00:00.000Z',
-          },
-        ],
-      },
-      loading: false,
-      error: '',
-    });
-
-    renderTrackPage();
-
-    expect(screen.getByRole('link', { name: 'Review past modules' }))
-      .toHaveAttribute('href', '/track/dsa-leetcode/module/arrays');
-    expect(screen.getByRole('link', { name: 'View statistics' }))
-      .toHaveAttribute('href', '/');
-  });
-
-  test('falls back to the last completed module in track order when timestamps are missing', () => {
+  test('does not render the removed refresher footer', () => {
     useCurriculumMock.mockReturnValue({
       data: {
         tracks: [{ id: 'dsa-leetcode', label: 'DSA & LeetCode' }],
@@ -93,56 +59,17 @@ describe('TrackPage refresher CTAs', () => {
             status: 'done',
             latest_progress_updated_at: null,
           },
-          {
-            id: 'trees',
-            title: 'Trees',
-            summary: 'trees',
-            track: 'dsa-leetcode',
-            status: 'done',
-            latest_progress_updated_at: null,
-          },
-          {
-            id: 'graphs',
-            title: 'Graphs',
-            summary: 'graphs',
-            track: 'dsa-leetcode',
-            status: 'available',
-            latest_progress_updated_at: null,
-          },
         ],
       },
       loading: false,
       error: '',
+      refetch: vi.fn(),
     });
 
     renderTrackPage();
 
-    expect(screen.getByRole('link', { name: 'Review past modules' }))
-      .toHaveAttribute('href', '/track/dsa-leetcode/module/trees');
-  });
-
-  test('hides Review Past Modules when no modules are completed', () => {
-    useCurriculumMock.mockReturnValue({
-      data: {
-        tracks: [{ id: 'dsa-leetcode', label: 'DSA & LeetCode' }],
-        modules: [
-          {
-            id: 'arrays',
-            title: 'Arrays',
-            summary: 'arrays',
-            track: 'dsa-leetcode',
-            status: 'available',
-            latest_progress_updated_at: null,
-          },
-        ],
-      },
-      loading: false,
-      error: '',
-    });
-
-    renderTrackPage();
-
+    expect(screen.queryByRole('heading', { name: 'Need a refresher?' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Review past modules' })).not.toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'View statistics' })).toHaveAttribute('href', '/');
+    expect(screen.queryByRole('link', { name: 'View statistics' })).not.toBeInTheDocument();
   });
 });
