@@ -31,4 +31,26 @@ describe('Layout', () => {
     expect(screen.getByRole('link', { name: 'Community' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Help' })).not.toBeInTheDocument();
   });
+
+  test('shows collapsed pomodoro left of search and account actions', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Layout user={{ id: 1, email: 'focus@example.com' }}>
+          <div />
+        </Layout>
+      </MemoryRouter>
+    );
+
+    const searchButton = screen.getByRole('button', { name: 'Search' });
+    const collapsedPomodoro = screen.getByRole('button', { name: /open pomodoro timer/i });
+    expect(searchButton).toBeInTheDocument();
+    expect(collapsedPomodoro).toBeInTheDocument();
+    expect(screen.queryByRole('group', { name: 'Pomodoro timer' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Account menu' })).toBeInTheDocument();
+
+    const topbarActions = container.querySelector('.topbar-actions');
+    expect(topbarActions).not.toBeNull();
+    expect(topbarActions?.firstElementChild).toHaveClass('pomodoro-slot');
+    expect(topbarActions?.children[1]).toBe(searchButton);
+  });
 });

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import type { AuthUser } from '../types.js';
 import { AccountMenu } from './AccountMenu.js';
+import { PomodoroControl } from './PomodoroControl.js';
 import { SearchOverlay } from './SearchOverlay.js';
 
 export function Layout({ user, children }: { user: AuthUser; children: React.ReactNode }) {
@@ -57,6 +58,9 @@ export function Layout({ user, children }: { user: AuthUser; children: React.Rea
           </div>
 
           <div className="topbar-actions">
+            <div className="pomodoro-slot">
+              <PomodoroControl />
+            </div>
             <button
               type="button"
               className="topbar-icon-btn"
