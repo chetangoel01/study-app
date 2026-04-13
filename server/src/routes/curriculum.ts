@@ -48,13 +48,18 @@ export function makeCurriculumRouter(db: Database.Database, index: CurriculumInd
     const totalByModule = new Map(index.modules.map((m) => [m.id, m.items.length]));
 
     const guideRows = db
-      .prepare('SELECT module_id, max_step FROM module_guide_progress WHERE user_id = ?')
-      .all(userId) as { module_id: string; max_step: number }[];
+      .prepare('SELECT module_id, max_step, updated_at FROM module_guide_progress WHERE user_id = ?')
+      .all(userId) as { module_id: string; max_step: number; updated_at: string }[];
     const maxGuideStepByModule = new Map<string, number>();
     const hasGuideProgressRow = new Set<string>();
     for (const row of guideRows) {
       maxGuideStepByModule.set(row.module_id, row.max_step);
       hasGuideProgressRow.add(row.module_id);
+    }
+
+    for (const row of guideRows) {
+      const cur = latestUpdatedAt.get(row.module_id);
+      if (!cur || row.updated_at > cur) latestUpdatedAt.set(row.module_id, row.updated_at);
     }
 
     // Build sequential blocker map: for each substantive module (items > 0),
@@ -106,6 +111,9 @@ export function makeCurriculumRouter(db: Database.Database, index: CurriculumInd
         status,
         blockedBy,
         latest_progress_updated_at: latestUpdatedAt.get(m.id) ?? null,
+        guideStepsCompleted: Math.min(maxGuideStep, topicCount),
+        guideStepsTotal: topicCount,
+        maxGuideStep,
       };
     });
 

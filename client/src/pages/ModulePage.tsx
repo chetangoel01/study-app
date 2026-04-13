@@ -272,9 +272,10 @@ export function ModulePage() {
   const completionPct = items.length > 0 ? Math.round((completedCount / items.length) * 100) : 0;
   const actionCompletedCount = module ? actionItems.filter((item) => isCompleted(module.id, item.id)).length : 0;
 
-  // Reset topic index when module changes
+  // Restore topic index to last visited step when module changes
   useEffect(() => {
-    setCurrentTopicIndex(0);
+    setCurrentTopicIndex(module?.maxGuideStep ?? 0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [moduleId]);
 
   useEffect(() => {
@@ -506,7 +507,7 @@ export function ModulePage() {
                   <li key={entry.id}>
                     <button
                       type="button"
-                      className={`mp-sidebar-item${idx === currentTopicIndex ? ' mp-sidebar-active' : ''}${idx < currentTopicIndex ? ' mp-sidebar-done' : ''}`}
+                      className={`mp-sidebar-item${idx === currentTopicIndex ? ' mp-sidebar-active' : ''}${idx < Math.max(currentTopicIndex, module.maxGuideStep ?? 0) ? ' mp-sidebar-done' : ''}`}
                       onClick={() => goToStep(idx)}
                     >
                       <span className="mp-sidebar-num">

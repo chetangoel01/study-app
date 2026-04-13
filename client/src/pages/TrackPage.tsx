@@ -38,7 +38,12 @@ export function TrackPage() {
     locked: 'Locked',
   };
   const done = modules.filter((m) => m.status === 'done').length;
-  const pct = modules.length > 0 ? Math.round((done / modules.length) * 100) : 0;
+  const fractionalDone = modules.reduce((sum, m) => {
+    if (m.status === 'done') return sum + 1;
+    const total = m.totalItems + m.guideStepsTotal;
+    return sum + (total === 0 ? 0 : (m.completedItems + m.guideStepsCompleted) / total);
+  }, 0);
+  const pct = modules.length > 0 ? Math.round((fractionalDone / modules.length) * 100) : 0;
 
   const moduleSteps: ModuleStep[] = modules.map((m, i) => {
     const isLocked = m.status !== 'done' && (m.blockedBy ?? []).some((moduleId) => {

@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       { path: 'track/:trackId/module/:moduleId', element: <ModulePage /> },
       { path: 'practice', element: <PracticePage /> },
       { path: 'practice/session', element: <PracticeSessionPage /> },
-      { path: 'practice/challenge', element: <SolveChallengePage /> },
+      { path: 'practice/challenge/:id', element: <SolveChallengePage /> },
       { path: 'community', element: <CommunityPage /> },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'settings/:section', element: <SettingsPage /> },

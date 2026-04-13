@@ -81,6 +81,10 @@ OPENROUTER_API_KEY=... python3 pipeline/runner.py
 
 Both variants write `knowledge-base.json`, which the server loads at startup.
 
+## Project TODO
+
+See [docs/project-todo.md](docs/project-todo.md) for current backlog items.
+
 ## Pull a purchased LeetCode course
 
 If you want to bring a purchased LeetCode Explore course into this repo as a local source artifact:

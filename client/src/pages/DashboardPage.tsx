@@ -47,14 +47,23 @@ export function DashboardPage() {
   const completedModules = modules.filter((module) => module.status === 'done').length;
   const inProgressModules = modules.filter((module) => module.status === 'in-progress').length;
   const publishedModules = modules.length;
-  const overallPct = modules.length > 0 ? Math.round((completedModules / modules.length) * 100) : 0;
+  const fractionalDone = modules.reduce((sum, m) => {
+    if (m.status === 'done') return sum + 1;
+    const total = m.totalItems + m.guideStepsTotal;
+    return sum + (total === 0 ? 0 : (m.completedItems + m.guideStepsCompleted) / total);
+  }, 0);
+  const overallPct = modules.length > 0 ? Math.round((fractionalDone / modules.length) * 100) : 0;
   const totalItems = modules.reduce((acc, m) => acc + m.totalItems, 0);
   const doneItems = modules.reduce((acc, m) => acc + m.completedItems, 0);
   const itemsPct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
 
   const nextItem = focus?.items.find((item) => !isCompleted(focus.id, item.id)) ?? null;
-  const focusItemPct = focus && focus.totalItems > 0
-    ? Math.round((focus.completedItems / focus.totalItems) * 100)
+  const focusItemPct = focus
+    ? (() => {
+        const total = (focus.totalItems ?? 0) + (focus.guideStepsTotal ?? 0);
+        const done = (focus.completedItems ?? 0) + (focus.guideStepsCompleted ?? 0);
+        return total > 0 ? Math.round((done / total) * 100) : 0;
+      })()
     : 0;
 
   const recentModules = [...modules]

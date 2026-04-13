@@ -1,13 +1,97 @@
-import { useEffect } from 'react';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import { useEffect, useMemo } from 'react';
 import { usePracticeStats } from '../hooks/usePractice.js';
+import type { PracticeSessionSummary, SkillBreakdownItem } from '../types.js';
+import type { MasterySection } from '../lib/practiceMastery.js';
 
 interface Props {
   onClose: () => void;
+  skillBreakdown?: SkillBreakdownItem[];
+  sections?: MasterySection[];
 }
 
-export function DetailedReportModal({ onClose }: Props) {
+function clampPercent(score: number): number {
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function getBand(score: number): 'strong' | 'building' | 'early' {
+  if (score >= 80) return 'strong';
+  if (score >= 45) return 'building';
+  return 'early';
+}
+
+function getBandLabel(score: number): string {
+  const band = getBand(score);
+  if (band === 'strong') return 'Strong';
+  if (band === 'building') return 'Building';
+  return 'Early';
+}
+
+function formatSessionTime(iso: string): string {
+  const stamp = new Date(iso);
+  if (Number.isNaN(stamp.getTime())) return 'Unknown time';
+  return stamp.toLocaleString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+function getSessionTypeLabel(session: PracticeSessionSummary): string {
+  if (session.type === 'daily_challenge') return 'Daily Challenge';
+  return session.title || 'Practice Session';
+}
+
+export function DetailedReportModal({ onClose, skillBreakdown, sections }: Props) {
   const { data: stats, loading } = usePracticeStats();
+  const fallbackSkills = skillBreakdown && skillBreakdown.length > 0
+    ? skillBreakdown
+    : (stats?.skillBreakdown || []);
+
+  const normalizedSections = useMemo<MasterySection[]>(() => {
+    if (sections && sections.length > 0) {
+      return sections.map((section) => ({
+        ...section,
+        score: clampPercent(section.score),
+      }));
+    }
+
+    return fallbackSkills.map((skill) => ({
+      key: skill.name.toLowerCase().includes('system')
+        ? 'system-design'
+        : skill.name.toLowerCase().includes('concurrency')
+          ? 'concurrency'
+          : 'algorithms',
+      name: skill.name,
+      score: clampPercent(skill.score),
+      done: 0,
+      total: 0,
+      modules: [],
+    }));
+  }, [fallbackSkills, sections]);
+
+  const averageScore = normalizedSections.length > 0
+    ? Math.round(normalizedSections.reduce((sum, section) => sum + section.score, 0) / normalizedSections.length)
+    : 0;
+
+  const strongestArea = normalizedSections.length > 0
+    ? [...normalizedSections].sort((a, b) => b.score - a.score)[0]
+    : null;
+
+  const focusArea = normalizedSections.length > 0
+    ? [...normalizedSections].sort((a, b) => a.score - b.score)[0]
+    : null;
+
+  const sectionsWithCheckpoints = normalizedSections.filter((section) => section.total > 0);
+  const completionSignal = sectionsWithCheckpoints.length > 0
+    ? Math.round(
+        (sectionsWithCheckpoints.reduce((sum, section) => sum + section.done, 0)
+          / sectionsWithCheckpoints.reduce((sum, section) => sum + section.total, 0))
+        * 100,
+      )
+    : averageScore;
+
+  const recentSessions = (stats?.recentSessions || []).slice(0, 4);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -28,37 +112,132 @@ export function DetailedReportModal({ onClose }: Props) {
       }}
     >
       <div className="modal-panel report-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="report-header">
-          <h2>Cognitive Mastery Report</h2>
-          <button className="secondary-link" onClick={onClose}>Close</button>
-        </div>
-        
-        {loading ? (
-          <div className="loading" style={{ height: '300px' }}>Analyzing skills...</div>
-        ) : (
-          <div className="report-content">
-            <p className="modal-body">
-              This chart visualizes your comparative mastery across core computer science and engineering disciplines. Expanding area represents consistent high-scoring drill performance.
-            </p>
-            
-            <div className="radar-chart-container" style={{ width: '100%', height: 400, marginTop: '24px' }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={stats?.skillBreakdown || []}>
-                  <PolarGrid stroke="var(--border)" />
-                  <PolarAngleAxis dataKey="name" tick={{ fill: 'var(--text-color)', fontSize: 12, fontFamily: 'Manrope' }} />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                  <Radar
-                    name="Mastery"
-                    dataKey="score"
-                    stroke="#8B5CF6"
-                    fill="#8B5CF6"
-                    fillOpacity={0.5}
-                  />
-                </RadarChart>
-              </ResponsiveContainer>
+        <div className="report-shell">
+          <div className="report-header">
+            <div className="report-header-copy">
+              <p className="report-kicker">Practice Intelligence</p>
+              <h2>Cognitive Mastery Report</h2>
+              <p className="report-intro">
+                Progress is now split into core areas and finer subsections so you can see where to push next.
+              </p>
             </div>
+            <button className="report-close-btn" onClick={onClose}>Close</button>
           </div>
+
+        {loading ? (
+          <div className="report-loading">Analyzing skills...</div>
+        ) : (
+          <>
+            <section className="report-metrics-grid" aria-label="Mastery Summary">
+              <article className="report-metric-card">
+                <p className="report-metric-label">Average Mastery</p>
+                <p className="report-metric-value">{averageScore}%</p>
+              </article>
+              <article className="report-metric-card">
+                <p className="report-metric-label">Strongest Area</p>
+                <p className="report-metric-value">{strongestArea?.name || 'No data'}</p>
+              </article>
+              <article className="report-metric-card">
+                <p className="report-metric-label">Completion Signal</p>
+                <p className="report-metric-value">{completionSignal}%</p>
+              </article>
+            </section>
+
+            <section className="report-section">
+              <div className="report-section-head">
+                <h3>Core Areas</h3>
+              </div>
+              <div className="report-core-grid">
+                {normalizedSections.map((section) => (
+                  <article className="report-core-card" key={`${section.key}-${section.name}`}>
+                    <div className="report-core-header">
+                      <h4>{section.name}</h4>
+                      <span className={`report-pill ${getBand(section.score)}`}>{getBandLabel(section.score)}</span>
+                    </div>
+                    <div className="report-core-score">
+                      <strong>{section.score}%</strong>
+                      {section.total > 0 ? (
+                        <span>
+                          {section.done}/{section.total} checkpoints
+                        </span>
+                      ) : (
+                        <span>No checkpoints yet</span>
+                      )}
+                    </div>
+                    <div className="report-progress-track" role="presentation">
+                      <div className="report-progress-fill" style={{ width: `${section.score}%` }} />
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="report-section">
+              <div className="report-section-head">
+                <h3>Subsections</h3>
+                {focusArea ? (
+                  <p className="report-section-note">
+                    Focus next: <strong>{focusArea.name}</strong>
+                  </p>
+                ) : null}
+              </div>
+              <div className="report-subsection-grid">
+                {normalizedSections.map((section) => (
+                  <article className="report-subsection-card" key={`${section.key}-${section.name}-details`}>
+                    <div className="report-subsection-head">
+                      <h4>{section.name}</h4>
+                      <span>{section.modules.length} modules</span>
+                    </div>
+                    {section.modules.length > 0 ? (
+                      <div className="report-module-stack">
+                        {section.modules.slice(0, 4).map((module) => (
+                          <div className="report-module-card" key={module.id}>
+                            <div className="report-module-row">
+                              <div className="report-module-copy">
+                                <span className="report-module-title">{module.title}</span>
+                                <span className="report-module-meta">
+                                  {module.done}/{module.total} checkpoints
+                                </span>
+                              </div>
+                              <span className="report-module-score">{module.score}%</span>
+                            </div>
+                            <div className="report-module-track" role="presentation">
+                              <div className="report-module-fill" style={{ width: `${module.score}%` }} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="report-empty">No modules mapped yet for this area.</p>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="report-section">
+              <div className="report-section-head">
+                <h3>Recent Signals</h3>
+              </div>
+              {recentSessions.length > 0 ? (
+                <div className="report-signal-list">
+                  {recentSessions.map((session) => (
+                    <article className="report-signal-row" key={session.id}>
+                      <div>
+                        <p className="report-signal-title">{getSessionTypeLabel(session)}</p>
+                        <p className="report-signal-meta">{formatSessionTime(session.createdAt)}</p>
+                      </div>
+                      <p className="report-signal-score">{clampPercent(session.score)}%</p>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <p className="report-empty">Complete a few sessions to populate this panel.</p>
+              )}
+            </section>
+          </>
         )}
+        </div>
       </div>
     </div>
   );

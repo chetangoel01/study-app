@@ -27,7 +27,7 @@ export function PracticeHistoryModal({ onClose }: Props) {
       }}
     >
       <div className="modal-panel history-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="report-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="history-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h2>Practice Session History</h2>
           <button className="secondary-link" onClick={onClose}>Close</button>
         </div>
@@ -38,7 +38,7 @@ export function PracticeHistoryModal({ onClose }: Props) {
           <div className="history-content" style={{ marginTop: '24px', maxHeight: '600px', overflowY: 'auto' }}>
             <div className="recent-sessions-list">
               {(stats?.recentSessions || []).length > 0 ? (
-                stats.recentSessions.map((session: any) => (
+                (stats?.recentSessions || []).map((session: any) => (
                   <div key={session.id} className="recent-session-item" style={{ padding: '16px', borderBottom: '1px solid var(--border)' }}>
                     <div className="session-info">
                       <div className={`session-status ${session.score === 100 ? 'green' : 'purple'}`}></div>

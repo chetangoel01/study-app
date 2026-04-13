@@ -6,6 +6,8 @@
     "dev": "NODE_ENV=development tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
+    "seed:challenges": "tsx src/db/seed-challenges.ts",
+    "seed:quizzes": "tsx src/db/seed-quizzes.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },

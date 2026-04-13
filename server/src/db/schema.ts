@@ -70,6 +70,17 @@ const SCHEMA_DDL = `
     created_at    TEXT DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS mock_interview_availability_proposals (
+    id               INTEGER PRIMARY KEY,
+    user_id          INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    proposed_for     TEXT NOT NULL,
+    duration_minutes INTEGER NOT NULL DEFAULT 45,
+    topic            TEXT,
+    notes            TEXT,
+    status           TEXT DEFAULT 'open',
+    created_at       TEXT DEFAULT (datetime('now'))
+  );
+
   CREATE TABLE IF NOT EXISTS daily_challenge_pool (
     id                   INTEGER PRIMARY KEY,
     title                TEXT NOT NULL,
@@ -107,6 +118,39 @@ const SCHEMA_DDL = `
     updated_at  TEXT DEFAULT (datetime('now')),
     UNIQUE(user_id, module_id)
   );
+
+  CREATE TABLE IF NOT EXISTS practice_quiz_specs (
+    id                    INTEGER PRIMARY KEY,
+    slug                  TEXT NOT NULL UNIQUE,
+    mode                  TEXT NOT NULL,
+    track_id              TEXT NOT NULL DEFAULT '',
+    module_id             TEXT NOT NULL DEFAULT '',
+    title                 TEXT NOT NULL,
+    description_markdown  TEXT NOT NULL DEFAULT '',
+    default_duration_mins INTEGER NOT NULL DEFAULT 30,
+    is_active             INTEGER NOT NULL DEFAULT 1,
+    created_at            TEXT DEFAULT (datetime('now')),
+    updated_at            TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS practice_quiz_questions (
+    id            INTEGER PRIMARY KEY,
+    spec_id       INTEGER NOT NULL REFERENCES practice_quiz_specs(id) ON DELETE CASCADE,
+    position      INTEGER NOT NULL DEFAULT 0,
+    difficulty    TEXT NOT NULL DEFAULT 'Medium',
+    prompt        TEXT NOT NULL,
+    options_json  TEXT NOT NULL DEFAULT '[]',
+    answer_index  INTEGER NOT NULL DEFAULT 0,
+    explanation   TEXT NOT NULL DEFAULT '',
+    created_at    TEXT DEFAULT (datetime('now')),
+    updated_at    TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_practice_quiz_specs_mode_active
+    ON practice_quiz_specs(mode, is_active);
+
+  CREATE INDEX IF NOT EXISTS idx_practice_quiz_questions_spec_position
+    ON practice_quiz_questions(spec_id, position, id);
 `;
 
 export function applySchema(db: Database.Database): void {
@@ -126,4 +170,7 @@ export function applySchema(db: Database.Database): void {
   addCol("ALTER TABLE user_preferences ADD COLUMN allow_mock_interviews INTEGER DEFAULT 0");
   addCol("ALTER TABLE daily_challenge_pool ADD COLUMN description_markdown TEXT DEFAULT ''");
   addCol("ALTER TABLE daily_challenge_pool ADD COLUMN starter_code TEXT DEFAULT ''");
+  addCol("ALTER TABLE daily_challenge_pool ADD COLUMN function_name TEXT DEFAULT ''");
+  addCol("ALTER TABLE daily_challenge_pool ADD COLUMN test_cases TEXT DEFAULT '[]'");
+  addCol("ALTER TABLE daily_challenge_pool ADD COLUMN tags TEXT DEFAULT '[]'");
 }
