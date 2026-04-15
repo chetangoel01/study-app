@@ -1,11 +1,11 @@
 # Project TODO
 
-- [ ] Practice analytics for quizzes:
+- [x] Practice analytics for quizzes:
   - Include quiz attempts in richer stats beyond session history (accuracy trend, by difficulty, by mode).
   - Add weak-topic insights from quiz question metadata/tags so users get targeted follow-up practice.
   - Expose the analytics in `/api/practice/stats` and surface on the practice dashboard.
 
-- [ ] Fix dashboard "Currently mastering" card content/state:
+- [x] Fix dashboard "Currently mastering" card content/state:
   - Correct module/title context so it does not show mismatched track/module copy.
   - Ensure progress %, next item, and CTA labels reflect the active module session state.
   - Verify "Resume session" and "View curriculum" actions route to the intended module/track.
