@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-04-08T02:11:41.754395+00:00",
+  "generated_at": "2026-04-14T15:25:58.649350+00:00",
   "tracks": [
     {
       "id": "dsa-leetcode",
@@ -104,12 +104,7 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": [
-        "big-o",
-        "review-interview",
-        "search-bitwise",
-        "system-design"
-      ]
+      "prerequisiteModuleIds": []
     },
     {
       "id": "big-o",
@@ -189,9 +184,7 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": [
-        "setup-habits"
-      ]
+      "prerequisiteModuleIds": []
     },
     {
       "id": "arrays-linked-lists",
@@ -278,11 +271,8 @@
         }
       ],
       "prerequisiteModuleIds": [
-        "big-o",
-        "review-interview",
-        "search-bitwise",
         "setup-habits",
-        "systems-basics"
+        "big-o"
       ]
     },
     {
@@ -369,10 +359,7 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": [
-        "search-bitwise",
-        "setup-habits"
-      ]
+      "prerequisiteModuleIds": []
     },
     {
       "id": "search-bitwise",
@@ -453,11 +440,8 @@
         }
       ],
       "prerequisiteModuleIds": [
-        "arrays-linked-lists",
         "big-o",
-        "review-interview",
-        "setup-habits",
-        "sorting"
+        "arrays-linked-lists"
       ]
     },
     {
@@ -567,7 +551,7 @@
           "id": "sorting:read:1",
           "type": "read",
           "label": "Sedgewick Quicksort",
-          "url": "https://www.coursera.org/learn/algorithms-part1/home/week/3"
+          "url": "https://algs4.cs.princeton.edu/23quicksort/"
         },
         {
           "id": "sorting:read:2",
@@ -625,10 +609,8 @@
         }
       ],
       "prerequisiteModuleIds": [
-        "arrays-linked-lists",
         "big-o",
-        "search-bitwise",
-        "setup-habits"
+        "arrays-linked-lists"
       ]
     },
     {
@@ -888,11 +870,9 @@
         }
       ],
       "prerequisiteModuleIds": [
-        "arrays-linked-lists",
+        "setup-habits",
         "big-o",
-        "review-interview",
-        "search-bitwise",
-        "setup-habits"
+        "arrays-linked-lists"
       ]
     },
     {
@@ -1059,10 +1039,7 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": [
-        "big-o",
-        "setup-habits"
-      ]
+      "prerequisiteModuleIds": []
     },
     {
       "id": "leetcode-course-arraystrings",
@@ -1262,7 +1239,9 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": []
+      "prerequisiteModuleIds": [
+        "arrays-linked-lists"
+      ]
     },
     {
       "id": "leetcode-course-hashing",
@@ -1778,7 +1757,15 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": []
+      "prerequisiteModuleIds": [
+        "setup-habits",
+        "big-o",
+        "arrays-linked-lists",
+        "systems-basics",
+        "leetcode-course-arraystrings",
+        "leetcode-course-hashing",
+        "leetcode-course-linked-lists"
+      ]
     },
     {
       "id": "leetcode-course-traversals-trees-graphs",
@@ -2146,7 +2133,13 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": []
+      "prerequisiteModuleIds": [
+        "big-o",
+        "arrays-linked-lists",
+        "search-bitwise",
+        "sorting",
+        "leetcode-course-arraystrings"
+      ]
     },
     {
       "id": "leetcode-course-heaps",
@@ -2298,7 +2291,14 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": []
+      "prerequisiteModuleIds": [
+        "big-o",
+        "arrays-linked-lists",
+        "search-bitwise",
+        "sorting",
+        "leetcode-course-arraystrings",
+        "leetcode-course-traversals-trees-graphs"
+      ]
     },
     {
       "id": "leetcode-course-greedy",
@@ -2578,7 +2578,15 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": []
+      "prerequisiteModuleIds": [
+        "big-o",
+        "arrays-linked-lists",
+        "search-bitwise",
+        "sorting",
+        "leetcode-course-arraystrings",
+        "leetcode-course-traversals-trees-graphs",
+        "leetcode-course-heaps"
+      ]
     },
     {
       "id": "leetcode-course-backtracking",
@@ -2930,7 +2938,19 @@
           "url": null
         }
       ],
-      "prerequisiteModuleIds": []
+      "prerequisiteModuleIds": [
+        "setup-habits",
+        "big-o",
+        "leetcode-course-arraystrings",
+        "leetcode-course-hashing",
+        "leetcode-course-linked-lists",
+        "leetcode-course-stacks-and-queues",
+        "leetcode-course-traversals-trees-graphs",
+        "leetcode-course-heaps",
+        "leetcode-course-greedy",
+        "leetcode-course-binary-search",
+        "leetcode-course-backtracking"
+      ]
     }
   ]
 }
