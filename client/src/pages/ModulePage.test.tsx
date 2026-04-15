@@ -63,7 +63,17 @@ vi.mock('../hooks/useCurriculum', () => ({
           { id: 'big-o:do:0', type: 'do', label: 'Solve one complexity problem', url: null },
         ],
         topics: [
-          { id: 'big-o-topic', label: 'Complexity intuition', study_guide_markdown: 'Big-O notes' },
+          {
+            id: 'big-o-topic',
+            label: 'Complexity intuition',
+            study_guide_markdown: [
+              '# Complexity intuition',
+              'Understand runtime growth.',
+              '## Practice',
+              '### Solve one drill',
+              'Do one complexity walkthrough.',
+            ].join('\n'),
+          },
         ],
       },
       loading: false,
@@ -121,5 +131,7 @@ describe('ModulePage', () => {
     expect(await screen.findByRole('heading', { name: 'Big-O and asymptotic analysis' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Begin with Complexity intuition' })).not.toBeInTheDocument();
     expect(screen.getByRole('navigation', { name: 'Section navigation' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Practice' })).toBeInTheDocument();
+    expect(screen.getByText('Do one complexity walkthrough.')).toBeInTheDocument();
   });
 });
