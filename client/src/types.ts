@@ -81,6 +81,43 @@ export interface PracticeTagSignal {
   count: number;
 }
 
+export interface QuizAccuracyTrendPoint {
+  date: string;
+  attempts: number;
+  accuracy: number;
+}
+
+export interface QuizDifficultyStat {
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  questions: number;
+  accuracy: number;
+}
+
+export interface QuizModeStat {
+  mode: string;
+  label: string;
+  attempts: number;
+  questions: number;
+  accuracy: number;
+}
+
+export interface QuizWeakTopic {
+  tag: string;
+  attempts: number;
+  misses: number;
+  accuracy: number;
+}
+
+export interface PracticeQuizAnalytics {
+  totalAttempts: number;
+  totalQuestions: number;
+  overallAccuracy: number;
+  accuracyTrend: QuizAccuracyTrendPoint[];
+  byDifficulty: QuizDifficultyStat[];
+  byMode: QuizModeStat[];
+  weakTopics: QuizWeakTopic[];
+}
+
 export interface PracticeStats {
   streakDays: number;
   percentile: number;
@@ -88,6 +125,7 @@ export interface PracticeStats {
   recentSessions: PracticeSessionSummary[];
   skillBreakdown: SkillBreakdownItem[];
   tagSignals?: PracticeTagSignal[];
+  quizAnalytics?: PracticeQuizAnalytics;
 }
 
 export interface MockPeer {

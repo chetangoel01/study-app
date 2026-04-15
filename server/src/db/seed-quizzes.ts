@@ -26,6 +26,7 @@ const questions = [
     ],
     answerIndex: 0,
     explanation: 'A read-through cache reduces repeated load without forcing large architecture changes.',
+    tags: ['caching', 'read-heavy'],
   },
   {
     position: 2,
@@ -39,6 +40,7 @@ const questions = [
     ],
     answerIndex: 1,
     explanation: 'Server-side idempotency at write time prevents duplicate charges from network retries.',
+    tags: ['idempotency', 'payments'],
   },
   {
     position: 3,
@@ -52,6 +54,7 @@ const questions = [
     ],
     answerIndex: 1,
     explanation: 'Backpressure and circuit breaking reduce cascading failures when dependencies degrade.',
+    tags: ['backpressure', 'circuit-breaker'],
   },
   {
     position: 4,
@@ -65,6 +68,7 @@ const questions = [
     ],
     answerIndex: 1,
     explanation: 'Active-active writes require deterministic conflict handling, often with versioning or CRDT patterns.',
+    tags: ['active-active', 'conflict-resolution'],
   },
   {
     position: 5,
@@ -78,6 +82,7 @@ const questions = [
     ],
     answerIndex: 0,
     explanation: 'Total ordering introduces coordination costs that constrain horizontal throughput.',
+    tags: ['ordering', 'distributed-systems'],
   },
 ];
 
@@ -111,8 +116,8 @@ const seed = db.transaction(() => {
 
   const insertQuestion = db.prepare(`
     INSERT INTO practice_quiz_questions
-      (spec_id, position, difficulty, prompt, options_json, answer_index, explanation, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+      (spec_id, position, difficulty, prompt, options_json, answer_index, explanation, tags_json, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
   `);
 
   for (const question of questions) {
@@ -124,6 +129,7 @@ const seed = db.transaction(() => {
       JSON.stringify(question.options),
       question.answerIndex,
       question.explanation,
+      JSON.stringify(question.tags ?? []),
     );
   }
 

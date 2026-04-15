@@ -23,6 +23,21 @@ interface QuizQuestionRow {
   options_json: string;
   answer_index: number;
   explanation: string;
+  tags_json: string;
+}
+
+interface ParsedQuizAttemptQuestion {
+  questionId: number | null;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  isCorrect: boolean;
+  tags: string[];
+}
+
+interface ParsedQuizAttempt {
+  mode: string;
+  selectedDifficulty: 'Easy' | 'Medium' | 'Hard';
+  quizSpecId: number | null;
+  questions: ParsedQuizAttemptQuestion[];
 }
 
 function getInitials(fullName: string): string {
@@ -100,6 +115,111 @@ function parseQuestionOptions(rawOptionsJson: string): string[] {
 
 function normalizeQuestionDifficulty(value: string): 'Easy' | 'Medium' | 'Hard' {
   return normalizeDifficulty(value);
+}
+
+function parseNormalizedTags(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const unique = new Set<string>();
+  for (const tag of raw) {
+    if (typeof tag !== 'string') continue;
+    const normalized = tag.trim().toLowerCase();
+    if (!normalized) continue;
+    unique.add(normalized);
+    if (unique.size >= 12) break;
+  }
+  return [...unique];
+}
+
+function parseQuestionTags(rawTagsJson: string): string[] {
+  try {
+    return parseNormalizedTags(JSON.parse(rawTagsJson));
+  } catch {
+    return [];
+  }
+}
+
+function parseQuizAttemptPayload(raw: unknown): { value: ParsedQuizAttempt | null; error: string | null } {
+  if (raw === null || raw === undefined) {
+    return { value: null, error: null };
+  }
+  if (typeof raw !== 'object') {
+    return { value: null, error: 'Invalid quizAttempt payload' };
+  }
+  const payload = raw as Record<string, unknown>;
+
+  const mode = typeof payload.mode === 'string' ? payload.mode.trim() : '';
+  if (!mode) {
+    return { value: null, error: 'quizAttempt.mode is required' };
+  }
+  if (mode.length > 64) {
+    return { value: null, error: 'quizAttempt.mode is too long' };
+  }
+
+  const selectedDifficulty = normalizeDifficulty(
+    typeof payload.selectedDifficulty === 'string' ? payload.selectedDifficulty : null,
+  );
+
+  let quizSpecId: number | null = null;
+  if (payload.quizSpecId !== undefined && payload.quizSpecId !== null && payload.quizSpecId !== '') {
+    const parsed = Number(payload.quizSpecId);
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+      return { value: null, error: 'quizAttempt.quizSpecId must be a positive number' };
+    }
+    quizSpecId = Math.round(parsed);
+  }
+
+  if (!Array.isArray(payload.questions) || payload.questions.length === 0) {
+    return { value: null, error: 'quizAttempt.questions must include at least one question result' };
+  }
+  if (payload.questions.length > 200) {
+    return { value: null, error: 'quizAttempt.questions exceeds max length' };
+  }
+
+  const questions: ParsedQuizAttemptQuestion[] = [];
+  for (const entry of payload.questions) {
+    if (typeof entry !== 'object' || entry === null) {
+      return { value: null, error: 'Each quizAttempt question must be an object' };
+    }
+    const question = entry as Record<string, unknown>;
+    const parsedQuestionId = Number(question.questionId);
+    const questionId = Number.isFinite(parsedQuestionId) && parsedQuestionId > 0
+      ? Math.round(parsedQuestionId)
+      : null;
+    const difficulty = normalizeDifficulty(
+      typeof question.difficulty === 'string' ? question.difficulty : selectedDifficulty,
+    );
+    const isCorrect = question.isCorrect === true;
+    const tags = parseNormalizedTags(question.tags);
+
+    questions.push({
+      questionId,
+      difficulty,
+      isCorrect,
+      tags,
+    });
+  }
+
+  return {
+    value: {
+      mode,
+      selectedDifficulty,
+      quizSpecId,
+      questions,
+    },
+    error: null,
+  };
+}
+
+function formatModeLabel(mode: string): string {
+  const normalized = mode.trim().toLowerCase();
+  if (normalized === 'system-design-mcq' || normalized === 'system_design_mcq') return 'System Design MCQ';
+  if (normalized === 'dsa' || normalized === 'dsa-drill') return 'DSA Drill';
+  if (normalized === 'concurrency-open' || normalized === 'concurrency_open') return 'Concurrency Open';
+  return mode
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (ch) => ch.toUpperCase());
 }
 
 export function makePracticeRouter(db: Database.Database): Hono {
@@ -296,6 +416,7 @@ export function makePracticeRouter(db: Database.Database): Hono {
           options,
           answerIndex,
           explanation: row.explanation || '',
+          tags: parseQuestionTags(row.tags_json),
         };
       })
       .filter((row): row is {
@@ -306,6 +427,7 @@ export function makePracticeRouter(db: Database.Database): Hono {
         options: string[];
         answerIndex: number;
         explanation: string;
+        tags: string[];
       } => row !== null);
 
     if (normalizedQuestions.length === 0) {
@@ -352,6 +474,11 @@ export function makePracticeRouter(db: Database.Database): Hono {
       return c.json({ error: 'Invalid score' }, 400);
     }
 
+    const parsedQuizAttempt = parseQuizAttemptPayload(body.quizAttempt);
+    if (parsedQuizAttempt.error) {
+      return c.json({ error: parsedQuizAttempt.error }, 400);
+    }
+
     const normalizedType = type.slice(0, 64);
     const fallbackTitle = normalizedType
       .replace(/[_-]+/g, ' ')
@@ -359,10 +486,65 @@ export function makePracticeRouter(db: Database.Database): Hono {
       .trim();
     const normalizedTitle = (titleInput || fallbackTitle || 'Practice Session').slice(0, 140);
 
-    db.prepare(`
+    const normalizedDurationSeconds = Math.round(durationSeconds);
+    const normalizedScore = Math.round(score);
+
+    const insertSession = db.prepare(`
       INSERT INTO practice_sessions (user_id, type, title, duration_seconds, score_percentage, created_at)
       VALUES (?, ?, ?, ?, ?, datetime('now'))
-    `).run(user.id, normalizedType, normalizedTitle, Math.round(durationSeconds), Math.round(score));
+    `);
+    const insertQuizAttempt = db.prepare(`
+      INSERT INTO practice_quiz_attempts
+        (user_id, session_id, quiz_spec_id, mode, selected_difficulty, question_count, correct_count, accuracy_percentage, duration_seconds, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    `);
+    const insertQuizQuestionResult = db.prepare(`
+      INSERT INTO practice_quiz_attempt_questions
+        (attempt_id, question_id, difficulty, is_correct, tags_json, created_at)
+      VALUES (?, ?, ?, ?, ?, datetime('now'))
+    `);
+
+    db.transaction(() => {
+      const result = insertSession.run(
+        user.id,
+        normalizedType,
+        normalizedTitle,
+        normalizedDurationSeconds,
+        normalizedScore,
+      );
+      const sessionId = Number(result.lastInsertRowid);
+      const quizAttempt = parsedQuizAttempt.value;
+      if (!quizAttempt) return;
+
+      const questionCount = quizAttempt.questions.length;
+      const correctCount = quizAttempt.questions.reduce(
+        (sum, question) => sum + (question.isCorrect ? 1 : 0),
+        0,
+      );
+      const accuracy = questionCount > 0 ? Math.round((correctCount / questionCount) * 100) : 0;
+      const attemptResult = insertQuizAttempt.run(
+        user.id,
+        sessionId,
+        quizAttempt.quizSpecId,
+        quizAttempt.mode,
+        quizAttempt.selectedDifficulty,
+        questionCount,
+        correctCount,
+        accuracy,
+        normalizedDurationSeconds,
+      );
+      const attemptId = Number(attemptResult.lastInsertRowid);
+
+      for (const question of quizAttempt.questions) {
+        insertQuizQuestionResult.run(
+          attemptId,
+          question.questionId,
+          question.difficulty,
+          question.isCorrect ? 1 : 0,
+          JSON.stringify(question.tags),
+        );
+      }
+    })();
 
     return c.json({ ok: true });
   });
@@ -451,6 +633,149 @@ export function makePracticeRouter(db: Database.Database): Hono {
       percentile = Math.min(99, Math.max(1, Math.round((bufferedRank / bufferedCohort) * 100)));
     }
 
+    const quizTrendRows = db.prepare(`
+      SELECT
+        date(created_at) AS day,
+        COUNT(*) AS attempts,
+        COALESCE(SUM(correct_count), 0) AS correctCount,
+        COALESCE(SUM(question_count), 0) AS questionCount
+      FROM practice_quiz_attempts
+      WHERE user_id = ?
+      GROUP BY date(created_at)
+      ORDER BY day DESC
+      LIMIT 7
+    `).all(user.id) as Array<{
+      day: string;
+      attempts: number;
+      correctCount: number;
+      questionCount: number;
+    }>;
+
+    const accuracyTrend = [...quizTrendRows]
+      .reverse()
+      .map((row) => ({
+        date: row.day,
+        attempts: row.attempts,
+        accuracy: row.questionCount > 0
+          ? Math.round((row.correctCount / row.questionCount) * 100)
+          : 0,
+      }));
+
+    const quizDifficultyRows = db.prepare(`
+      SELECT
+        q.difficulty AS difficulty,
+        COUNT(*) AS questions,
+        COALESCE(SUM(q.is_correct), 0) AS correct
+      FROM practice_quiz_attempt_questions q
+      JOIN practice_quiz_attempts a
+        ON a.id = q.attempt_id
+      WHERE a.user_id = ?
+      GROUP BY q.difficulty
+    `).all(user.id) as Array<{
+      difficulty: string;
+      questions: number;
+      correct: number;
+    }>;
+
+    const difficultyMap = new Map<'Easy' | 'Medium' | 'Hard', { questions: number; correct: number }>();
+    for (const row of quizDifficultyRows) {
+      const difficultyKey = normalizeDifficulty(row.difficulty);
+      const existing = difficultyMap.get(difficultyKey) ?? { questions: 0, correct: 0 };
+      existing.questions += Number(row.questions) || 0;
+      existing.correct += Number(row.correct) || 0;
+      difficultyMap.set(difficultyKey, existing);
+    }
+    const byDifficulty = (['Easy', 'Medium', 'Hard'] as const).map((difficultyKey) => {
+      const totals = difficultyMap.get(difficultyKey) ?? { questions: 0, correct: 0 };
+      return {
+        difficulty: difficultyKey,
+        questions: totals.questions,
+        accuracy: totals.questions > 0 ? Math.round((totals.correct / totals.questions) * 100) : 0,
+      };
+    });
+
+    const quizModeRows = db.prepare(`
+      SELECT
+        mode,
+        COUNT(*) AS attempts,
+        COALESCE(SUM(correct_count), 0) AS correctCount,
+        COALESCE(SUM(question_count), 0) AS questionCount
+      FROM practice_quiz_attempts
+      WHERE user_id = ?
+      GROUP BY mode
+      ORDER BY attempts DESC, mode ASC
+    `).all(user.id) as Array<{
+      mode: string;
+      attempts: number;
+      correctCount: number;
+      questionCount: number;
+    }>;
+
+    const byMode = quizModeRows.map((row) => ({
+      mode: row.mode,
+      label: formatModeLabel(row.mode),
+      attempts: Number(row.attempts) || 0,
+      questions: Number(row.questionCount) || 0,
+      accuracy: Number(row.questionCount) > 0
+        ? Math.round((Number(row.correctCount) / Number(row.questionCount)) * 100)
+        : 0,
+    }));
+
+    const totalQuizAttempts = byMode.reduce((sum, row) => sum + row.attempts, 0);
+    const totalQuizQuestions = byMode.reduce((sum, row) => sum + row.questions, 0);
+    const weightedCorrectAnswers = quizModeRows.reduce((sum, row) => sum + (Number(row.correctCount) || 0), 0);
+    const overallQuizAccuracy = totalQuizQuestions > 0
+      ? Math.round((weightedCorrectAnswers / totalQuizQuestions) * 100)
+      : 0;
+
+    const quizTopicRows = db.prepare(`
+      SELECT
+        q.tags_json AS tagsJson,
+        q.is_correct AS isCorrect
+      FROM practice_quiz_attempt_questions q
+      JOIN practice_quiz_attempts a
+        ON a.id = q.attempt_id
+      WHERE a.user_id = ?
+      ORDER BY q.id DESC
+      LIMIT 2000
+    `).all(user.id) as Array<{
+      tagsJson: string;
+      isCorrect: number;
+    }>;
+
+    const quizTopicStats = new Map<string, { attempts: number; misses: number; correct: number }>();
+    for (const row of quizTopicRows) {
+      const tags = parseQuestionTags(row.tagsJson);
+      if (tags.length === 0) continue;
+      const isCorrect = Number(row.isCorrect) === 1;
+      for (const tag of tags) {
+        const stat = quizTopicStats.get(tag) ?? { attempts: 0, misses: 0, correct: 0 };
+        stat.attempts += 1;
+        if (isCorrect) {
+          stat.correct += 1;
+        } else {
+          stat.misses += 1;
+        }
+        quizTopicStats.set(tag, stat);
+      }
+    }
+
+    const weakTopics = [...quizTopicStats.entries()]
+      .map(([tag, stats]) => ({
+        tag,
+        attempts: stats.attempts,
+        misses: stats.misses,
+        accuracy: stats.attempts > 0 ? Math.round((stats.correct / stats.attempts) * 100) : 0,
+      }))
+      .filter((topic) => topic.misses > 0)
+      .sort((a, b) => (
+        b.misses - a.misses
+        || a.accuracy - b.accuracy
+        || b.attempts - a.attempts
+        || a.tag.localeCompare(b.tag)
+      ))
+      .slice(0, 6);
+
     const tagRows = db.prepare(`
       SELECT p.tags AS tags
       FROM daily_challenge_completions c
@@ -477,6 +802,9 @@ export function makePracticeRouter(db: Database.Database): Hono {
         tagCounts.set(normalized, (tagCounts.get(normalized) ?? 0) + 1);
       }
     }
+    for (const [tag, stats] of quizTopicStats.entries()) {
+      tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + stats.attempts);
+    }
     const tagSignals = [...tagCounts.entries()]
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
       .slice(0, 24)
@@ -493,6 +821,15 @@ export function makePracticeRouter(db: Database.Database): Hono {
         { name: 'Concurrency', score: 92 },
       ],
       tagSignals,
+      quizAnalytics: {
+        totalAttempts: totalQuizAttempts,
+        totalQuestions: totalQuizQuestions,
+        overallAccuracy: overallQuizAccuracy,
+        accuracyTrend,
+        byDifficulty,
+        byMode,
+        weakTopics,
+      },
     });
   });
 

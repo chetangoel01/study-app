@@ -142,8 +142,33 @@ const SCHEMA_DDL = `
     options_json  TEXT NOT NULL DEFAULT '[]',
     answer_index  INTEGER NOT NULL DEFAULT 0,
     explanation   TEXT NOT NULL DEFAULT '',
+    tags_json     TEXT NOT NULL DEFAULT '[]',
     created_at    TEXT DEFAULT (datetime('now')),
     updated_at    TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS practice_quiz_attempts (
+    id                  INTEGER PRIMARY KEY,
+    user_id             INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    session_id          INTEGER REFERENCES practice_sessions(id) ON DELETE SET NULL,
+    quiz_spec_id        INTEGER REFERENCES practice_quiz_specs(id) ON DELETE SET NULL,
+    mode                TEXT NOT NULL,
+    selected_difficulty TEXT NOT NULL DEFAULT 'Medium',
+    question_count      INTEGER NOT NULL DEFAULT 0,
+    correct_count       INTEGER NOT NULL DEFAULT 0,
+    accuracy_percentage INTEGER NOT NULL DEFAULT 0,
+    duration_seconds    INTEGER NOT NULL DEFAULT 0,
+    created_at          TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS practice_quiz_attempt_questions (
+    id          INTEGER PRIMARY KEY,
+    attempt_id  INTEGER NOT NULL REFERENCES practice_quiz_attempts(id) ON DELETE CASCADE,
+    question_id INTEGER,
+    difficulty  TEXT NOT NULL DEFAULT 'Medium',
+    is_correct  INTEGER NOT NULL DEFAULT 0,
+    tags_json   TEXT NOT NULL DEFAULT '[]',
+    created_at  TEXT DEFAULT (datetime('now'))
   );
 
   CREATE INDEX IF NOT EXISTS idx_practice_quiz_specs_mode_active
@@ -151,6 +176,12 @@ const SCHEMA_DDL = `
 
   CREATE INDEX IF NOT EXISTS idx_practice_quiz_questions_spec_position
     ON practice_quiz_questions(spec_id, position, id);
+
+  CREATE INDEX IF NOT EXISTS idx_practice_quiz_attempts_user_created
+    ON practice_quiz_attempts(user_id, created_at, id);
+
+  CREATE INDEX IF NOT EXISTS idx_practice_quiz_attempt_questions_attempt
+    ON practice_quiz_attempt_questions(attempt_id, id);
 `;
 
 export function applySchema(db: Database.Database): void {
@@ -173,4 +204,5 @@ export function applySchema(db: Database.Database): void {
   addCol("ALTER TABLE daily_challenge_pool ADD COLUMN function_name TEXT DEFAULT ''");
   addCol("ALTER TABLE daily_challenge_pool ADD COLUMN test_cases TEXT DEFAULT '[]'");
   addCol("ALTER TABLE daily_challenge_pool ADD COLUMN tags TEXT DEFAULT '[]'");
+  addCol("ALTER TABLE practice_quiz_questions ADD COLUMN tags_json TEXT NOT NULL DEFAULT '[]'");
 }
