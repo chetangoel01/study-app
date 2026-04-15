@@ -42,6 +42,20 @@ function getSessionTypeLabel(session: PracticeSessionSummary): string {
   return session.title || 'Practice Session';
 }
 
+function formatTrendDate(isoDay: string): string {
+  const parsed = new Date(`${isoDay}T00:00:00.000Z`);
+  if (Number.isNaN(parsed.getTime())) return isoDay;
+  return parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
+
+function formatTopicTag(tag: string): string {
+  return tag
+    .split(/[_\s-]+/g)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
 export function DetailedReportModal({ onClose, skillBreakdown, sections }: Props) {
   const { data: stats, loading } = usePracticeStats();
   const fallbackSkills = skillBreakdown && skillBreakdown.length > 0
@@ -92,6 +106,8 @@ export function DetailedReportModal({ onClose, skillBreakdown, sections }: Props
     : averageScore;
 
   const recentSessions = (stats?.recentSessions || []).slice(0, 4);
+  const quizAnalytics = stats?.quizAnalytics;
+  const hasQuizAnalytics = (quizAnalytics?.totalAttempts ?? 0) > 0;
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -141,6 +157,99 @@ export function DetailedReportModal({ onClose, skillBreakdown, sections }: Props
                 <p className="report-metric-label">Completion Signal</p>
                 <p className="report-metric-value">{completionSignal}%</p>
               </article>
+            </section>
+
+            <section className="report-section">
+              <div className="report-section-head">
+                <h3>Quiz Calibration</h3>
+              </div>
+              {hasQuizAnalytics ? (
+                <>
+                  <div className="report-quiz-summary">
+                    <article className="report-quiz-stat">
+                      <p className="report-quiz-label">Overall Accuracy</p>
+                      <p className="report-quiz-value">{quizAnalytics?.overallAccuracy ?? 0}%</p>
+                    </article>
+                    <article className="report-quiz-stat">
+                      <p className="report-quiz-label">Attempts</p>
+                      <p className="report-quiz-value">{quizAnalytics?.totalAttempts ?? 0}</p>
+                    </article>
+                    <article className="report-quiz-stat">
+                      <p className="report-quiz-label">Questions Graded</p>
+                      <p className="report-quiz-value">{quizAnalytics?.totalQuestions ?? 0}</p>
+                    </article>
+                  </div>
+
+                  <div className="report-quiz-grid">
+                    <article className="report-quiz-card">
+                      <h4>By Difficulty</h4>
+                      <div className="report-quiz-list">
+                        {(quizAnalytics?.byDifficulty ?? []).map((entry) => (
+                          <div className="report-quiz-row" key={entry.difficulty}>
+                            <span>{entry.difficulty}</span>
+                            <span>{entry.accuracy}% ({entry.questions})</span>
+                          </div>
+                        ))}
+                      </div>
+                    </article>
+
+                    <article className="report-quiz-card">
+                      <h4>By Mode</h4>
+                      <div className="report-quiz-list">
+                        {(quizAnalytics?.byMode ?? []).length > 0 ? (
+                          (quizAnalytics?.byMode ?? []).map((entry) => (
+                            <div className="report-quiz-row" key={entry.mode}>
+                              <span>{entry.label}</span>
+                              <span>{entry.accuracy}% ({entry.attempts})</span>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="report-empty">No mode-level quiz data yet.</p>
+                        )}
+                      </div>
+                    </article>
+                  </div>
+
+                  <article className="report-quiz-card">
+                    <h4>Accuracy Trend</h4>
+                    {(quizAnalytics?.accuracyTrend ?? []).length > 0 ? (
+                      <div className="report-trend-list">
+                        {(quizAnalytics?.accuracyTrend ?? []).map((point) => (
+                          <div key={`${point.date}-${point.attempts}`} className="report-trend-row">
+                            <span>{formatTrendDate(point.date)}</span>
+                            <div className="report-trend-meter">
+                              <div style={{ width: `${point.accuracy}%` }} />
+                            </div>
+                            <span>{point.accuracy}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="report-empty">Complete more sessions to populate trend data.</p>
+                    )}
+                  </article>
+
+                  <article className="report-quiz-card">
+                    <h4>Weak Topics To Revisit</h4>
+                    {(quizAnalytics?.weakTopics ?? []).length > 0 ? (
+                      <div className="report-quiz-list">
+                        {(quizAnalytics?.weakTopics ?? []).map((topic) => (
+                          <div className="report-quiz-row" key={topic.tag}>
+                            <span>{formatTopicTag(topic.tag)}</span>
+                            <span>{topic.accuracy}% • {topic.misses} misses</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="report-empty">Weak-topic signals appear after more tagged attempts.</p>
+                    )}
+                  </article>
+                </>
+              ) : (
+                <p className="report-empty">
+                  Complete a few quiz attempts and this report will calibrate your mastery with difficulty and topic-level insights.
+                </p>
+              )}
             </section>
 
             <section className="report-section">
