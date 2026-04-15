@@ -10,6 +10,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+_MODULE_ID_ALIASES = {
+    "supplemental-behavioral-interviews": "review-interview",
+    "supplemental-career": "review-interview",
+    "supplemental-system-design-interviews": "system-design",
+}
+
 
 def main() -> None:
     _validate_env()
@@ -117,10 +123,7 @@ def main() -> None:
     bucket_source_urls = {bucket["bucket_id"]: list(bucket.get("source_urls", [])) for bucket in buckets}
     bucket_module_ids = {bucket["bucket_id"]: list(bucket.get("module_ids", [])) for bucket in buckets}
     for topic in topics_with_lessons:
-        if not topic.get("source_urls"):
-            topic["source_urls"] = list(bucket_source_urls.get(topic["bucket_id"], []))
-        if not topic.get("module_ids"):
-            topic["module_ids"] = list(bucket_module_ids.get(topic["bucket_id"], []))
+        _merge_topic_context(topic, bucket_source_urls=bucket_source_urls, bucket_module_ids=bucket_module_ids)
     topics, lesson_validation = validate_topic_lessons(topics_with_lessons)
     topic_edges, edge_validation = build_topic_edges(topics, include_diagnostics=True)
     planning_graph = build_planning_graph(topics)
@@ -418,6 +421,55 @@ def _summarize_buckets(buckets: list[dict]) -> list[dict]:
             }
         )
     return summaries
+
+
+def _merge_topic_context(
+    topic: dict,
+    *,
+    bucket_source_urls: dict[str, list[str]],
+    bucket_module_ids: dict[str, list[str]],
+) -> None:
+    bucket_id = str(topic.get("bucket_id") or "")
+    source_urls = {
+        str(url).strip()
+        for url in list(topic.get("source_urls") or []) + list(bucket_source_urls.get(bucket_id, []))
+        if str(url).strip()
+    }
+    topic["source_urls"] = sorted(source_urls)
+
+    normalized_topic_module_ids = []
+    for module_id in list(topic.get("module_ids") or []):
+        normalized = _normalize_module_id(module_id)
+        if normalized:
+            normalized_topic_module_ids.append(normalized)
+
+    normalized_module_ids = normalized_topic_module_ids
+    if not normalized_module_ids:
+        for module_id in list(bucket_module_ids.get(bucket_id, [])):
+            normalized = _normalize_module_id(module_id)
+            if normalized:
+                normalized_module_ids.append(normalized)
+
+    deduped = sorted(set(normalized_module_ids))
+    public_ids = [module_id for module_id in deduped if _is_public_module_id(module_id)]
+    topic["module_ids"] = public_ids or deduped
+
+
+def _normalize_module_id(module_id: str) -> str:
+    module_id = str(module_id or "").strip()
+    if not module_id:
+        return ""
+    if module_id.startswith("leetcode-export-"):
+        suffix = module_id.removeprefix("leetcode-export-")
+        return f"leetcode-course-{suffix}"
+    return _MODULE_ID_ALIASES.get(module_id, module_id)
+
+
+def _is_public_module_id(module_id: str) -> bool:
+    return not (
+        module_id.startswith("supplemental-")
+        or module_id.startswith("leetcode-export-")
+    )
 
 
 if __name__ == "__main__":
