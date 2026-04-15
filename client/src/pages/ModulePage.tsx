@@ -23,6 +23,26 @@ function extractDomain(url: string | null): string {
   }
 }
 
+function splitTopicGuideSections(markdown: string): {
+  studyMarkdown: string;
+  practiceMarkdown: string;
+} {
+  const normalized = markdown.replace(/\r\n/g, '\n');
+  const lines = normalized.split('\n');
+  const practiceHeadingIndex = lines.findIndex((line) => /^##\s+Practice\b/i.test(line.trim()));
+  if (practiceHeadingIndex < 0) {
+    return {
+      studyMarkdown: normalized.trim(),
+      practiceMarkdown: '',
+    };
+  }
+
+  return {
+    studyMarkdown: lines.slice(0, practiceHeadingIndex).join('\n').trim(),
+    practiceMarkdown: lines.slice(practiceHeadingIndex + 1).join('\n').trim(),
+  };
+}
+
 /* ── Toolbar helpers ───────────────────────────────────────── */
 
 function wrapSelection(
@@ -340,6 +360,9 @@ export function ModulePage() {
   };
 
   const currentTopic = topics.length > 0 ? topics[currentTopicIndex] ?? null : null;
+  const topicGuideSections = currentTopic
+    ? splitTopicGuideSections(currentTopic.study_guide_markdown)
+    : null;
   const totalSteps = topics.length + 1; // topics + practice
   const isPracticeStep = currentTopicIndex >= topics.length;
   const isFirstStep = currentTopicIndex === 0;
@@ -629,7 +652,17 @@ export function ModulePage() {
                   <div className="mp-reader-header-actions">{renderTopicForwardAction()}</div>
                 </div>
                 <div className="mp-reader-body">
-                  <MarkdownRenderer content={currentTopic.study_guide_markdown} />
+                  {topicGuideSections?.studyMarkdown && (
+                    <MarkdownRenderer content={topicGuideSections.studyMarkdown} />
+                  )}
+                  {topicGuideSections?.practiceMarkdown && (
+                    <section className="mp-topic-practice" aria-label="Section practice">
+                      <div className="mp-topic-practice-header">
+                        <h3 className="mp-topic-practice-title">Practice</h3>
+                      </div>
+                      <MarkdownRenderer content={topicGuideSections.practiceMarkdown} />
+                    </section>
+                  )}
                 </div>
                 {renderTopicReaderNavBottom()}
               </div>
