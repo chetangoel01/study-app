@@ -1,0 +1,38 @@
+Site reliability engineering
+This article has multiple issues. Please help improve it or discuss these issues on the talk page. (Learn how and when to remove these messages)
+|
+Site Reliability Engineering (SRE) is a discipline in the field of Software Engineering and IT infrastructure support that monitors and improves the availability and performance of deployed software systems and large software services (which are expected to deliver reliable response times across events such as new software deployments, hardware failures, and cybersecurity attacks).[1] There is typically a focus on automation and an infrastructure as code methodology. SRE uses elements of software engineering, IT infrastructure, web development, and operations[2] to assist with reliability. It is similar to DevOps as they both aim to improve the reliability and availability of deployed software systems.
+History
+[edit]Site Reliability Engineering originated at Google with Benjamin Treynor Sloss,[3][4] who founded SRE team in 2003.[5] The concept expanded within the software development industry, leading various companies to employ site reliability engineers.[6] By March 2016, Google had more than 1,000 site reliability engineers on staff.[7] Dedicated SRE teams are common at larger web development companies.[8] In middle-sized and smaller companies, DevOps teams sometimes perform SRE, as well.[6] Organizations that have adopted the concept include Airbnb, Dropbox, IBM,[9] LinkedIn,[10] Netflix,[7] and Wikimedia.[11]
+Definition
+[edit]Site reliability engineers (SREs) are responsible for a combination of system availability, latency, performance, efficiency, change management, monitoring, emergency response, and capacity planning.[12] SREs often have backgrounds in software engineering, systems engineering, and/or system administration.[13] The focuses of SRE include automation, system design, and improvements to system resilience.[13]
+SRE is considered a specific implementation of DevOps;[14] focusing specifically on building reliable systems, whereas DevOps covers a broader scope of operations.[15][16][17] Despite having different focuses, some companies have rebranded their operations teams to SRE teams.[6]
+Principles and practices
+[edit]Common definitions of the practices include (but are not limited to):[2][18]
+- Automation of repetitive tasks for cost-effectiveness.
+- Defining reliability goals to prevent endless effort.
+- Design of systems with a goal to reduce risks to availability, latency, and efficiency.
+- Observability, the ability to ask arbitrary questions about a system without having to know ahead of time what to ask.[19]
+Common definitions of the principles include (but are not limited to):
+- Toil management, the implementation of the first principle outlined above.
+- Defining and measuring reliability goals—SLIs, SLOs, and error budgets.
+- Non-Abstract Large Scale Systems Design (NALSD) with a focus on reliability.
+- Designing for and implementing observability.
+- Defining, testing, and running an incident management process.
+- Capacity planning.
+- Change and release management, including CI/CD.
+- Chaos engineering.
+Deployment
+[edit]SRE teams collaborate with other departments within organizations to guide the implementation of the mentioned principles. Below is an overview of common practices:[20]
+Kitchen Sink
+[edit]Kitchen Sink refers to the expansive and often unbounded scope of services and workflows that SRE teams oversee. Unlike traditional roles with clearly defined boundaries, SREs are tasked with various responsibilities, including system performance optimization, incident management, and automation. This approach allows SREs to address multiple challenges, ensuring that systems run efficiently and evolve in response to changing demands and complexities.
+Infrastructure
+[edit]Infrastructure SRE teams focus on maintaining and improving the reliability of systems that support other teams' workflows. While they sometimes collaborate with platform engineering teams, their primary responsibility is ensuring up-time, performance, and efficiency. Platform teams, on the other hand, primarily develop the software and systems used across the organization. While reliability is a goal for both, platform teams prioritize creating and maintaining the tools and services used by internal stakeholders, whereas Infrastructure SRE teams are tasked with ensuring those systems run smoothly and meet reliability standards.
+Tools
+[edit]SRE teams utilize a variety of tools with the aim of measuring, maintaining, and enhancing system reliability. These tools play a role in monitoring performance, identifying issues, and facilitating proactive maintenance. For instance, Nagios Core is commonly employed for system monitoring and alerting, while Prometheus (software) is frequently used for collecting and querying metrics in cloud-native environments.
+Product or Application
+[edit]SRE teams dedicated to specific products or applications are common in large organizations.[21] These teams are responsible for ensuring the reliability, scalability, and performance of key services. In larger companies, it's typical to have multiple SRE teams, each focusing on different products or applications, ensuring that each area receives specialized attention to meet performance and availability targets.
+Embedded
+[edit]In an embedded model, individual SREs or small SRE pairs are integrated within software engineering teams. These SREs collaborate with developers, applying core SRE principles—such as automation, monitoring, and incident response—directly to the software development lifecycle. This approach aims to enhance reliability, performance, and collaboration between SREs and developers.
+Consulting
+[edit]Consulting SRE teams specialize in advising organizations on the implementation of SRE principles and practices. Typically composed of seasoned SREs with a history across various implementations, these teams provide insights and guida

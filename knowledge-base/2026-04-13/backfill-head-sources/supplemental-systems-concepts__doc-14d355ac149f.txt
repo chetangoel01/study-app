@@ -1,0 +1,37 @@
+Akamai Technologies
+| Company type | Public |
+|---|---|
+| Industry | |
+| Founded | 1998 |
+| Founders | |
+| Headquarters | Cambridge, Massachusetts, U.S. |
+Key people | |
+| Revenue | US$4.21 billion (2025) |
+| US$567 million (2025) | |
+| US$452 million (2025) | |
+| Total assets | US$11.5 billion (2025) |
+| Total equity | US$4.98 billion (2025) |
+Number of employees | 11,000 (2025) |
+| ASN | |
+| Website | akamai |
+| Footnotes / references [2][3] |
+Akamai Technologies, Inc. is an American company specializing in content delivery network[4] (CDN), cybersecurity, DDoS mitigation, and cloud services.[5][6] It is headquartered in Cambridge, Massachusetts.
+History
+[edit]The company was named after akamai, which means 'clever', or more colloquially 'cool', in Hawaiian. Co-founder Daniel M. Lewin found the term in a Hawaiian–English dictionary after a colleague's suggestion.[7]
+Akamai Technologies entered the 1998 MIT $50K competition (equivalent to $100K in 2025) with a business proposition based on their research on consistent hashing[8] and was selected as one of the finalists.[9] By August 1998, they had developed a working prototype, and with the help of Jonathan Seelig and Randall Kaplan, they took steps to incorporate the company.[10] Akamai Technologies was incorporated on August 20, 1998.[11]
+In late 1998 and early 1999, a group of business professionals and scientists joined the founding team—most notably, Paul Sagan, former president of New Media for Time Inc., and George Conrades, former chairman and chief executive officer of BBN Corp. and senior vice president of US operations for IBM. Conrades became chief executive officer of Akamai in April 1999.[12][13][14] The company launched its commercial service in April 1999 and was listed on the NASDAQ Stock Market from October 29, 1999.[15]
+On July 1, 2001, Akamai was added to the Russell 3000 Index and Russell 2000 Index.[16]
+On September 11, 2001, co-founder Daniel M. Lewin died in the September 11 attacks at the age of 31, when he was stabbed by one of the hijackers aboard American Airlines Flight 11, the first plane to crash into the World Trade Center. He was seated closest to the hijackers and may have tried to stop them.[17]
+Arabic news network Al Jazeera was an Akamai customer from March 28, 2003 to April 2, 2003, when Akamai decided to end the relationship,[18] which the network's English-language managing editor claimed was due to "political pressure".[19]
+In 2005, Paul Sagan was named chief executive officer of Akamai, taking over from Conrades. Sagan worked to differentiate Akamai from its competitors by expanding its breadth of services.[14] Under his leadership, it grew to $1.37 billion in revenue.[20]
+In July 2007, Akamai was added to the S&P 500 index.[21]
+In 2013, co-founder Tom Leighton was elected chief executive officer, replacing Sagan.[22]
+In 2013, the Securities and Exchange Commission charged a former executive at Akamai Technologies for illegally tipping non-public information about the company's financial predicament as part of the insider trading scheme operated by now-imprisoned Galleon Management hedge fund founder Raj Rajaratnam.[23] In 2014 it was reported that the National Security Agency and Federal Bureau of Investigation used Facebook's Akamai CDN to collect information on Facebook users.[24]
+On February 9, 2021, Akamai announced that it would reorganize into two internal groups – Security Technology and Edge Technology. It also re-established the role of chief technology officer and named Robert Blumofe to that role.[25] Long-time chief security officer (CSO) Andy Ellis announced he would leave in March 2021.[26]
+Akamai's headquarters are in Kendall Square. It started in Technology Square and later expanded to multiple buildings in Cambridge Center. It consolidated its offices in a purpose-built building at 145 Broadway in December 2019.[27]
+The company's cloud infrastructure services primarily consist of compute and storage solutions developed based on Linode, a cloud hosting provider acquired by Akamai for $900 million in 2022.[28][29]
+Akamai Intelligent Edge Platform
+[edit]The Akamai Intelligent Platform[30] is a distributed cloud computing platform that operates worldwide, a network of over approximately 365,000 servers in more than 135 countries.[31] These servers reside on roughly 1,350 of the world's networks, gathering real-time information about traffic, congestion, and trouble spots.[31] Each Akamai server is equipped with proprietary software that uses complex algorithms to process requests from nearby users.[30]
+Content delivery process
+[edit]The content delivery process begins with a user submitting a request to a browser. When a user enters a URL, a DNS request is triggered to Akamai's authoritative DNS,[32] and an IP address is retrieved. With the IP address, the browser can then directly contact the Akamai edge server for subsequent requests.[33] In a content delivery network (CDN) structure, the domain name of the URL is translated by the mapping system[34] into the IP address of an edge server to serve the content to the user.[30]
+Akamai delivers web content over its Intelligent Platform by transparently mirroring elements such as HTML, CSS, software downloads, and media objects from customers' servers. The Akamai server is automatically chosen depending on the type of content and the user's network location. The servers are located in more than 200 countries and territories.[35] Receiving content from a server nearer to the user allows for faster downloads and less vulnerability to network congestion. Akamai claims to provide better scalability by delivering the content over the last mile from servers close to end-users, avoiding the middle-mile bottleneck of the Internet.[36] The Download Delivery product line includes HTTP downloads for large downloadable objects, a customizable application for consumers, and analytics tools with metrics that monitor and report on the download proce

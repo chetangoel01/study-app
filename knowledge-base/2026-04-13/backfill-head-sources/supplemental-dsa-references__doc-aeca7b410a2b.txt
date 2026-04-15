@@ -1,0 +1,42 @@
+Hi everyone! In this handbook you're going to learn about the vast, intricate field that is Software Architecture.
+This is a field that I found both confusing and intimidating when I was first starting my journey into coding. So I'll try and spare you the confusion.
+In this handbook I'll try to give you a simple, surface-level, easy-to-understand introduction to Software Architecture.
+We'll talk about what architecture is within the software world, some of the main concepts you should understand, and some of the today's most widely-used architecture patterns.
+For each topic I'll give a brief and theoretical introduction. Then I'll share some code examples to give you a clearer idea of how these work. Let's get to it!
+Table of Contents
+What is software architecture?
+According to this source:
+The software architecture of a system represents the design decisions related to overall system structure and behavior.
+That's quite generic, right? Absolutely. And that's exactly what used to confuse me so much when researching about software architecture. It's a topic that encompasses a lot and the term is used to talk about many different things.
+The simplest way I can put it is, software architecture refers to how you organize stuff in the process of creating software. And "stuff" here can refer to:
+Implementation details (that is, the folder structure of your repo)
+Implementation design decisions (Do you use server side or client side rendering? Relational or non-relational databases?)
+The technologies you choose (Do you use REST or GraphQl for your API? Python with Django or Node with Express for your back end?)
+System design decisions (like is your system a monolith or is it divided into microservices?)
+Infrastructure decisions (Do you host your software on premise or on a cloud provider?)
+That's a lot of different choices and possibilities. And what complicates this a tiny bit more, is that within these 5 divisions, different patterns can be combined. Meaning, I can have a monolith API that uses REST or GraphQL, a microservices-based app hosted on-premise or on the cloud, and so on.
+To better explain this mess, first we're going to explain some basic generic concepts. And then we're going to go through some of these divisions, explaining the most common architecture patterns or choices used nowadays to build apps.
+Important Software Architecture Concepts to Know
+What's the Client-server Model?
+Client-server is a model that structures the tasks or workloads of an application between a resource or service provider (server) and a service or resource requester (client).
+Put simply, the client is the application that requests some kind of information or performs actions, and the server is the program that sends information or performs actions according to what the client does.
+Clients are normally represented by front-end applications that run either on the web or mobile apps (although other platforms exist too and back-end applications can act as clients as well). Servers are usually back-end applications.
+To illustrate this with an example, imagine you're entering your favorite social network. When you enter the URL on your browser and hit enter, your browser is acting as the client app and sending a request to the social network server, which responds by sending you the content of the website.
+Most applications nowadays use a client-server model. The most important concept to remember about it is that clients request resources or services that the server performs.
+Another important concept to know is that clients and servers are part of the same system, but each is an application/program on its own. Meaning they can be developed, hosted, and executed separately.
+If you're not familiar with the difference between front and back ends, here's a cool article that explains it. And here's another article that expands upon the concept of client-server.
+What are APIs?
+We just mentioned that clients and servers are entities that communicate with each other to request things and respond to things. The way in which these two parts usually communicate is through an API (application programming interface).
+An API is nothing more than a set of defined rules that establishes how an application can communicate with another. It's like a contract between the two parts that says "If you send A, I'll always respond B. If you send C, I'll always respond D..." and so on.
+Having this set of rules, the client knows exactly what it has to require in order to complete a certain task, and the server knows exactly what the client will require when a certain action has to be performed.
+There're different ways in which an API can be implemented. The most commonly used are REST, SOAP and GraphQl.
+Regarding how APIs communicate, most often the HTTP protocol is used and the content is exchanged in JSON or XML format. But other protocols and content formats are perfectly possible.
+If you'd like to expand upon this topic, here's a nice article for you to read.
+What is Modularity?
+When we talk about "modularity" in software architecture, we refer to the practice of dividing big things into smaller pieces. This practice of breaking things down is performed to simplify big applications or codebases.
+Modularity has the following advantages:
+It's good for dividing concerns and features, which helps with the visualization, understanding, and organization of a project.
+The project tends to be easier to maintain and less prone to errors and bugs when it's clearly organized and subdivided.
+If your project is subdivided into many different pieces, each can be worked on and modified separately and independently, which is often very useful.
+I know this sounds a bit generic, but modularity or the practice of subdividing things is a very big part of what software architecture is all about. So just keep this concept in the back of your mind – it'll become more clear and apparent as we go through some examples. ;)
+If you'd like a bit more info a

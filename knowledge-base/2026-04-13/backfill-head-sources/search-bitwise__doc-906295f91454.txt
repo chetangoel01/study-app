@@ -1,0 +1,39 @@
+Discuss this article in the forums
+Binary search is one of the fundamental algorithms in computer science. In order to explore it, we’ll first build up a theoretical backbone, then use that to implement the algorithm properly and avoid those nasty off-by-one errors everyone’s been talking about.
+In its simplest form, binary search is used to quickly find a value in a sorted sequence (consider a sequence an ordinary array for now). We’ll call the sought value the target value for clarity. Binary search maintains a contiguous subsequence of the starting sequence where the target value is surely located. This is called the search space. The search space is initially the entire sequence. At each step, the algorithm compares the median value in the search space to the target value. Based on the comparison and because the sequence is sorted, it can then eliminate half of the search space. By doing this repeatedly, it will eventually be left with a search space consisting of a single element, the target value.
+For example, consider the following sequence of integers sorted in ascending order and say we are looking for the number 55:
+| 0 | 5 | 13 | 19 | 22 | 41 | 55 | 68 | 72 | 81 | 98 |
+| 55 | 68 | 72 | 81 | 98 |
+| 55 | 68 |
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+binary_search(A, target):
+lo = 1, hi = size(A)
+while lo <= hi:
+mid = lo + (hi - lo) / 2
+if A[mid] == target:
+return mid
+else if A[mid] < target:
+lo = mid + 1
+else:
+hi = mid - 1 // target was not found
+Since each comparison binary search uses halves the search space, we can assert and easily prove that binary search will never use more than (in big-oh notation) O(log N) comparisons to find the target value.
+The logarithm is an awfully slowly growing function. In case you’re not aware of just how efficient binary search is, consider looking up a name in a phone book containing a million names. Binary search lets you systematically find any given name using at most 21 comparisons. If you could manage a list containing all the people in the world sorted by name, you could find any person in less than 35 steps. This may not seem feasible or useful at the moment, but we’ll soon fix that.
+Note that this assumes that we have random access to the sequence. Trying to use binary search on a container such as a linked list makes little sense and it is better use a plain linear search instead.
+C++’s Standard Template Library implements binary search in algorithms lower_bound, upper_bound, binary_search and equal_range, depending exactly on what you need to do. Java has a built-in Arrays.binary_search method for arrays and the .NET Framework has Array.BinarySearch.
+You’re best off using library functions whenever possible, since, as you’ll see, implementing binary search on your own can be tricky.
+This is where we start to abstract binary search. A sequence (array) is really just a function which associates integers (indices) with the corresponding values. However, there is no reason to restrict our usage of binary search to tangible sequences. In fact, we can use the same algorithm described above on any monotonic function f whose domain is the set of integers. The only difference is that we replace an array lookup with a function evaluation: we are now looking for some x such that f(x) is equal to the target value. The search space is now more formally a subinterval of the domain of the function, while the target value is an element of the codomain. The power of binary search begins to show now: not only do we need at most O(log N) comparisons to find the target value, but we also do not need to evaluate the function more than that many times. Additionally, in this case we aren’t restricted by practical quantities such as available memory, as was the case with arrays.
+When you encounter a problem which you think could be solved by applying binary search, you need some way of proving it will work. I will now present another level of abstraction which will allow us to solve more problems, make proving binary search solutions very easy and also help implement them. This part is a tad formal, but don’t get discouraged, it’s not that bad.
+Consider a predicate p defined over some ordered set S (the search space). The search space consists of candidate solutions to the problem. In this article, a predicate is a function which returns a boolean value, true or false (we’ll also use yes and no as boolean values). We use the predicate to verify if a candidate solution is legal (does not violate some constraint) according to the definition of the problem.
+What we can call the main theorem states that binary search can be used if and only if for all x in S, p(x) implies p(y) for all y > x. This property is what we use when we discard the second half of the search space. It is equivalent to saying that ¬p(x) implies ¬p(y) for all y < x (the symbol ¬ denotes the logical not operator), which is what we use when we discard the first half of the search space. The theorem can easily be proven, although I’ll omit the proof here to reduce clutter.
+Behind the cryptic mathematics I am really stating that if you had a yes or no question (the predicate), getting a yes answer for some potential solution x means that you’d also get a yes answer for any element after x. Similarly, if you got a no answer, you’d get a no answer for any element before x. As a consequence, if you were to ask the question for each element in the search space (in order), you would get a series of no answers followed by a series of yes answers.
+Careful readers may note that binary search can also be used when a predicate yields a series of yes answers followed by a series of no answers. This is true and complementing that predicate will satisfy the original condition. For simplicity we’ll deal only with predicates described in the theorem.
+If the condition in the main theorem is satisfied, we can use binary search to find the smallest legal solution, i.e. the smallest x for which p(x) is true. The first part of devi

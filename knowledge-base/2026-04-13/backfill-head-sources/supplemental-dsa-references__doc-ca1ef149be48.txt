@@ -1,0 +1,199 @@
+The process in which a function calls itself directly or indirectly is called recursion and the corresponding function is called a recursive function.
+- A recursive algorithm takes one step toward solution and then recursively call itself to further move. The algorithm stops once we reach the solution.
+- Since called function may further call itself, this process might continue forever. So it is essential to provide a base case to terminate this recursion process.
+Steps to Implement Recursion
+Step1 - Define a base case: Identify the simplest (or base) case for which the solution is known or trivial. This is the stopping condition for the recursion, as it prevents the function from infinitely calling itself.
+Step2 - Define a recursive case: Define the problem in terms of smaller subproblems. Break the problem down into smaller versions of itself, and call the function recursively to solve each subproblem.
+Step3 - Ensure the recursion terminates: Make sure that the recursive function eventually reaches the base case, and does not enter an infinite loop.
+Step4 - Combine the solutions: Combine the solutions of the subproblems to solve the original problem.
+Example 1 : Sum of Natural Numbers (n=3)
+Input : n = 3
+Output : 6
+Explanation : The sum of first 3 natural numbers is 1+2+3 = 6.Input : n = 7
+Output : 28
+Explanation : The sum of first 7 natural numbers is 1+2+3+4+5+6+7 = 28.
+- Base Case : At n == 1, it returns 1 for n = 3, the recursion reaches this after going through 3 → 2 → 1.
+- Recursive Case : Each call adds n to sum(n-1) , so sum(3) = 3 + sum(2), sum(2) = 2 + sum(1).
+#include <iostream>
+using namespace std;
+int sum(int n){
+// base condition
+if (n == 1)
+return 1 ;
+return n + sum(n - 1);
+}
+int main() {
+int n = 5 ;
+cout << sum(n);
+return 0;
+}
+#include <stdio.h>
+int sum(int n){
+// base condition
+if (n == 1)
+return 1 ;
+return n + sum(n - 1);
+}
+int main() {
+int n = 5 ;
+printf("%d", sum(n));
+return 0;
+}
+public class Main {
+public static int sum(int n) {
+// base condition
+if (n == 1)
+return 1;
+return n + sum(n - 1);
+}
+public static void main(String[] args) {
+int n = 5;
+System.out.println(sum(n));
+}
+}
+def sum(n):
+# base condition
+if n == 1:
+return 1
+return n + sum(n - 1)
+if __name__ == "__main__":
+n = 5
+print(sum(n))
+using System;
+class Program {
+static int Sum(int n) {
+// base condition
+if (n == 1)
+return 1;
+return n + Sum(n - 1);
+}
+static void Main() {
+int n = 5;
+Console.WriteLine(Sum(n));
+}
+}
+function sum(n) {
+// base condition
+if (n === 1)
+return 1;
+return n + sum(n - 1);
+}
+const n = 5;
+console.log(sum(n));
+Output
+15
+Execution Flow of the Recursive Solution
+Calls are stacked as sum(3) → sum(2) → sum(1) before any addition happens. Results are added back in reverse: sum(1) = 1, sum(2) = 3, sum(3) = 6.
+Comparison of Recursive and Iterative Approaches
+Need of Recursion?
+- Recursion helps in logic building. Recursive thinking helps in solving complex problems by breaking them into smaller subproblems.
+- Recursive solutions work as a a basis for Dynamic Programming and Divide and Conquer algorithms.
+- Certain problems can be solved quite easily using recursion like Towers of Hanoi (TOH), Inorder/Preorder/Postorder Tree Traversals, DFS of Graph, etc.
+What is the base condition in recursion?
+A recursive program stops at a base condition. There can be more than one base conditions in a recursion. In the above program, the base condition is when n = 1.
+How a particular problem is solved using recursion?
+The idea is to represent a problem in terms of one or more smaller problems, and add one or more base conditions that stop the recursion.
+Example 2 : Factorial of a Number
+The factorial of a number n
+(where n >= 0
+) is the product of all positive integers from 1 to n
+. To compute the factorial recursively, we calculate the factorial of n
+by using the factorial of (n-1)
+. The base case for the recursive function is when n = 0
+, in which case we return 1.
+#include <iostream>
+using namespace std;
+int fact(int n)
+{
+// BASE CONDITION
+if (n == 0)
+return 1;
+return n * fact(n - 1);
+}
+int main()
+{
+cout << "Factorial of 5 : " << fact(5);
+return 0;
+}
+#include <stdio.h>
+int fact(int n) {
+// Base Condition
+if (n == 0)
+return 1;
+return n * fact(n - 1);
+}
+int main() {
+printf("Factorial of 5 : %d\n", fact(5));
+return 0;
+}
+public class GfG {
+public static int fact(int n) {
+// BASE CONDITION
+if (n == 0)
+return 1;
+return n * fact(n - 1);
+}
+public static void main(String[] args) {
+System.out.println("Factorial of 5 : " + fact(5));
+}
+}
+def fact(n):
+# BASE CONDITION
+if n == 0:
+return 1
+return n * fact(n - 1)
+print("Factorial of 5 : ", fact(5))
+using System;
+class Program {
+static int Fact(int n) {
+// BASE CONDITION
+if (n == 0)
+return 1;
+return n * Fact(n - 1);
+}
+static void Main() {
+Console.WriteLine("Factorial of 5 : " + Fact(5));
+}
+}
+function fact(n) {
+// BASE CONDITION
+if (n === 0)
+return 1;
+return n * fact(n - 1);
+}
+console.log("Factorial of 5 : " + fact(5));
+<?php
+function fact($n) {
+// BASE CONDITION
+if ($n == 0)
+return 1;
+return $n * fact($n - 1);
+}
+echo "Factorial of 5 : " . fact(5);
+?>
+Output
+Factorial of 5 : 120
+Illustration of the above code:
+When does Stack Overflow error occur in recursion?
+If the base case is not reached or not defined, then the stack overflow problem may arise. Let us take an example to understand this.
+int fact(int n)
+{
+// wrong base case (it may cause stack overflow).
+if (n == 100)
+return 1;
+else
+return n*fact(n-1);
+}
+- In this example, if
+fact(10)
+is called, the function will recursively callfact(9)
+, thenfact(8)
+,fact(7)
+, and so on. However, the base case checks ifn == 100
+. Sincen
+will never reach 100 during these recursive calls, the base case is never triggered. As a result, the recursion continues indefinitely.
+- This continuous recursion consumes memory on the function call stack. If the system's memory is exhausted due to these unending function calls, a stack overflow error occurs.
+- To prevent this, it's essential to define a proper base case, such as
+if
+(n == 0)
+to ensure t

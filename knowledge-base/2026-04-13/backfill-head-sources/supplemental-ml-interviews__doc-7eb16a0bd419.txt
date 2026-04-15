@@ -1,0 +1,67 @@
+# Minimum Viable Study Plan for Machine Learning Interviews
+<p align="center">
+ Machine Learning System Design - Early Preview  - <a href ="https://rebrand.ly/mldesignbook"> Buy on Amazon </a><br>
+ <a href="https://rebrand.ly/mldesignbook"> <img src="https://miro.medium.com/max/1400/1*Te6wgTLFw9AD6r9D6sVNMg.png" alt="Machine Learning System Design Interview" width="400" height="300"> </a>
+ 
+ </p>
+ <p align="center">
+ Machine Learning interviews book on Amazon.<br>
+<a href="https://www.amazon.com/dp/B09S9JBT86"> <img src="https://miro.medium.com/max/700/1*e3TitgWHyr6bO_bOWtP4Rg.png" alt="Machine Learning Interviews book on Amazon" width="400" height="300"> </a>
+ 
+</p>
+
+Follow [News about AI projects](https://news.llmlab.io/)
+
+- Most popular post: [One lesson I learned after solving 500 leetcode questions](https://mlengineer.io/from-semiconductor-to-software-engineer-8c3126dde65b)
+- Oct 10th: Machine Learning System Design course became the [number 1 ML course](https://www.linkedin.com/posts/activity-6853724396188790784-tWxj) on educative. 
+- June 8th: launch [interview stories series](https://rebrand.ly/interviewstory). 
+- April 29th: I launched [mlengineer.io](https://mlengineer.io/from-google-rejection-to-40-offers-71337a224ebe?sk=1408513db21536d25c23f67ce898b37d) blog so you can get latest machine learning interview experience.
+- April 15th 2021: Machine Learning System Design is launched on [interviewquery.com](https://rebrand.ly/mldesigninterview).
+- Feb 9th 2021: [Machine Learning System design](https://rebrand.ly/mlsd_launch) is now available on [educative.io](https://rebrand.ly/mlsd_launch).
+- I'm a SWE, ML with 10 years of experience ([Linkedin profile](https://www.linkedin.com/in/phamkhang/)). I had offers from Google, LinkedIn, Coupang, Snap and StichFix. Read my [blog](https://rebrand.ly/mleio). 
+
+
+
+## Machine Learning Design
+
+| Section | |
+| ------------- | ------------- | 
+| 1. [Youtube Recommendation](https://rebrand.ly/mldesign) |<a href="https://rebrand.ly/mldesign"> <img src="images/uc3.png" alt="Youtube Recommendation Design" width="100" height="100"> </a>| 
+| 2. [The main components in MLSD](https://rebrand.ly/mldesign) |<a href="https://rebrand.ly/mldesign"> <img src="images/ml.png" alt="The main components in MLSD" width="100" height="100"> </a> | 
+| 3. [LinkedIn Feed Ranking](https://rebrand.ly/mldesign) |<a href="https://rebrand.ly/mldesign"> <img src="images/feed.png" alt="LinkedIn Feed Ranking" width="100" height="100"> </a> | 
+| 4. [Ad Click Prediction](https://rebrand.ly/mldesign)|<a href="https://rebrand.ly/mldesign"> <img src="images/ads.png" alt="Ad Click Prediction" width="100" height="100"> </a> | 
+| 5. [Estimate Delivery time](https://rebrand.ly/mldesign)|<a href="https://rebrand.ly/mldesign"> <img src="images/delivery.png" alt="Estimate Delivery time" width="100" height="100"> </a> | 
+| 6. [Airbnb Search ranking](https://rebrand.ly/mldesign)|<a href="https://rebrand.ly/mldesign"> <img src="images/air.png" alt="Airbnb Search ranking" width="100" height="100"> </a> | 
+
+
+## Getting Started
+
+| How to  | Resources |
+| ------------- | ------------- |
+| List of promising companies | [WealthFront 2021 list](https://blog.wealthfront.com/career-launching-companies-list/#companies-list).   |
+| Prepare for interview  | [Common questions about Machine Learning Interview process](faqs.md).   |
+| Study guide | [Study guide](README.md) contained minimum set of focus area to aces your interview.   |
+| Design ML system | [ML system design](https://mlengineer.io/machine-learning-design-interview-d08be9f44260?source=friends_link&sk=97fe3a510957d65b6311d5d38b30c639) includes actual ML system design usecases.    |
+| ML usecases | [ML usecases](appliedml.md) from top companies    |
+| Test your ML knowledge  | [Machine Learning quiz](https://mlengineer.io/machine-learning-assessment-db935aa9fafd?source=friends_link&sk=1062e407bea5d842b7684668b005d08c) are designed based on actual interview questions from dozen of big companies.  |
+| One week before onsite interview | Read [one week check list](https://mlengineer.io/machine-learning-engineer-onsite-interview-one-week-checklist-cfd19d57fa02?source=friends_link&sk=80d2bb43c590156a7fa72260dfb4972c) |
+| How to get offer? | Read [success stories](https://mlengineer.io/from-google-rejection-to-40-offers-71337a224ebe?source=friends_link&sk=1408513db21536d25c23f67ce898b37d) |
+| FAANG companies actual MLE interviews | Read [interview stories](https://mlengineer.io/mlengineer-io-interview/home) |
+| Practice coding  | [Leetcode questions by categories for MLE](https://mlengineer.io/common-leetcode-questions-by-categories-532b301130b)  |
+| Advance topics | Read [advance topics](extra.md) |
+
+
+
+## Study guide
+### LeetCode (not all companies ask Leetcode questions)
+[<img src="images/LC.png">](https://docs.google.com/spreadsheets/d/1RCb1dVQCLmtOGlJ5J-NJ5pIC7Tda-N2U/edit#gid=274831950)
+
+- NOTE: there are a lot of companies that do **NOT** ask leetcode questions. There are many paths to become an MLE, you can create your own path if you feel like leetcoding is a waste of time. 
+
+- I use [LC time tracking](https://docs.google.com/spreadsheets/d/1RCb1dVQCLmtOGlJ5J-NJ5pIC7Tda-N2U/edit#gid=274831950) to keep track of how many times I solves a question and how long I spent each time. Once I finish non-trivial medium LC questions 3 times, I have absolutely no issues solving them in actual interviews (sometimes within 8-10 minutes). It makes a big difference. A better way is to use **LeetPlug** chrome extension [here](https://leetplug.azurewebsites.net/static/pages/howto.html)
+
+ [Leetcode questions by categories](https://mlengineer.io/common-leetcode-questions-by-categories-532b301130b?sk=cf77975462cb0c96e6a6daebaa3ab7b9)
+### SQL
+* Know SQL join: [self join](https://www.sqlservertutorial.net/sql-server-basics/sql-server-self-join/), inner, left, right etc. 
+* Use [hackerrank](https://www.hackerrank.com/domains/sql) to practice SQL.
+* Revise/Learn SQL Wi

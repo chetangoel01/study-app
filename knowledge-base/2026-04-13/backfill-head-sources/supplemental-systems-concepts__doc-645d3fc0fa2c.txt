@@ -1,0 +1,44 @@
+ARM architecture family
+| Designer | |
+|---|---|
+| Bits | 32-bit, 64-bit |
+| Introduced | 1985 |
+| Design | RISC |
+| Type | Load–store |
+| Branching | Condition code, compare and branch |
+| Open | No; proprietary |
+| Introduced | 2011 |
+|---|---|
+| Version | ARMv8-R, ARMv8-A, ARMv8.1-A, ARMv8.2-A, ARMv8.3-A, ARMv8.4-A, ARMv8.5-A, ARMv8.6-A, ARMv8.7-A, ARMv8.8-A, ARMv8.9-A, ARMv9.0-A, ARMv9.1-A, ARMv9.2-A, ARMv9.3-A, ARMv9.4-A, ARMv9.5-A, ARMv9.6-A, ARMv9.7-A |
+| Encoding | AArch64/A64 and AArch32/A32 use 32-bit instructions, AArch32/T32 (Thumb-2) uses mixed 16- and 32-bit instructions[1] |
+| Endianness | Bi (little as default) |
+| Extensions | SVE, SVE2, SME, SME2, AES, SM3, SM4, SHA, CRC32, RNDR, TME; All mandatory: Thumb-2, Neon, VFPv4-D16, VFPv4; obsolete: Thumb and Jazelle |
+| Registers | |
+| General-purpose | 31 × 64-bit integer registers[1] |
+| Floating-point | 32 × 128-bit registers[1] for scalar 32- and 64-bit FP or SIMD FP or integer; or cryptography |
+| Version | ARMv9-R, ARMv9-M, ARMv8-R, ARMv8-M, ARMv7-A, ARMv7-R, ARMv7E-M, ARMv7-M |
+|---|---|
+| Encoding | 32-bit, except Thumb-2 extensions use mixed 16- and 32-bit instructions. |
+| Endianness | Bi (little as default) |
+| Extensions | Thumb, Thumb-2, SVE, SVE2, SME, SME2, Neon, Jazelle, AES, SM3, SM4, SHA, CRC32, RNDR, DSP, Saturated, FPv4-SP, FPv5, Helium; obsolete since ARMv8: Thumb and Jazelle |
+| Registers | |
+| General-purpose | 15 × 32-bit integer registers, including R14 (link register), but not R15 (PC) |
+| Floating-point | Up to 32 × 64-bit registers,[2] SIMD/floating-point (optional) |
+| Version | ARMv6, ARMv5, ARMv4T, ARMv3, ARMv2 |
+|---|---|
+| Encoding | 32-bit, except Thumb extension uses mixed 16- and 32-bit instructions. |
+| Endianness | Bi (little as default) in ARMv3 and above |
+| Extensions | Thumb, Jazelle |
+| Registers | |
+| General-purpose | 15 × 32-bit integer registers, including R14 (link register), but not R15 (PC, 26-bit addressing in older) |
+| Floating-point | None |
+Arm (stylised in lowercase as arm)[a] is a family of RISC instruction set architectures for computer processors. Arm Holdings develops the instruction set architecture and licenses them to other companies, who build the physical devices that use the instruction set. It also designs and licenses cores that implement these instruction set architectures.
+Due to their low costs, low power consumption, and low heat generation, ARM processors are useful for light, portable, battery-powered devices, including smartphones, laptops, and tablet computers, as well as embedded systems.[3][4][5] However, ARM processors are also used for desktops and servers, including Fugaku, the world's fastest supercomputer from 2020[6] to 2022. With over 230 billion ARM chips produced,[7][8] since at least 2003, and with its dominance increasing every year[update], ARM is the most widely used family of instruction set architectures.[9][4][10][11][12]
+There have been several generations of the ARM design. The original ARM1 used a 32-bit internal structure but had a 26-bit address space that limited it to 64 MB of main memory. This limitation was removed in the ARMv3 series, which has a 32-bit address space, and several additional generations up to ARMv7 remained 32-bit. Released in 2011, the ARMv8-A architecture added support for a 64-bit address space and 64-bit arithmetic with its new 32-bit fixed-length instruction set.[13] Arm Holdings has also released a series of additional instruction sets for different roles: the "Thumb" extensions add both 32- and 16-bit instructions for improved code density, while Jazelle added instructions for directly handling Java bytecode. More recent changes include the addition of simultaneous multithreading (SMT) for improved performance or fault tolerance.[14]
+History
+[edit]BBC Micro
+[edit]Acorn Computers' first widely successful design was the BBC Micro, introduced in December 1981. This was a relatively conventional machine based on the MOS Technology 6502 CPU but ran at roughly double the performance of competing designs like the Apple II due to its use of faster dynamic random-access memory (DRAM). Typical DRAM of the era ran at about 2 MHz; Acorn arranged a deal with Hitachi for a supply of faster 4 MHz parts.[15]
+Machines of the era generally shared memory between the processor and the framebuffer, which allowed the processor to quickly update the contents of the screen without having to perform separate input/output (I/O). As the timing of the video display is exacting, the video hardware had to have priority access to that memory. Due to a quirk of the 6502's design, the CPU left the memory untouched for half of the time. Thus by running the CPU at 1 MHz, the video system could read data during those down times, taking up the total 2 MHz bandwidth of the RAM. In the BBC Micro, the use of 4 MHz RAM allowed the same technique to be used, but running at twice the speed. This allowed it to outperform any similar machine on the market.[16]
+Acorn Business Computer
+[edit]1981 was also the year that the IBM Personal Computer was introduced. Using the recently introduced Intel 8088, a 16-bit CPU compared to the 6502's 8-bit design, it offered higher overall performance. Its introduction changed the desktop computer market radically: what had been largely a hobby and gaming market emerging over the prior five years began to change to a must-have business tool where the earlier 8-bit designs simply could not compete. Even newer 32-bit designs were also coming to market, such as the Motorola 68000[17] and National Semiconductor NS32016.[18]
+Acorn began considering how to compete in this market and produced a new paper design named the Acorn Business Computer. They set themselves the goal of producing a machine with ten times the performance of the BBC Micro, but at the same price.[19] This would outperform and underprice the PC. At the same time, the recent introduction of the Apple Lisa brought the graphical user interface (GUI) co

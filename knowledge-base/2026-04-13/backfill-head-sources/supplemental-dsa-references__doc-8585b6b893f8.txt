@@ -1,0 +1,29 @@
+Design pattern
+A design pattern is the re-usable form of a solution to a design problem. The idea was introduced by the architect Christopher Alexander[1] and has been adapted for various other disciplines, particularly software engineering.[2]
+Details
+[edit]An organized collection of design patterns that relate to a particular field is called a pattern language. This language gives a common terminology for discussing the situations designers are faced with.
+The elements of this language are entities called patterns. Each pattern describes a problem that occurs over and over again in our environment, and then describes the core of the solution to that problem, in such a way that you can use this solution a million times over, without ever doing it the same way twice.
+— Christopher Alexander, A Pattern Language[1]
+Documenting a pattern requires explaining why a particular situation causes problems, and how the components of the pattern relate to each other to give the solution.[3] Christopher Alexander describes common design problems as arising from "conflicting forces"—such as the conflict between wanting a room to be sunny and wanting it not to overheat on summer afternoons. A pattern would not tell the designer how many windows to put in the room; instead, it would propose a set of values to guide the designer toward a decision that is best for their particular application. Alexander, for example, suggests that enough windows should be included to direct light all around the room. He considers this a good solution because he believes it increases the enjoyment of the room by its occupants. Other authors might come to different conclusions, if they place higher value on heating costs, or material costs. These values, used by the pattern's author to determine which solution is "best", must also be documented within the pattern.
+Pattern documentation should also explain when it is applicable. Since two houses may be very different from one another, a design pattern for houses must be broad enough to apply to both of them, but not so vague that it doesn't help the designer make decisions. The range of situations in which a pattern can be used is called its context. Some examples might be "all houses", "all two-story houses", or "all places where people spend time".
+For instance, in Christopher Alexander's work, bus stops and waiting rooms in a surgery center are both within the context for the pattern "A PLACE TO WAIT".
+Examples
+[edit]- Software design pattern, in software design
+- Architectural pattern, for software architecture
+- Interaction design pattern, used in interaction design / human–computer interaction
+- Pedagogical patterns, in teaching
+- Pattern gardening, in gardening
+Business models also have design patterns.[4] See Business model § Examples.
+See also
+[edit]References
+[edit]- ^ a b Alexander, Christopher (1977). A Pattern Language: Towns, Buildings, Construction. Center for Environmental Structure series. Vol. 2. New York: Oxford University Press. ISBN 0-19-501919-9. OCLC 3132495.
+- ^ Gamma, Erich; Helm, Richard; Johnson, Ralph; Vlissides, John (1994). Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley professional computing series. Reading, Mass.: Addison-Wesley. ISBN 0-201-63361-2. OCLC 31171684. The "Gang of Four" book.
+- ^ Maioriello, James (2002-10-02). "What are design patterns and do I need them?". developer.com. Retrieved 2011-03-21.
+- ^ For example: Mettler, Tobias; Eurich, Markus (June 2012). "A 'design-pattern'–based approach for analyzing e-health business models". Health Policy and Technology. 1 (2): 77–85. doi:10.1016/j.hlpt.2012.04.005.
+Further reading
+[edit]- Erl, Thomas (2009). SOA Design Patterns. Prentice Hall service-oriented computing series from Thomas Erl. Upper Saddle River, NJ: Prentice Hall. ISBN 978-0-13-613516-6. OCLC 156832597.
+- Leitner, Helmut (2015). Pattern Theory: Introduction and Perspectives on the Tracks of Christopher Alexander. Pattern research series. Vol. 1. Graz: Helmut Leitner, HLS Software. ISBN 978-1-5056-3743-4. OCLC 913795677.
+- Pree, Wolfgang (1995). Design patterns for object-oriented software development. ACM Press books. Wokingham, England; Reading, Mass.: Addison-Wesley. ISBN 0201422948. OCLC 31291883.
+- Schmidt, Douglas C.; Buschmann, Frank; Henney, Kevlin (2007). Pattern-Oriented Software Architecture: On Patterns and Pattern Languages. Wiley series in software design patterns. Vol. 5. Chichester, UK; New York: Wiley. ISBN 9780471486480. OCLC 62532759.
+- Tidwell, Jenifer; Brewer, Charles; Valencia, Aynne (2020) [2005]. Designing Interfaces: Patterns For Effective Interaction Design (3rd ed.). Sebastopol, CA: O'Reilly. ISBN 9781492051961. OCLC 1138701080.
+Presents solutions to common UI design problems as a collection of patterns—each containing concrete examples, recommendations, and warnings.

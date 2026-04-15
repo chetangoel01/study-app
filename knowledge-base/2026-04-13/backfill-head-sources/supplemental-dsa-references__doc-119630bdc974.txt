@@ -1,0 +1,41 @@
+Introduction to Algorithms
+| Author | Thomas H. Cormen Charles E. Leiserson Ronald L. Rivest Clifford Stein |
+|---|---|
+| Language | English |
+| Subject | Computer algorithms |
+| Publisher | MIT Press |
+Publication date | 1990 (first edition) |
+| Publication place | United States |
+| Pages | 1312 |
+| ISBN | 978-0-262-04630-5 |
+Introduction to Algorithms is a book on computer programming by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein. The book is described by its publisher as "the leading algorithms text in universities worldwide as well as the standard reference for professionals".[1] It is commonly cited as a reference for algorithms in published papers, with over 10,000 citations documented on CiteSeerX,[2] and over 70,000 citations on Google Scholar as of 2024.[3] The book sold half a million copies during its first 20 years,[4] and surpassed a million copies sold in 2022.[5] Its fame has led to the common use of the abbreviation "CLRS" (Cormen, Leiserson, Rivest, Stein), or, in the first edition, "CLR" (Cormen, Leiserson, Rivest).[6]
+In the preface, the authors write about how the book was written to be comprehensive and useful in both teaching and professional environments. Each chapter focuses on an algorithm, and discusses its design techniques and areas of application. Instead of using a specific programming language, the algorithms are written in pseudocode. The descriptions focus on the aspects of the algorithm itself, its mathematical properties, and emphasize efficiency.[7]
+Editions
+[edit]The first edition of the textbook did not include Stein as an author, and thus the book became known by the initialism CLR. It included two chapters ("Arithmetic Circuits" and "Algorithms for Parallel Computers") that were dropped in the second edition. After the addition of the fourth author in the second edition, many began to refer to the book as "CLRS". This first edition of the book was also known as "The Big White Book (of Algorithms)". With the second edition, the predominant color of the cover changed to green, causing the nickname to be shortened to just "The Big Book (of Algorithms)".[8] The third edition was published in August 2009. The fourth edition was published in April 2022, which has colors added to improve visual presentations.[9]
+Cover design
+[edit]The mobile depicted on the cover, Big Red (1959) by Alexander Calder, can be found at the Whitney Museum of American Art in New York City.[10]
+Publication history
+[edit]- Cormen, Thomas H.; Leiserson, Charles E.; Rivest, Ronald L. (1990). Introduction to Algorithms (1st ed.). MIT Press and McGraw-Hill. ISBN 0-262-03141-8.
+- Cormen, Thomas H.; Leiserson, Charles E.; Rivest, Ronald L.; Stein, Clifford (2001) [1990]. Introduction to Algorithms (2nd ed.). MIT Press and McGraw-Hill. ISBN 0-262-03293-7. 12 printings up to 2009, errata:[11]
+- Cormen, Thomas H.; Leiserson, Charles E.; Rivest, Ronald L.; Stein, Clifford (2009) [1990]. Introduction to Algorithms (3rd ed.). MIT Press and McGraw-Hill. ISBN 0-262-03384-4. 1320 pp., 5 printings up to 2016, errata:[12]
+- Cormen, Thomas H.; Leiserson, Charles E.; Rivest, Ronald L.; Stein, Clifford (2022) [1990]. Introduction to Algorithms (4th ed.). MIT Press and McGraw-Hill. ISBN 0-262-04630-X. 1312 pp., errata:[13]
+Reviews
+[edit]- Akl, Selim G. (1991). "Review of 1st edition". Mathematical Reviews. MR 1066870.
+- Mann, C. J. H. (April 2003). "New edition of algorithms book [review of 2nd edition]". Kybernetes. 32 (3). doi:10.1108/k.2003.06732cae.004.
+- Thimbleby, Harold (December 3, 2009). "No excuse to be illiterate about IT [review of 3rd edition]". Times Higher Education.
+- El-Sharoud, Walid (September 2019). "Review of 3rd edition". Science Progress. 102 (3): 278–279. doi:10.1177/0036850419873799b. PMC 10424523.
+See also
+[edit]References
+[edit]- ^ "Introduction to Algorithms, fourth edition". MIT Press. Retrieved 2024-11-04.
+- ^ "Introduction to Algorithms—CiteSeerX citation query". CiteSeerX. The College of Information Sciences and Technology at Penn State. Archived from the original on 2022-08-19. Retrieved 2012-05-15.
+- ^ "Introduction to Algorithms". Google Scholar. Retrieved 2024-12-13.
+- ^ Larry Hardesty (August 10, 2011). "Milestone for MIT Press's bestseller". MIT News Office. Retrieved 2024-11-26.
+- ^ Jane Halpern (February 23, 2022). "Q&A: What makes a bestselling textbook?". MIT News. Massachusetts Institute of Technology. Retrieved 26 November 2023.
+- ^ "Eternally Confuzzled - Red/Black Trees". Archived from the original on 2015-02-10. Retrieved 2013-07-17.
+- ^ Cormen; Leiserson; Riverst; Stein (2009). "Preface". Introduction to Algorithms (3 ed.). Cambridge, Massachusetts: MIT Press. pp. xiii–xiv. ISBN 978-0-262-03384-8.
+- ^ "Some Useful Technical Books". Dalhousie University.
+- ^ Cormen, Thomas H. (22 March 2022). Introduction to Algorithms (4th ed.). MIT Press. ISBN 9780262046305. Retrieved August 19, 2022.
+- ^ Cormen et al, back cover. See, also, Big Red at the Whitney Museum of American Art web site.
+- ^ "Introduction to Algorithms, Second Edition". cs.dartmouth.edu.
+- ^ "Introduction to Algorithms, Third Edition". cs.dartmouth.edu.
+- ^ "Errata for Introduction to Algorithms, 4th Edition". mitp-content-server.mit.edu.

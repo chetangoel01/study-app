@@ -1,0 +1,156 @@
+ml-system-design.md 3/15/2023
+1 / 11
+Machine Learning System Design
+1. ML System Design Flow
+2. ML System Design Sample Questions
+3. ML System Design Topics
+4. ML at Big Tech companies
+Designing ML systems for production
+Deploying deep learning models in production can be challenging, and it is beyond training models with
+good performance. Several distinct components need to be designed and developed in order to deploy a
+production level deep learning system.
+Approaching an ML system design problem follows a similar logical flow to the generic software system
+design. ( For more insight on general system design interview you can e.g. check out Grokking the System
+Design Interview and System design primer.). However, there are certain components in the design of an
+ML based system that needs to be addressed and need special attention, as you will see below in ML
+System Design Flow.
+ML System Design Interview
+In an ML system design interview you are exposed to open ended questions with no single correct
+answer.
+The goal of ML system design interview is evaluate your your ability to zoom out and design a
+production-level ML system that can be deployed as a service within a company's ML infrastructure.
+1. ML System Design Flow
+ml-system-design.md 3/15/2023
+2 / 11
+In order to design a solid ML system for real world applications, it is important to follow a design flow. I
+recommend using the following 9-step ML System Design Flow to design SW system solutions for ML-
+relevant business problems both at work and during interviews:
+The 9-step ML System Design Flow:
+Step 1 Problem Formulation
+Step 2 Metrics (Offline and Online)
+Step 3 Architectural Components (MVP Logic)
+Step 4 Data Collection and Preparation
+Step 5 Feature Engineering
+Step 6 Model Development and Offline Evaluation
+Step 7 Prediction Service
+Step 8 Online Testing and Deployment
+Step 9 Scaling, Monitoring, and Updates
+Note: Remember when using this design flow during an interview to be flexible. According to the needs of
+the interview or the interests of the interviewer, you may skip some of these components or spend more
+time for a deep dive in one or two components.
+1. Problem Formulation
+Clarifying questions
+Use case(s) and business goal
+Requirements
+Scope (features needed), scale, and personalization
+Performance: prediction latency, scale of prediction
+Constraints
+Data: sources and availability
+Assumptions
+Translate an abstract problem into an ML problem
+ML objective,
+ML I/O,
+ML category (e.g. binary classification, multi-classification, unsupervised learning, etc)
+Do we need ML to solve this problem?
+Trade off between impact and cost
+Costs: Data collection, data annotation, compute
+ml-system-design.md 3/15/2023
+3 / 11
+if Yes, we choose an ML system to design. If No, follow a general system design flow.
+Note: in an ML system design interview we can assume we need ML.
+2. Metrics (Offline and Online)
+Offline metrics (e.g. classification, relevance metrics)
+Classification metrics
+Precision, Recall, F1, ROC AUC, P/R AUC, mAP, log-loss, etc
+Imbalanced data
+Retrieval and ranking metrics
+Precision@k, Recall@k (do not consider ranking quality)
+mAP, MRR, nDCG
+Regression metrics: MSE, MAE,
+Problem specific metrics
+Language: BLEU, BLEURT, GLUE, ROUGE, etc
+ads: CPE, etc
+Latency
+Computational cost (in particular for on-device)
+Online metrics
+CTR
+Task/session success/failure rate,
+Task/session total (e.g. watch) times,
+Engagement rate (like rate, comment rate)
+Conversion rate
+Revenue lift
+Reciprocal rank of first click, etc,
+Counter metrics: direct negative feedback (hide, report)
+Trade-offs b/w metrics
+3. Architectural Components (MVP Logic)
+High level architecture and main components
+Non-ML components:
+user, app server, DBs, KGs, etc and their interactions
+ML components:
+Modeling modules (e.g. candidate generator, ranker, ect)
+Train data generator
+...
+Modular architecture design
+Model 1 architecture (e.g. candidate generation)
+Model 2 architecture (e.g. ranker, filter)
+...
+4. Data Collection and Preparation
+Data needs
+target variable
+big actors in signals (e.g. users, items, etc)
+ml-system-design.md 3/15/2023
+4 / 11
+type (e.g. image, text, video, etc) and volume
+Data Sources
+availability and cost
+implicit (logging), explicit (e.g. user survey)
+Data storage
+ML Data types
+structured
+numerical
+categorical (ordinal, nominal),
+unstructured(e.g. image, text, video, audio)
+Labelling (for supervised)
+Labeling methods
+Natural labels (extracted from data e.g. clicks, likes, purchase, etc)
+Missing negative labels (not clicking is not a negative label):
+Negative sampling
+Explicit user feedback
+Human annotation (super costly, slow, privacy issues)
+Handling lack of labels
+Programmatic labeling methods (noisy, pros: cost, privacy, adaptive)
+Semi-supervised methods (from an initial smaller set of labels e.g. perturbation based)
+Weak supervision (encode heuristics e.g. keywords, regex, db, output of other ML
+models)
+Transfer learning:
+pre-train on cheap large data (e.g. GPT-3),
+zero-shot or fine-tune for downstream task
+Active learning
+Labeling cost and trade-offs
+Data augmentation
+Data Generation Pipeline
+Data collection/ingestion (offline, online)
+Feature generation (next)
+Feature transform
+Label generation
+Joiner
+5. Feature Engineering
+Choosing features
+Define big actors (e.g. user, item, document, query, ad, context),
+Define actor specific features (current, historic)
+Example user features: user profile, user history, user interests
+Example text features: n-grams (uni,bi), intent, topic, frequency, length, embeddings
+Define cross features (e.g. user-item, or query-document features)
+Example query-document features: tf-idf
+Example user-item features: user-video watch history, user search history, user-ad
+interactions(view, like)
+Privacy constraints
+ml-system-design.md 3/15/2023
+5 / 11
+Feature representation
+One hot encoding
+Embeddings
+e.g. for text, image, graphs, users (how), stores, etc
+how to generate/learn?
+pre-compute and store
+Encoding categorical

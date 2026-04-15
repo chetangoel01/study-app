@@ -1,0 +1,30 @@
+API writer
+This article includes a list of references, related reading, or external links, but its sources remain unclear because it lacks inline citations. (April 2009) |
+An API writer is a technical writer who writes documents that describe an application programming interface (API). The primary audience includes programmers, developers, system architects, and system designers.
+Overview
+[edit]An API is a library consisting of interfaces, functions, classes, structures, enumerations, etc. for building a software application. It is used by developers to interact with and extend the software. An API for a given programming language or system may consist of system-defined and user-defined constructs. As the number and complexity of these constructs increases, it becomes very tedious for developers to remember all of the functions and the parameters defined. Hence, the API writers play a key role in building software applications.
+Due to the technical subject matter, API writers must understand application source code enough to extract the information that API documents require. API writers often use tooling that extracts software documentation placed by programmers in the source code in a structured manner, preserving the relationships between the comments and the programming constructs they document.
+API writers must also understand the software product and document the new features or changes as part of the new software release. The schedule of software releases varies from organization to organization. API writers need to understand the software life cycle well and integrate themselves into the systems development life cycle (SDLC).
+API writers in the United States generally follow The Chicago Manual of Style for grammar and punctuation.[citation needed]
+Qualifications
+[edit]API writers typically possess a mix of programming and language skills; many API writers have backgrounds in programming or technical writing.
+- Computer programming background (Knowledge of C, C++, Java, PHP, or other programming languages)
+- Knowledge of formatting standards like Doxygen, Javadoc, OpenAPI, or DITA
+- Knowledge of editors and tools, like FrameMaker
+- Excellent communication and writing skills to interact with developers
+Expert API/software development kit (SDK) writers can easily become programming writers.
+API writing process
+[edit]The API writing process is typically split between analyzing and understanding the source code, planning, writing, and reviewing. It is often the case that the analytical, planning, and writing stages do not occur in a strictly linear fashion.
+The writing and evaluation criteria vary between organizations. Some of the most effective API documents are written by those who are adequately capable of understanding the workings of a particular application, so that they can relate the software to the users or the various component constructs to the overall purpose of the program. API writers may also be responsible for authoring end-user product documentation.
+While reference documentation may be auto-generated to ensure completeness, documentation that helps developers get started should be written by a professional API writer and reviewed by subject matter experts.[1] This helps ensure that developers understand key concepts and can get started quickly.
+Product
+[edit]API writers produce documents that include:
+- API reference guides
+- Programmers' guides
+- Developer manuals
+- Administration manuals
+- Installation guides
+- Implementation and integration guides
+See also
+[edit]References
+[edit]- ^ Jacobson, Daniel (2011). APIs : a strategy guide. O'Reilly. p. 101. ISBN 9781449321642.

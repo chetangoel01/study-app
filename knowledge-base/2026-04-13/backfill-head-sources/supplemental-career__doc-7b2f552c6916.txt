@@ -1,0 +1,8 @@
+I'm Patrick McKenzie. Your engineering team knows me as patio11.
+The broad through line of my work is systems thinking applied to businesses. I think the social organization of the Internet and its impact on the world are underestimated by almost everyone, including Silicon Valley. Everything important to you in the world sits atop several infrastructure layers. I have written words about those layers and the people who build them, and also written a bit of computer code here and there in them.
+My weird hobbies include writing Bits about Money (a monthly-ish newsletter about financial infrastructure), hosting Complex Systems (a weekly podcast about how the world works), cryptocurrency skepticism, and running national shadow vaccine location information infrastructure.
+My self-assigned score is median value created for software people (engineers & entrepreneurs, principally) times number of software people impacted. Most is due to telling engineers to Charge More™ and accelerating software startups through my public work. I love talking to software people.
+I am a tiny angel investor. I lived in Japan (travel recommendations) for 20 years and am presently in Chicago.
+I am an advisor to Stripe. Opinions expressed on this site are my own.
+If you have a credit card charge from Kalzumeus Software that is overwhelmingly likely to be a Bits about Money membership. If you still have questions, email patrick@kalzumeus.com .
+I am currently on semi-sabbatical, during which most of my writing effort goes into Bits about Money and Twitter.

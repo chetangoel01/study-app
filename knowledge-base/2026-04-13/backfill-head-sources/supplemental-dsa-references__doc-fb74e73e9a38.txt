@@ -1,0 +1,39 @@
+Abstract factory pattern
+The abstract factory pattern in software engineering is a design pattern that provides a way to create families of related objects without imposing their concrete classes, by encapsulating a group of individual factories that have a common theme without specifying their concrete classes.[1] According to this pattern, a client software component creates a concrete implementation of the abstract factory and then uses the generic interface of the factory to create the concrete objects that are part of the family. The client does not know which concrete objects it receives from each of these internal factories, as it uses only the generic interfaces of their products.[1] This pattern separates the details of implementation of a set of objects from their general usage and relies on object composition, as object creation is implemented in methods exposed in the factory interface.[2]
+Use of this pattern enables interchangeable concrete implementations without changing the code that uses them, even at runtime. However, employment of this pattern, as with similar design patterns, may result in unnecessary complexity and extra work in the initial writing of code. Additionally, higher levels of separation and abstraction can result in systems that are more difficult to debug and maintain.
+Overview
+[edit]The abstract factory design pattern is one of the 23 patterns described in the 1994 Design Patterns book. It may be used to solve problems such as:[3]
+- How can an application be independent of how its objects are created?
+- How can a class be independent of how the objects that it requires are created?
+- How can families of related or dependent objects be created?
+Creating objects directly within the class that requires the objects is inflexible. Doing so commits the class to particular objects and makes it impossible to change the instantiation later without changing the class. It prevents the class from being reusable if other objects are required, and it makes the class difficult to test because real objects cannot be replaced with mock objects.
+A factory is the location of a concrete class in the code at which objects are constructed. Implementation of the pattern intends to insulate the creation of objects from their usage and to create families of related objects without depending on their concrete classes.[2] This allows for new derived types to be introduced with no change to the code that uses the base class.
+The pattern describes how to solve such problems:
+- Encapsulate object creation in a separate (factory) object by defining and implementing an interface for creating objects.
+- Delegate object creation to a factory object instead of creating objects directly.
+This makes a class independent of how its objects are created. A class may be configured with a factory object, which it uses to create objects, and the factory object can be exchanged at runtime.
+Definition
+[edit]Design Patterns describes the abstract factory pattern as "an interface for creating families of related or dependent objects without specifying their concrete classes."[4]
+Usage
+[edit]The factory determines the concrete type of object to be created, and it is here that the object is actually created. However, the factory only returns a reference (in Java, for instance, by the new operator) or a pointer of an abstract type to the created concrete object.
+This insulates client code from object creation by having clients request that a factory object create an object of the desired abstract type and return an abstract pointer to the object.[5]
+An example is an abstract factory class DocumentCreator
+that provides interfaces to create a number of products (e.g., createLetter()
+and createResume()
+). The system would have any number of derived concrete versions of the DocumentCreator
+class such asFancyDocumentCreator
+or ModernDocumentCreator
+, each with a different implementation of createLetter()
+and createResume()
+that would create corresponding objects such asFancyLetter
+or ModernResume
+. Each of these products is derived from a simple abstract class such asLetter
+or Resume
+of which the client is aware. The client code would acquire an appropriate instance of the DocumentCreator
+and call its factory methods. Each of the resulting objects would be created from the same DocumentCreator
+implementation and would share a common theme. The client would only need to know how to handle the abstract Letter
+or Resume
+class, not the specific version that was created by the concrete factory.
+As the factory only returns a reference or a pointer to an abstract type, the client code that requested the object from the factory is not aware of—and is not burdened by—the actual concrete type of the object that was created. However, the abstract factory knows the type of a concrete object (and hence a concrete factory). For instance, the factory may read the object's type from a configuration file. The client has no need to specify the type, as the type has already been specified in the configuration file. In particular, this means:
+- The client code has no knowledge of the concrete type, not needing to include any header files or class declarations related to it. The client code deals only with the abstract type. Objects of a concrete type are indeed created by the factory, but the client code accesses such objects only through their abstract interfaces.[6]
+- Adding new concrete types is performed by modifying the client code to use a different factory, a modification that is typically one line in one file. The different factory then creates objects of a different concrete type but still returns a pointer of the same abstract type as before, thus insulating the client code from change. This is significantly easier than modifying the client code to instantiate a new type. Doing so would require changing every location in the code where a new object is created as well as ensuring that all such code locations have knowl

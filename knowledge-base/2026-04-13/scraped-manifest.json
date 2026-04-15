@@ -1,0 +1,2832 @@
+{
+  "generated_at": "2026-04-14T02:10:16.665980+00:00",
+  "kb_dir": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13",
+  "output_dir": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13",
+  "stats": {
+    "total_items": 148,
+    "by_kind": {
+      "local_export_text": 148
+    },
+    "by_source": {
+      "course-exports": 148
+    },
+    "missing_content_path": 0,
+    "status_counts": {
+      "ok": 148
+    }
+  },
+  "items": [
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/715/introduction/4654/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-introduction",
+      "label": "Introduction to big O",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-introduction-001.txt",
+      "content_format": "text",
+      "content_chars": 14321,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/002-introduction-to-big-o.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/715/introduction/4655/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-introduction",
+      "label": "Introduction to recursion",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-introduction-002.txt",
+      "content_format": "text",
+      "content_chars": 6300,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/003-introduction-to-recursion.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/715/introduction/4656/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-introduction",
+      "label": "Notes before starting",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-introduction-003.txt",
+      "content_format": "text",
+      "content_chars": 930,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/004-notes-before-starting.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4500/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Arrays and strings",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-001.txt",
+      "content_format": "text",
+      "content_chars": 2656,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/005-arrays-and-strings.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4501/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Two pointers",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-002.txt",
+      "content_format": "text",
+      "content_chars": 16761,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/006-two-pointers.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4592/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Reverse String",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-003.txt",
+      "content_format": "text",
+      "content_chars": 2851,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/007-reverse-string.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4689/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Squares of a Sorted Array",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-004.txt",
+      "content_format": "text",
+      "content_chars": 2651,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/008-squares-of-a-sorted-array.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4502/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Sliding window",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-005.txt",
+      "content_format": "text",
+      "content_chars": 20267,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/009-sliding-window.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4594/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Maximum Average Subarray I",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-006.txt",
+      "content_format": "text",
+      "content_chars": 2681,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/010-maximum-average-subarray-i.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4595/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Max Consecutive Ones III",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-007.txt",
+      "content_format": "text",
+      "content_chars": 3299,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/011-max-consecutive-ones-iii.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4503/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Prefix sum",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-008.txt",
+      "content_format": "text",
+      "content_chars": 6427,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/012-prefix-sum.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4658/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Running Sum of 1d Array",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-009.txt",
+      "content_format": "text",
+      "content_chars": 3379,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/013-running-sum-of-1d-array.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4657/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Minimum Value to Get Positive Step by Step Sum",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-010.txt",
+      "content_format": "text",
+      "content_chars": 11940,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/014-minimum-value-to-get-positive-step-by-step-sum.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4836/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "K Radius Subarray Averages",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-011.txt",
+      "content_format": "text",
+      "content_chars": 8707,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/015-k-radius-subarray-averages.json",
+        "resource_index": 11
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4504/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "More common patterns",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-012.txt",
+      "content_format": "text",
+      "content_chars": 6372,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/016-more-common-patterns.json",
+        "resource_index": 12
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4505/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Arrays and strings quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-013.txt",
+      "content_format": "text",
+      "content_chars": 3761,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/017-arrays-and-strings-quiz.json",
+        "resource_index": 13
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4705/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-arraystrings",
+      "label": "Bonus problems, arrays and strings",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-arraystrings-014.txt",
+      "content_format": "text",
+      "content_chars": 811,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/018-bonus-problems-arrays-and-strings.json",
+        "resource_index": 14
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4510/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Hashing",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-001.txt",
+      "content_format": "text",
+      "content_chars": 9793,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/019-hashing.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4511/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Checking for existence",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-002.txt",
+      "content_format": "text",
+      "content_chars": 4264,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/020-checking-for-existence.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4601/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Check if the Sentence Is Pangram",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-003.txt",
+      "content_format": "text",
+      "content_chars": 8856,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/021-check-if-the-sentence-is-pangram.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4602/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Missing Number",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-004.txt",
+      "content_format": "text",
+      "content_chars": 5936,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/022-missing-number.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4661/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Counting Elements",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-005.txt",
+      "content_format": "text",
+      "content_chars": 7469,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/023-counting-elements.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4512/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Counting",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-006.txt",
+      "content_format": "text",
+      "content_chars": 18545,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/024-counting.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4606/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Find Players With Zero or One Losses",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-007.txt",
+      "content_format": "text",
+      "content_chars": 11771,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/025-find-players-with-zero-or-one-losses.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4662/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Largest Unique Number",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-008.txt",
+      "content_format": "text",
+      "content_chars": 8345,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/026-largest-unique-number.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4663/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Maximum Number of Balloons",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-009.txt",
+      "content_format": "text",
+      "content_chars": 5943,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/027-maximum-number-of-balloons.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4845/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Contiguous Array",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-010.txt",
+      "content_format": "text",
+      "content_chars": 3374,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/028-contiguous-array.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4645/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "More hashing examples",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-011.txt",
+      "content_format": "text",
+      "content_chars": 10116,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/029-more-hashing-examples.json",
+        "resource_index": 11
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4607/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Ransom Note",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-012.txt",
+      "content_format": "text",
+      "content_chars": 13082,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/030-ransom-note.json",
+        "resource_index": 12
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4664/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Jewels and Stones",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-013.txt",
+      "content_format": "text",
+      "content_chars": 1476,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/031-jewels-and-stones.json",
+        "resource_index": 13
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4690/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Longest Substring Without Repeating Characters",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-014.txt",
+      "content_format": "text",
+      "content_chars": 7192,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/032-longest-substring-without-repeating-characters.json",
+        "resource_index": 14
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4513/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Hashing quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-015.txt",
+      "content_format": "text",
+      "content_chars": 4011,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/033-hashing-quiz.json",
+        "resource_index": 15
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/705/hashing/4706/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-hashing",
+      "label": "Bonus problems, hashing",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-hashing-016.txt",
+      "content_format": "text",
+      "content_chars": 981,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/034-bonus-problems-hashing.json",
+        "resource_index": 16
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4506/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-linked-lists",
+      "label": "Linked lists",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-linked-lists-001.txt",
+      "content_format": "text",
+      "content_chars": 11258,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/035-linked-lists.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4507/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-linked-lists",
+      "label": "Fast and slow pointers",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-linked-lists-002.txt",
+      "content_format": "text",
+      "content_chars": 6819,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/036-fast-and-slow-pointers.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4660/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-linked-lists",
+      "label": "Middle of the Linked List",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-linked-lists-003.txt",
+      "content_format": "text",
+      "content_chars": 1466,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/037-middle-of-the-linked-list.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4597/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-linked-lists",
+      "label": "Remove Duplicates from Sorted List",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-linked-lists-004.txt",
+      "content_format": "text",
+      "content_chars": 2787,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/038-remove-duplicates-from-sorted-list.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4600/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-linked-lists",
+      "label": "Reversing a linked list",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-linked-lists-005.txt",
+      "content_format": "text",
+      "content_chars": 8622,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/039-reversing-a-linked-list.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4598/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-linked-lists",
+      "label": "Reverse Linked List II",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-linked-lists-006.txt",
+      "content_format": "text",
+      "content_chars": 11033,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/040-reverse-linked-list-ii.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4509/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-linked-lists",
+      "label": "Linked list quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-linked-lists-007.txt",
+      "content_format": "text",
+      "content_chars": 2811,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/041-linked-list-quiz.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/704/linked-lists/4707/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-linked-lists",
+      "label": "Bonus problems, linked lists",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-linked-lists-008.txt",
+      "content_format": "text",
+      "content_chars": 884,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/042-bonus-problems-linked-lists.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4514/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Stacks",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-001.txt",
+      "content_format": "text",
+      "content_chars": 2969,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/043-stacks.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4646/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "String problems",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-002.txt",
+      "content_format": "text",
+      "content_chars": 7247,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/044-string-problems.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4610/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Simplify Path",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-003.txt",
+      "content_format": "text",
+      "content_chars": 6124,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/045-simplify-path.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4611/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Make The String Great",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-004.txt",
+      "content_format": "text",
+      "content_chars": 10161,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/046-make-the-string-great.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4516/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Queues",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-005.txt",
+      "content_format": "text",
+      "content_chars": 4715,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/047-queues.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4703/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Moving Average from Data Stream",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-006.txt",
+      "content_format": "text",
+      "content_chars": 7456,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/048-moving-average-from-data-stream.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4517/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Monotonic",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-007.txt",
+      "content_format": "text",
+      "content_chars": 15078,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/049-monotonic.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4612/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Next Greater Element I",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-008.txt",
+      "content_format": "text",
+      "content_chars": 6495,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/050-next-greater-element-i.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4667/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Online Stock Span",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-009.txt",
+      "content_format": "text",
+      "content_chars": 9765,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/051-online-stock-span.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4518/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Stacks and queues quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-010.txt",
+      "content_format": "text",
+      "content_chars": 3039,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/052-stacks-and-queues-quiz.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4708/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-stacks-and-queues",
+      "label": "Bonus problems, stacks and queues",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-stacks-and-queues-011.txt",
+      "content_format": "text",
+      "content_chars": 1010,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/053-bonus-problems-stacks-and-queues.json",
+        "resource_index": 11
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4722/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Binary trees",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-001.txt",
+      "content_format": "text",
+      "content_chars": 7647,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/054-binary-trees.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4686/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Binary trees - DFS",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-002.txt",
+      "content_format": "text",
+      "content_chars": 24570,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/055-binary-trees---dfs.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4691/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Minimum Depth of Binary Tree",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-003.txt",
+      "content_format": "text",
+      "content_chars": 5114,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/056-minimum-depth-of-binary-tree.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4617/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Maximum Difference Between Node and Ancestor",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-004.txt",
+      "content_format": "text",
+      "content_chars": 4518,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/057-maximum-difference-between-node-and-ancestor.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4669/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Diameter of Binary Tree",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-005.txt",
+      "content_format": "text",
+      "content_chars": 4843,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/058-diameter-of-binary-tree.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4619/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Binary trees - BFS",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-006.txt",
+      "content_format": "text",
+      "content_chars": 8218,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/059-binary-trees---bfs.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4620/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Deepest Leaves Sum",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-007.txt",
+      "content_format": "text",
+      "content_chars": 3729,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/060-deepest-leaves-sum.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4621/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Binary Tree Zigzag Level Order Traversal",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-008.txt",
+      "content_format": "text",
+      "content_chars": 7175,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/061-binary-tree-zigzag-level-order-traversal.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4622/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Binary search trees",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-009.txt",
+      "content_format": "text",
+      "content_chars": 8409,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/062-binary-search-trees.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4623/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Insert into a Binary Search Tree",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-010.txt",
+      "content_format": "text",
+      "content_chars": 4038,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/063-insert-into-a-binary-search-tree.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4692/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Closest Binary Search Tree Value",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-011.txt",
+      "content_format": "text",
+      "content_chars": 4037,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/064-closest-binary-search-tree-value.json",
+        "resource_index": 11
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4625/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Trees quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-012.txt",
+      "content_format": "text",
+      "content_chars": 5092,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/065-trees-quiz.json",
+        "resource_index": 12
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4721/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Graphs",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-013.txt",
+      "content_format": "text",
+      "content_chars": 12452,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/066-graphs.json",
+        "resource_index": 13
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4626/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Graphs - DFS",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-014.txt",
+      "content_format": "text",
+      "content_chars": 18827,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/067-graphs---dfs.json",
+        "resource_index": 14
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4693/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Find if Path Exists in Graph",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-015.txt",
+      "content_format": "text",
+      "content_chars": 13909,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/068-find-if-path-exists-in-graph.json",
+        "resource_index": 15
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4670/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Number of Connected Components in an Undirected Graph",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-016.txt",
+      "content_format": "text",
+      "content_chars": 4836,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/069-number-of-connected-components-in-an-undirected-graph.json",
+        "resource_index": 16
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4628/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Max Area of Island",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-017.txt",
+      "content_format": "text",
+      "content_chars": 2732,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/070-max-area-of-island.json",
+        "resource_index": 17
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4629/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Reachable Nodes With Restrictions",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-018.txt",
+      "content_format": "text",
+      "content_chars": 14026,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/071-reachable-nodes-with-restrictions.json",
+        "resource_index": 18
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4631/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Graphs - BFS",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-019.txt",
+      "content_format": "text",
+      "content_chars": 19775,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/072-graphs---bfs.json",
+        "resource_index": 19
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4632/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Nearest Exit from Entrance in Maze",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-020.txt",
+      "content_format": "text",
+      "content_chars": 6292,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/073-nearest-exit-from-entrance-in-maze.json",
+        "resource_index": 20
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4838/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Snakes and Ladders",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-021.txt",
+      "content_format": "text",
+      "content_chars": 11267,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/074-snakes-and-ladders.json",
+        "resource_index": 21
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4635/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Implicit graphs",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-022.txt",
+      "content_format": "text",
+      "content_chars": 7149,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/075-implicit-graphs.json",
+        "resource_index": 22
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4636/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Minimum Genetic Mutation",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-023.txt",
+      "content_format": "text",
+      "content_chars": 4694,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/076-minimum-genetic-mutation.json",
+        "resource_index": 23
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4672/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Jump Game III",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-024.txt",
+      "content_format": "text",
+      "content_chars": 2803,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/077-jump-game-iii.json",
+        "resource_index": 24
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4837/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Detonate the Maximum Bombs",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-025.txt",
+      "content_format": "text",
+      "content_chars": 11987,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/078-detonate-the-maximum-bombs.json",
+        "resource_index": 25
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4637/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Word Ladder",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-026.txt",
+      "content_format": "text",
+      "content_chars": 9659,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/079-word-ladder.json",
+        "resource_index": 26
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4644/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Graphs quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-027.txt",
+      "content_format": "text",
+      "content_chars": 4679,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/080-graphs-quiz.json",
+        "resource_index": 27
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/707/traversals-trees-graphs/4709/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-traversals-trees-graphs",
+      "label": "Bonus problems, trees and graphs",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-traversals-trees-graphs-028.txt",
+      "content_format": "text",
+      "content_chars": 1235,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/081-bonus-problems-trees-and-graphs.json",
+        "resource_index": 28
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4638/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Heaps",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-001.txt",
+      "content_format": "text",
+      "content_chars": 3785,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/082-heaps.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4649/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Heap examples",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-002.txt",
+      "content_format": "text",
+      "content_chars": 9132,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/083-heap-examples.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4640/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Remove Stones to Minimize the Total",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-003.txt",
+      "content_format": "text",
+      "content_chars": 3141,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/084-remove-stones-to-minimize-the-total.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4674/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Minimum Cost to Connect Sticks",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-004.txt",
+      "content_format": "text",
+      "content_chars": 3705,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/085-minimum-cost-to-connect-sticks.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4641/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Top k",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-005.txt",
+      "content_format": "text",
+      "content_chars": 6036,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/086-top-k.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4839/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Kth Largest Element in an Array",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-006.txt",
+      "content_format": "text",
+      "content_chars": 13079,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/087-kth-largest-element-in-an-array.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4642/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "K Closest Points to Origin",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-007.txt",
+      "content_format": "text",
+      "content_chars": 20352,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/088-k-closest-points-to-origin.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4846/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Kth Largest Element in a Stream",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-008.txt",
+      "content_format": "text",
+      "content_chars": 10528,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/089-kth-largest-element-in-a-stream.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4847/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Heap quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-009.txt",
+      "content_format": "text",
+      "content_chars": 1775,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/090-heap-quiz.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/708/heaps/4848/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-heaps",
+      "label": "Bonus problems, heaps",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-heaps-010.txt",
+      "content_format": "text",
+      "content_chars": 700,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/091-bonus-problems-heaps.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4529/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-greedy",
+      "label": "Greedy algorithms",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-greedy-001.txt",
+      "content_format": "text",
+      "content_chars": 3242,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/092-greedy-algorithms.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4647/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-greedy",
+      "label": "Example greedy problems",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-greedy-002.txt",
+      "content_format": "text",
+      "content_chars": 13596,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/093-example-greedy-problems.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4560/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-greedy",
+      "label": "Maximum 69 Number",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-greedy-003.txt",
+      "content_format": "text",
+      "content_chars": 5488,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/094-maximum-69-number.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4676/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-greedy",
+      "label": "Maximum Units on a Truck",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-greedy-004.txt",
+      "content_format": "text",
+      "content_chars": 9640,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/095-maximum-units-on-a-truck.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4677/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-greedy",
+      "label": "How Many Apples Can You Put into the Basket",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-greedy-005.txt",
+      "content_format": "text",
+      "content_chars": 5016,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/096-how-many-apples-can-you-put-into-the-basket.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4678/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-greedy",
+      "label": "Reduce Array Size to The Half",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-greedy-006.txt",
+      "content_format": "text",
+      "content_chars": 11838,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/097-reduce-array-size-to-the-half.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4530/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-greedy",
+      "label": "Greedy quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-greedy-007.txt",
+      "content_format": "text",
+      "content_chars": 1803,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/098-greedy-quiz.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/709/greedy/4711/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-greedy",
+      "label": "Bonus problems, greedy",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-greedy-008.txt",
+      "content_format": "text",
+      "content_chars": 1040,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/099-bonus-problems-greedy.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4696/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "Binary Search",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-001.txt",
+      "content_format": "text",
+      "content_chars": 4129,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/100-binary-search.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4532/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "On arrays",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-002.txt",
+      "content_format": "text",
+      "content_chars": 6648,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/101-on-arrays.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4569/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "Search Insert Position",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-003.txt",
+      "content_format": "text",
+      "content_chars": 4500,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/102-search-insert-position.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4574/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "Longest Subsequence With Limited Sum",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-004.txt",
+      "content_format": "text",
+      "content_chars": 7583,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/103-longest-subsequence-with-limited-sum.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4533/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "On solution spaces",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-005.txt",
+      "content_format": "text",
+      "content_chars": 12134,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/104-on-solution-spaces.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4694/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "Find the Smallest Divisor Given a Threshold",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-006.txt",
+      "content_format": "text",
+      "content_chars": 7240,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/105-find-the-smallest-divisor-given-a-threshold.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4681/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "Divide Chocolate",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-007.txt",
+      "content_format": "text",
+      "content_chars": 17398,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/106-divide-chocolate.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4573/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "Split Array Largest Sum",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-008.txt",
+      "content_format": "text",
+      "content_chars": 17306,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/107-split-array-largest-sum.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4534/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "Binary search quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-009.txt",
+      "content_format": "text",
+      "content_chars": 2326,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/108-binary-search-quiz.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/710/binary-search/4712/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-binary-search",
+      "label": "Bonus problems, binary search",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-binary-search-010.txt",
+      "content_format": "text",
+      "content_chars": 1100,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/109-bonus-problems-binary-search.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4535/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "Backtracking",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-001.txt",
+      "content_format": "text",
+      "content_chars": 4505,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/110-backtracking.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4536/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "Generation",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-002.txt",
+      "content_format": "text",
+      "content_chars": 10829,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/111-generation.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4575/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "All Paths From Source to Target",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-003.txt",
+      "content_format": "text",
+      "content_chars": 10380,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/112-all-paths-from-source-to-target.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4577/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "Letter Combinations of a Phone Number",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-004.txt",
+      "content_format": "text",
+      "content_chars": 5633,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/113-letter-combinations-of-a-phone-number.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4537/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "More constrained backtracking",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-005.txt",
+      "content_format": "text",
+      "content_chars": 10651,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/114-more-constrained-backtracking.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4578/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "Generate Parentheses",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-006.txt",
+      "content_format": "text",
+      "content_chars": 12689,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/115-generate-parentheses.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4695/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "Numbers With Same Consecutive Differences",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-007.txt",
+      "content_format": "text",
+      "content_chars": 8954,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/116-numbers-with-same-consecutive-differences.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4683/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "Combination Sum III",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-008.txt",
+      "content_format": "text",
+      "content_chars": 6062,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/117-combination-sum-iii.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4538/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "Backtracking quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-009.txt",
+      "content_format": "text",
+      "content_chars": 3375,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/118-backtracking-quiz.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/711/backtracking/4713/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-backtracking",
+      "label": "Bonus problems, backtracking",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-backtracking-010.txt",
+      "content_format": "text",
+      "content_chars": 675,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/119-bonus-problems-backtracking.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4539/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Dynamic programming",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-001.txt",
+      "content_format": "text",
+      "content_chars": 9965,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/120-dynamic-programming.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4540/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Framework for DP",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-002.txt",
+      "content_format": "text",
+      "content_chars": 6313,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/121-framework-for-dp.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4541/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "1D problems",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-003.txt",
+      "content_format": "text",
+      "content_chars": 10534,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/122-1d-problems.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4580/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Climbing Stairs",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-004.txt",
+      "content_format": "text",
+      "content_chars": 10052,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/123-climbing-stairs.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4684/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Min Cost Climbing Stairs",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-005.txt",
+      "content_format": "text",
+      "content_chars": 13795,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/124-min-cost-climbing-stairs.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4581/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Coin Change",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-006.txt",
+      "content_format": "text",
+      "content_chars": 5889,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/125-coin-change.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4542/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Multi-dimensional problems",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-007.txt",
+      "content_format": "text",
+      "content_chars": 9487,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/126-multi-dimensional-problems.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4583/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Best Time to Buy and Sell Stock with Transaction Fee",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-008.txt",
+      "content_format": "text",
+      "content_chars": 7968,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/127-best-time-to-buy-and-sell-stock-with-transaction-fee.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4584/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Best Time to Buy and Sell Stock with Cooldown",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-009.txt",
+      "content_format": "text",
+      "content_chars": 17211,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/128-best-time-to-buy-and-sell-stock-with-cooldown.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4543/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Matrix DP",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-010.txt",
+      "content_format": "text",
+      "content_chars": 3758,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/129-matrix-dp.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4585/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Unique Paths II",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-011.txt",
+      "content_format": "text",
+      "content_chars": 4145,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/130-unique-paths-ii.json",
+        "resource_index": 11
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4586/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Minimum Falling Path Sum",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-012.txt",
+      "content_format": "text",
+      "content_chars": 17167,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/131-minimum-falling-path-sum.json",
+        "resource_index": 12
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4544/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Dynamic programming quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-013.txt",
+      "content_format": "text",
+      "content_chars": 2584,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/132-dynamic-programming-quiz.json",
+        "resource_index": 13
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/712/dynamic-programming/4714/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-dynamic-programming",
+      "label": "Bonus problems, dynamic programming",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-dynamic-programming-014.txt",
+      "content_format": "text",
+      "content_chars": 815,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/133-bonus-problems-dynamic-programming.json",
+        "resource_index": 14
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/713/interviews-and-tools/4545/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-interviews-and-tools",
+      "label": "Code templates",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-interviews-and-tools-001.txt",
+      "content_format": "text",
+      "content_chars": 2665,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/134-code-templates.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/713/interviews-and-tools/4546/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-interviews-and-tools",
+      "label": "Stages of an interview",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-interviews-and-tools-002.txt",
+      "content_format": "text",
+      "content_chars": 10673,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/135-stages-of-an-interview.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/713/interviews-and-tools/4547/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-interviews-and-tools",
+      "label": "Cheatsheets",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-interviews-and-tools-003.txt",
+      "content_format": "text",
+      "content_chars": 12393,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/136-cheatsheets.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/713/interviews-and-tools/4548/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-interviews-and-tools",
+      "label": "Mock interviews",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-interviews-and-tools-004.txt",
+      "content_format": "text",
+      "content_chars": 329,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/137-mock-interviews.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4688/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Difference array",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-001.txt",
+      "content_format": "text",
+      "content_chars": 4188,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/138-difference-array.json",
+        "resource_index": 1
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4549/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Tries",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-002.txt",
+      "content_format": "text",
+      "content_chars": 2879,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/139-tries.json",
+        "resource_index": 2
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4588/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Implement Trie (Prefix Tree)",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-003.txt",
+      "content_format": "text",
+      "content_chars": 6439,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/140-implement-trie-prefix-tree.json",
+        "resource_index": 3
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4550/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Bit manipulation",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-004.txt",
+      "content_format": "text",
+      "content_chars": 6849,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/141-bit-manipulation.json",
+        "resource_index": 4
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4685/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Hamming Distance",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-005.txt",
+      "content_format": "text",
+      "content_chars": 6243,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/142-hamming-distance.json",
+        "resource_index": 5
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4650/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Intervals",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-006.txt",
+      "content_format": "text",
+      "content_chars": 2870,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/143-intervals.json",
+        "resource_index": 6
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4652/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Insert Interval",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-007.txt",
+      "content_format": "text",
+      "content_chars": 12852,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/144-insert-interval.json",
+        "resource_index": 7
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4551/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Modular arithmetic",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-008.txt",
+      "content_format": "text",
+      "content_chars": 5621,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/145-modular-arithmetic.json",
+        "resource_index": 8
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4841/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Dijkstra's",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-009.txt",
+      "content_format": "text",
+      "content_chars": 6594,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/146-dijkstra-s.json",
+        "resource_index": 9
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4842/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Cheapest Flights Within K Stops",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-010.txt",
+      "content_format": "text",
+      "content_chars": 13290,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/147-cheapest-flights-within-k-stops.json",
+        "resource_index": 10
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4651/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Final quiz",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-011.txt",
+      "content_format": "text",
+      "content_chars": 5131,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/148-final-quiz.json",
+        "resource_index": 11
+      }
+    },
+    {
+      "kind": "local_export_text",
+      "source": "course-exports",
+      "url": "https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/714/bonus/4552/",
+      "host": "leetcode.com",
+      "url_type": "local_export",
+      "phase": "Supplemental",
+      "module_id": "leetcode-export-bonus",
+      "label": "Next steps",
+      "status": "ok",
+      "error": null,
+      "content_path": "/Users/chetangoel/Desktop/Repositories/study-app/knowledge-base/2026-04-13/local-export-text/leetcode-export-bonus-012.txt",
+      "content_format": "text",
+      "content_chars": 2638,
+      "meta": {
+        "source_json_path": "/Users/chetangoel/Desktop/Repositories/study-app/course_exports/leetcode-crash-course/items/149-next-steps.json",
+        "resource_index": 12
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+Learning augmented algorithm
+A learning augmented algorithm (also called algorithm with predictions) is an algorithm that can make use of a prediction to improve its performance.[1] Whereas in regular algorithms just the problem instance is inputted, learning augmented algorithms accept an extra parameter. This extra parameter often is a prediction of some property of the solution. This prediction is then used by the algorithm to improve its running time or the quality of its output. The most common application are online algorithms, where a prediction on the uncertain instance is provided.
+Description
+[edit]A learning augmented algorithm typically takes an input . Here is a problem instance and is the prediction. A prediction can be any object. Common are the following types:
+- Prediction of an optimal solution. The prediction gives a solution to the problem or characterizes an optimal solution.
+- Prediction of the input. This is mainly used for online problems.
+- Prediction of algorithmic actions. A prediction tailored to a specific algorithm that suggests a specific algorithm execution.
+Learning augmented algorithms usually satisfy the following three properties:[1]
+- Consistency. A learning augmented algorithm is said to be consistent if the algorithm can be proven to have a good performance when it is provided with an accurate prediction.
+- Smoothness. A learning augmented algorithm is called smooth if its performance can be bounded by a function of the quality of the prediction. Here, the quality can be measured in a problem specific way. This is also called the prediction error.
+- Robustness. A learning augmented algorithm is called robust if its worst-case performance can be bounded even if the given prediction is inaccurate.
+Learning augmented algorithms generally do not prescribe how the prediction should be done. For this purpose machine learning can be used.[citation needed]
+Applications
+[edit]A few examples of problems where learning augmented algorithms have been applied are the following.
+Online algorithms
+[edit]- The ski rental problem[2]
+- The weighted paging problem[3]
+- The set cover problem[4][5]
+- Nonclairvoyant scheduling[6][7]
+- The online bipartite matching problem[8]
+Warm starting
+[edit]Data structures
+[edit]The binary search algorithm is an algorithm for finding elements of a sorted list . It needs steps to find an element with some known value in a list of length . With a prediction for the position of , the following learning augmented algorithm can be used.[1]
+- First, look at position in the list. If , the element has been found.
+- If , look at positions until an index with is found.
+- Now perform a binary search on .
+- If , do the same as in the previous case, but instead consider .
+The error is defined to be , where is the real index of . In the learning augmented algorithm, probing the positions takes steps. Then a binary search is performed on a list of size at most , which takes steps. This makes the total running time of the algorithm . So, when the error is small, the algorithm is faster than a normal binary search. This shows that the algorithm is consistent. Even in the worst case, the error will be at most . Then the algorithm takes at most steps, so the algorithm is robust.
+More examples
+[edit]- The maximum weight matching problem[9]
+Approximation algorithms
+[edit]- The maximum cut problem[10]
+- The vertex cover problem[11]
+Mechanism Design
+[edit]- The facility location problem[12]
+See also
+[edit]References
+[edit]- ^ a b c Mitzenmacher, Michael; Vassilvitskii, Sergei (31 December 2020). "Algorithms with Predictions". Beyond the Worst-Case Analysis of Algorithms. Cambridge University Press. pp. 646–662. arXiv:2006.09123. doi:10.1017/9781108637435.037. ISBN 978-1-108-63743-5.
+- ^ Purohit, Manish; Svitkina, Zoya; Kumar, Ravi (2018). "Improving Online Algorithms via ML Predictions". Advances in Neural Information Processing Systems 31 (NeurIPS 2018). Montréal, Canada. pp. 9684–9693. Retrieved 18 December 2025.
+- ^ Bansal, Nikhil; Coester, Christian; Kumar, Ravi; Purohit, Manish; Vee, Erik (January 2022). "Learning-Augmented Weighted Paging". Proceedings of the 2022 Annual ACM-SIAM Symposium on Discrete Algorithms (SODA). Society for Industrial and Applied Mathematics. pp. 67–89. doi:10.1137/1.9781611977073.4. ISBN 978-1-61197-707-3.
+- ^ Bamas, Étienne; Maggiori, Andreas; Svensson, Ola (2020). "The Primal-Dual Method for Learning Augmented Algorithms". Advances in Neural Information Processing Systems 33 (NeurIPS 2020). Virtual conference. Retrieved 18 December 2025.
+- ^ Grigorescu, Elena; Lin, Young-San; Silwal, Sandeep; Song, Maoyuan; Zhou, Samson (2022). "Learning-Augmented Algorithms for Online Linear and Semidefinite Programming". arXiv:2209.10614 [cs].
+- ^ Im, Sungjin; Kumar, Ravi; Montazer Qaem, Mahshid; Purohit, Manish (2021). "Non-Clairvoyant Scheduling with Predictions". Proceedings of the 33rd ACM Symposium on Parallelism in Algorithms and Architectures (SPAA 2021). Virtual conference, USA: ACM. pp. 285–294. doi:10.1145/3409964.3461790. Retrieved 18 December 2025.
+- ^ Lindermayr, Alexander; Megow, Nicole (2025). "Permutation Predictions for Non-Clairvoyant Scheduling". ACM Transactions on Parallel Computing. 12 (2). ACM: 4:1–4:26. doi:10.1145/3711872. Retrieved 18 December 2025.
+- ^ Jin, Billy; Ma, Will (2022). "Online Bipartite Matching with Advice: Tight Robustness–Consistency Tradeoffs for the Two-Stage Model". Advances in Neural Information Processing Systems 35 (NeurIPS 2022). New Orleans, Louisiana, United States. Retrieved 18 December 2025.
+- ^ Dinitz, Michael; Im, Sungjin; Lavastida, Thomas; Benjamin, Benjamin; Vassilvitskii, Sergei (2021). "Faster Matchings via Learned Duals". Advances in Neural Information Processing Systems (PDF). Curran Associates, Inc.
+- ^ Cohen-Addad, Vincent; d'Orsi, Tommaso; Gupta, Anupam; Lee, Euiwoong; Panigrahi, Debmalya (2024). "Learning-Augmented Approximation Algorithms for Maximum Cut and Related Probl

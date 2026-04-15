@@ -1,0 +1,48 @@
+Service-oriented architecture
+In software engineering, service-oriented architecture (SOA) is an architectural style that focuses on discrete services instead of a monolithic design.[1] SOA is a good choice for system integration.[2] By consequence, it is also applied in the field of software design where services are provided to the other components by application components, through a communication protocol over a network. A service is a discrete unit of functionality that can be accessed remotely and acted upon and updated independently, such as retrieving a credit card statement online. SOA is also intended to be independent of vendors, products and technologies.[3]
+Service orientation is a way of thinking in terms of services and service-based development and the outcomes of services.[1]
+A service has four properties according to one of many definitions of SOA:[4]
+- It logically represents a repeatable business activity with a specified outcome.
+- It is self-contained.
+- It is a black box for its consumers, meaning the consumer does not have to be aware of the service's inner workings.
+- It may be composed of other services.[5]
+Different services can be used in conjunction as a service mesh to provide the functionality of a large software application,[6] a principle SOA shares with modular programming. Service-oriented architecture integrates distributed, separately maintained and deployed software components. It is enabled by technologies and standards that facilitate components' communication and cooperation over a network, especially over an IP network.
+SOA is related to the idea of an API (application programming interface), an interface or communication protocol between different parts of a computer program intended to simplify the implementation and maintenance of software. An API can be thought of as the service, and the SOA the architecture that allows the service to operate.
+Note that Service-Oriented Architecture must not be confused with Service Based Architecture as those are two different architectural styles.[7]
+Overview
+[edit]In SOA, services use protocols that describe how they pass and parse messages using description metadata. This metadata describes both the functional characteristics of the service and quality-of-service characteristics. Service-oriented architecture aims to allow users to combine large chunks of functionality to form applications which are built purely from existing services and combining them in an ad hoc manner. A service presents a simple interface to the requester that abstracts away the underlying complexity acting as a black box. Further users can also access these independent services without any knowledge of their internal implementation.[8]
+Defining concepts
+[edit]The related buzzword service-orientation promotes loose coupling between services. SOA separates functions into distinct units, or services,[9] which developers make accessible over a network in order to allow users to combine and reuse them in the production of applications. These services and their corresponding consumers communicate with each other by passing data in a well-defined, shared format, or by coordinating an activity between two or more services.[10]
+SOA can be seen as part of the continuum which ranges from the older concept of distributed computing[9][11] and modular programming, through SOA, and on to practices of mashups, SaaS, and cloud computing (which some see as the offspring of SOA).[12]
+Principles
+[edit]There are no industry standards relating to the exact composition of a service-oriented architecture, although many industry sources have published their own principles. Some of these[13][14][15] include the following:
+- Standardized service contract[16]
+- Services adhere to a standard communications agreement, as defined collectively by one or more service description documents within a given set of services.
+- Service reference autonomy (an aspect of loose coupling)
+- The relationship between services is minimized to the level that they are only aware of their existence.
+- Service location transparency (an aspect of loose coupling)
+- Services can be called from anywhere within the network that it is located no matter where it is present.
+- Service longevity
+- Services should be designed to be long lived. Where possible, services should avoid forcing consumers to change if they do not require new features; if you call a service today, you should be able to call the same service tomorrow.
+- Service abstraction
+- The services act as black boxes, that is their inner logic is hidden from the consumers.
+- Service autonomy
+- Services are independent and control the functionality they encapsulate, from a Design-time and a run-time perspective.
+- Service statelessness
+- Services are stateless, that is either return the requested value or give an exception hence minimizing resource use.
+- Service granularity
+- A principle to ensure services have an adequate size and scope. The functionality provided by the service to the user must be relevant.
+- Service normalization
+- Services are decomposed or consolidated (normalized) to minimize redundancy. In some, this may not be done. These are the cases where performance optimization, access, and aggregation are required.[17]
+- Service composability
+- Services can be used to compose other services.
+- Service discovery
+- Services are supplemented with communicative meta data by which they can be effectively discovered and interpreted.
+- Service reusability
+- Logic is divided into various services, to promote reuse of code.
+- Service encapsulation
+- Many services which were not initially planned under SOA, may get encapsulated or become a part of SOA.
+Patterns
+[edit]Each SOA building block can play any of the three roles:
+- Service provider
+- It creates a web service and provides its information to the service registry. Each provider debates upon a lot of hows and whys like which service to expose, which to give more impor

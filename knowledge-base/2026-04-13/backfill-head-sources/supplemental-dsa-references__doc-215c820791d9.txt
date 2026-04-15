@@ -1,0 +1,40 @@
+Design Patterns
+This article may be in need of reorganization to comply with Wikipedia's layout guidelines. (July 2013) |
+| Author | |
+|---|---|
+| Subject | Design patterns, software engineering, object-oriented programming |
+| Publisher | Addison-Wesley |
+Publication date | 1994 |
+| Publication place | United States |
+| Pages | 395 |
+| ISBN | 0-201-63361-2 |
+| OCLC | 31171684 |
+| 005.1/2 20 | |
+| LC Class | QA76.64 .D47 1995 |
+Design Patterns: Elements of Reusable Object-Oriented Software (1994) is a software engineering book describing software design patterns. The book was written by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides, with a foreword by Grady Booch. The book is divided into two parts, with the first two chapters exploring the capabilities and pitfalls of object-oriented programming, and the remaining chapters describing 23 classic software design patterns. The book includes examples in C++ and Smalltalk.
+It has been influential to the field of software engineering and is regarded as an important source for object-oriented design theory and practice. More than 500,000 copies have been sold in English and in 13 other languages.[1] The authors are often referred to as the Gang of Four (GoF).[2][3][4][5]
+Development and publication history
+[edit]The book started at a birds-of-a-feather session at the 1990 OOPSLA meeting, "Towards an Architecture Handbook", where Erich Gamma and Richard Helm met and discovered their common interest. They were later joined by Ralph Johnson and John Vlissides.[6] The book was originally published on 21 October 1994, with a 1995 copyright, and was made available to the public at the 1994 OOPSLA meeting.
+Introduction
+[edit]This section contains an excessive amount of intricate detail. (October 2020) |
+Chapter 1 is a discussion of object-oriented design techniques, based on the authors' experience, which they believe would lead to good object-oriented software design, including:
+- "Program to an interface, not an implementation." (Gang of Four 1995:18)
+- Composition over inheritance: "Favor 'object composition' over 'class inheritance'." (Gang of Four 1995:20)
+The authors claim the following as advantages of interfaces over implementation:
+- clients remain unaware of the specific types of objects they use, as long as the object adheres to the interface
+- clients remain unaware of the classes that implement these objects; clients only know about the abstract class(es) defining the interface
+Use of an interface also leads to dynamic binding and polymorphism, which are central features of object-oriented programming.
+The authors refer to inheritance as white-box reuse, with white-box referring to visibility, because the internals of parent classes are often visible to subclasses. In contrast, the authors refer to object composition (in which objects with well-defined interfaces are used dynamically at runtime by objects obtaining references to other objects) as black-box reuse because no internal details of composed objects need be visible in the code using them.
+The authors discuss the tension between inheritance and encapsulation at length and state that in their experience, designers overuse inheritance (Gang of Four 1995:20). The danger is stated as follows:
+- "Because inheritance exposes a subclass to details of its parent's implementation, it's often said that 'inheritance breaks encapsulation'". (Gang of Four 1995:19)
+They warn that the implementation of a subclass can become so bound up with the implementation of its parent class that any change in the parent's implementation will force the subclass to change. Furthermore, they claim that a way to avoid this is to inherit only from abstract classes—but then, they point out that there is minimal code reuse.
+Using inheritance is recommended mainly when adding to the functionality of existing components, reusing most of the old code and adding relatively small amounts of new code.
+To the authors, 'delegation' is an extreme form of object composition that can always be used to replace inheritance. Delegation involves two objects: a 'sender' passes itself to a 'delegate' to let the delegate refer to the sender. Thus the link between two parts of a system are established only at runtime, not at compile-time. The Callback article has more information about delegation.
+The authors also discuss so-called parameterized types, which are also known as generics (Ada, Eiffel, Java, C#, Visual Basic (.NET), and Delphi) or templates (C++). These allow any type to be defined without specifying all the other types it uses—the unspecified types are supplied as 'parameters' at the point of use.
+The authors admit that delegation and parameterization are very powerful but add a warning:
+- "Dynamic, highly parameterized software is harder to understand and build than more static software." (Gang of Four 1995:21)
+The authors further distinguish between 'Aggregation', where one object 'has' or 'is part of' another object (implying that an aggregate object and its owner have identical lifetimes) and acquaintance, where one object merely 'knows of' another object. Sometimes acquaintance is called 'association' or the 'using' relationship. Acquaintance objects may request operations of each other, but they are not responsible for each other. Acquaintance is a weaker relationship than aggregation and suggests much looser coupling between objects, which can often be desirable for maximum maintainability in designs.
+The authors employ the term 'toolkit' where others might today use 'class library', as in C# or Java. In their parlance, toolkits are the object-oriented equivalent of subroutine libraries, whereas a 'framework' is a set of cooperating classes that make up a reusable design for a specific class of software. They state that applications are hard to design, toolkits are harder, and frameworks are the hardest to design.
+Patterns by type
+[edit]Creational
+[edit]Creational patterns are ones that create o
