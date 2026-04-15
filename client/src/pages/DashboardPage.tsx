@@ -6,16 +6,69 @@ import type { AppOutletContext } from '../outletContext.js';
 import type { CurriculumModule } from '../types.js';
 import { greetingName } from '../lib/greetingName.js';
 
+function getFocusRecencyTimestamp(module: CurriculumModule): number {
+  const parsed = Date.parse(module.latest_progress_updated_at ?? '');
+  if (!Number.isFinite(parsed)) return 0;
+  return parsed;
+}
+
+function getModuleProgressSnapshot(module: CurriculumModule): {
+  total: number;
+  done: number;
+  pct: number;
+  hasProgress: boolean;
+  isComplete: boolean;
+} {
+  const total = Math.max(0, (module.totalItems ?? 0) + (module.guideStepsTotal ?? 0));
+  const doneRaw = (module.completedItems ?? 0) + (module.guideStepsCompleted ?? 0);
+  const done = Math.max(0, Math.min(total, doneRaw));
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const hasProgress = done > 0 || Boolean(module.latest_progress_updated_at);
+  const isComplete = module.status === 'done' || (total > 0 && done >= total);
+  return { total, done, pct, hasProgress, isComplete };
+}
+
+function pickMostRecent(modules: CurriculumModule[]): CurriculumModule | null {
+  if (modules.length === 0) return null;
+  return [...modules].sort((a, b) => {
+    const recencyDelta = getFocusRecencyTimestamp(b) - getFocusRecencyTimestamp(a);
+    if (recencyDelta !== 0) return recencyDelta;
+    const progressDelta = getModuleProgressSnapshot(b).done - getModuleProgressSnapshot(a).done;
+    if (progressDelta !== 0) return progressDelta;
+    return a.title.localeCompare(b.title);
+  })[0] ?? null;
+}
+
 function pickFocus(modules: CurriculumModule[]): CurriculumModule | null {
-  const inProgress = modules.filter((m) => m.status === 'in-progress');
-  if (inProgress.length > 0) {
-    return inProgress.sort((a, b) => {
-      const ta = a.latest_progress_updated_at ?? '';
-      const tb = b.latest_progress_updated_at ?? '';
-      return tb.localeCompare(ta);
-    })[0];
+  const inProgress = pickMostRecent(modules.filter((m) => m.status === 'in-progress'));
+  if (inProgress) return inProgress;
+
+  const availableModules = modules.filter((m) => m.status === 'available');
+  const resumableAvailable = pickMostRecent(
+    availableModules.filter((module) => getModuleProgressSnapshot(module).hasProgress),
+  );
+  if (resumableAvailable) return resumableAvailable;
+
+  if (availableModules.length > 0) {
+    // Respect server ordering for "next available" when no active progress exists.
+    return availableModules[0];
   }
-  return modules.find((m) => m.track === 'dsa-leetcode' && m.status === 'available') ?? null;
+
+  return pickMostRecent(modules.filter((m) => m.status === 'done'));
+}
+
+function getPrimaryActionLabel(module: CurriculumModule): string {
+  const snapshot = getModuleProgressSnapshot(module);
+  if (snapshot.isComplete) return 'Review module';
+  if (snapshot.hasProgress || module.status === 'in-progress') return 'Resume session';
+  return 'Start session';
+}
+
+function getNextGuideStep(module: CurriculumModule): number | null {
+  const total = Math.max(0, module.guideStepsTotal ?? 0);
+  const completed = Math.max(0, Math.min(total, module.guideStepsCompleted ?? 0));
+  if (completed >= total || total === 0) return null;
+  return completed + 1;
 }
 
 function formatRelative(iso: string): string {
@@ -44,7 +97,6 @@ export function DashboardPage() {
   const { tracks, modules } = data;
   const focus = pickFocus(modules);
   const focusTrack = focus ? tracks.find((track) => track.id === focus.track) : null;
-  const completedModules = modules.filter((module) => module.status === 'done').length;
   const inProgressModules = modules.filter((module) => module.status === 'in-progress').length;
   const publishedModules = modules.length;
   const fractionalDone = modules.reduce((sum, m) => {
@@ -58,13 +110,9 @@ export function DashboardPage() {
   const itemsPct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
 
   const nextItem = focus?.items.find((item) => !isCompleted(focus.id, item.id)) ?? null;
-  const focusItemPct = focus
-    ? (() => {
-        const total = (focus.totalItems ?? 0) + (focus.guideStepsTotal ?? 0);
-        const done = (focus.completedItems ?? 0) + (focus.guideStepsCompleted ?? 0);
-        return total > 0 ? Math.round((done / total) * 100) : 0;
-      })()
-    : 0;
+  const nextGuideStep = focus ? getNextGuideStep(focus) : null;
+  const focusProgress = focus ? getModuleProgressSnapshot(focus) : null;
+  const focusItemPct = focusProgress?.pct ?? 0;
 
   const recentModules = [...modules]
     .filter((m) => m.latest_progress_updated_at)
@@ -120,6 +168,20 @@ export function DashboardPage() {
                         ? <a href={nextItem.url} target="_blank" rel="noreferrer">{nextItem.label}</a>
                         : <span>{nextItem.label}</span>}
                     </p>
+                  ) : nextGuideStep ? (
+                    <p className="dashboard-focus-next">
+                      <span className="dashboard-focus-next-label">Next guide step</span>
+                      {' '}
+                      <span>
+                        Step
+                        {' '}
+                        {nextGuideStep}
+                        {' '}
+                        of
+                        {' '}
+                        {focus?.guideStepsTotal ?? nextGuideStep}
+                      </span>
+                    </p>
                   ) : null}
                 </div>
                 <div className="dashboard-focus-actions">
@@ -127,7 +189,7 @@ export function DashboardPage() {
                     to={`/track/${focus.track}/module/${focus.id}`}
                     className="dashboard-focus-btn-primary"
                   >
-                    {focus.status === 'available' ? 'Start session' : 'Resume session'}
+                    {getPrimaryActionLabel(focus)}
                   </Link>
                   <Link to={`/track/${focus.track}`} className="dashboard-focus-btn-secondary">
                     View curriculum
