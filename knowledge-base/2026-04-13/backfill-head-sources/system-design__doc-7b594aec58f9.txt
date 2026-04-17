@@ -1,0 +1,8 @@
+Member-only story
+Bulletproof Security: Route Guards and JWT Handlers in Angular 21
+The CanActivate classes are dead. This is how to lock down your Angular application using functional guards, Signal-based state, and RedirectCommand.
+For example, to set up routing security in your application with the previous version of Angular, you needed to write a complex class. It required implementing the CanActivate interface, using dependency injection to pass your services to the constructor, and returning a complex RxJS observable to determine if the user was allowed to view the page.
+In the latest version of Angular, routing security is functional, tree-shakeable, and tightly integrated with Signals.
+If your application is still using class-based routing security or directly using localStorage in your components, your security layer is already vulnerable. But do not worry. Here is the standard for architecting bulletproof route security and working with JWTs in 2026.
+1. The Modern Auth Guard
+In Standalone, a route guard is simply a function of type CanActivateFn. Since it is running in an injection context, you can use the inject function to inject your AuthService and Router directly.

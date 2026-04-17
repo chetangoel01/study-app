@@ -1,0 +1,36 @@
+AVL tree
+This article needs editing to comply with Wikipedia's Manual of Style. (November 2021) |
+| AVL tree | |||||||||||||||||||||||||||||
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Type | Tree | ||||||||||||||||||||||||||||
+| Invented | 1962 | ||||||||||||||||||||||||||||
+| Invented by | Georgy Adelson-Velsky and Evgenii Landis | ||||||||||||||||||||||||||||
+| Complexities in big O notation | |||||||||||||||||||||||||||||
+|
+In computer science, an AVL tree (named after inventors Adelson-Velsky and Landis) is a self-balancing binary search tree. In an AVL tree, the heights of the two child subtrees of any node differ by not more than one; if at any time they differ by more than one, rebalancing is done to restore this property. Lookup, insertion, and deletion all take O(log n) time in both the average and worst cases, where is the number of nodes in the tree prior to the operation. Insertions and deletions may require the tree to be rebalanced by one or more tree rotations.
+The AVL tree is named after its two Soviet inventors, Georgy Adelson-Velsky and Evgenii Landis, who published it in their 1962 paper "An algorithm for the organization of information".[2] It is the first self-balancing binary search tree data structure to be invented.[3]
+AVL trees are often compared with red–black trees because both support the same set of operations and take time for the basic operations. For lookup-intensive applications, AVL trees are faster than red–black trees because they are more strictly balanced.[4] Similar to red–black trees, AVL trees are height-balanced. Both are, in general, neither weight-balanced nor -balanced for any ;[5] that is, sibling nodes can have hugely differing numbers of descendants.
+Definition
+[edit]Balance factor
+[edit]In a binary tree the balance factor of a node X is defined to be the height difference
+- [6]: 459
+of its two child sub-trees rooted by node X.
+A binary tree is defined to be an AVL tree if
+holds for every node X in the tree.
+A node X with is called "left-heavy", one with is called "right-heavy", and one with is sometimes simply called "balanced".
+Properties
+[edit]Balance factors can be kept up-to-date by knowing the previous balance factors and the change in height – it is not necessary to know the absolute height. For holding the AVL balance information, two bits per node are sufficient.[7]
+The height (counted as the maximal number of levels) of an AVL tree with nodes lies in the interval:[6]: 460
+where is the golden ratio and This is because an AVL tree of height contains at least nodes where is the Fibonacci sequence with the seed values
+Operations
+[edit]Read-only operations of an AVL tree involve carrying out the same actions as would be carried out on an unbalanced binary search tree, but modifications have to observe and restore the height balance of the sub-trees.
+Searching
+[edit]Searching for a specific key in an AVL tree can be done the same way as that of any balanced or unbalanced binary search tree.[8]: ch. 8 In order for search to work effectively it has to employ a comparison function which establishes a total order (or at least a total preorder) on the set of keys.[9]: 23 The number of comparisons required for successful search is limited by the height h and for unsuccessful search is very close to h, so both are in O(log n), where n is the number of nodes in the tree.[10]: 216
+Traversal
+[edit]As a read-only operation the traversal of an AVL tree functions the same way as on any other binary tree. Exploring all n nodes of the tree visits each link exactly twice: one downward visit to enter the subtree rooted by that node, another visit upward to leave that node's subtree after having explored it.
+Once a node has been found in an AVL tree, the next or previous node can be accessed in amortized constant time.[11]: 58 Some instances of exploring these "nearby" nodes require traversing up to h ∝ log(n) links (particularly when navigating from the rightmost leaf of the root's left subtree to the root or from the root to the leftmost leaf of the root's right subtree; in the AVL tree of figure 1, navigating from node P to the next-to-the-right node Q takes 3 steps). Since there are n−1 links in any tree, the amortized cost is 2×(n−1)/n, or approximately 2.
+Insert
+[edit]When inserting a node into an AVL tree, you initially follow the same process as inserting into a Binary Search Tree. If the tree is empty, then the node is inserted as the root of the tree. If the tree is not empty, then we go down the root, and recursively go down the tree searching for the location to insert the new node. This traversal is guided by the comparison function. In this case, the node always replaces a NULL reference (left or right) of an external node in the tree i.e., the node is either made a left-child or a right-child of the external node.
+After this insertion, if a tree becomes unbalanced, only ancestors of the newly inserted node are unbalanced. This is because only those nodes have their sub-trees altered.[12] So it is necessary to check each of the node's ancestors for consistency with the invariants of AVL trees: this is called "retracing". This is achieved by considering the balance factor of each node.[6]: 458–481 [11]: 108
+Since with a single insertion the height of an AVL subtree cannot increase by more than one, the temporary balance factor of a node after an insertion will be in the range [–2,+2]. For each node checked, if the temporary balance factor remains in the range from –1 to +1 then only an update of the balance factor and no rotation is necessary. However, if the temporary balance factor is ±2, the subtree rooted at this node is AVL unbalanced, and a rotation is needed.[9]: 52 With insertion as the code below shows, the adequate rotation immediately perfectly rebalances the tree.
+In figure 1, by inserting the new node Z as a child of node X the height of that subtre

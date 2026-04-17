@@ -1,0 +1,30 @@
+Dynamic programming
+Dynamic programming is both a mathematical optimization method and an algorithmic paradigm. The method was developed by Richard Bellman in the 1950s and has found applications in numerous fields, such as aerospace engineering and economics.
+In both contexts it refers to simplifying a complicated problem by breaking it down into simpler sub-problems in a recursive manner. While some decision problems cannot be taken apart this way, decisions that span several points in time do often break apart recursively. Likewise, in computer science, if a problem can be solved optimally by breaking it into sub-problems and then recursively finding the optimal solutions to the sub-problems, then it is said to have optimal substructure.
+If sub-problems can be nested recursively inside larger problems, so that dynamic programming methods are applicable, then there is a relation between the value of the larger problem and the values of the sub-problems.[1] In the optimization literature this relationship is called the Bellman equation.
+Overview
+[edit]Mathematical optimization
+[edit]In terms of mathematical optimization, dynamic programming usually refers to simplifying a decision by breaking it down into a sequence of decision steps over time.
+This is done by defining a sequence of value functions V1, V2, ..., Vn taking y as an argument representing the state of the system at times i from 1 to n.
+The definition of Vn(y) is the value obtained in state y at the last time n.
+The values Vi at earlier times i = n −1, n − 2, ..., 2, 1 can be found by working backwards, using a recursive relationship called the Bellman equation.
+For i = 2, ..., n, Vi−1 at any state y is calculated from Vi by maximizing a simple function (usually the sum) of the gain from a decision at time i − 1 and the function Vi at the new state of the system if this decision is made.
+Since Vi has already been calculated for the needed states, the above operation yields Vi−1 for those states.
+Finally, V1 at the initial state of the system is the value of the optimal solution. The optimal values of the decision variables can be recovered, one by one, by tracking back the calculations already performed.
+Control theory
+[edit]In control theory, a typical problem is to find an admissible control which causes the system to follow an admissible trajectory on a continuous time interval that minimizes a cost function
+The solution to this problem is an optimal control law or policy , which produces an optimal trajectory and a cost-to-go function . The latter obeys the fundamental equation of dynamic programming:
+a partial differential equation known as the Hamilton–Jacobi–Bellman equation, in which and . One finds that minimizing in terms of , , and the unknown function and then substitutes the result into the Hamilton–Jacobi–Bellman equation to get the partial differential equation to be solved with boundary condition .[2] In practice, this generally requires numerical techniques for some discrete approximation to the exact optimization relationship.
+Alternatively, the continuous process can be approximated by a discrete system, which leads to a following recurrence relation analog to the Hamilton–Jacobi–Bellman equation:
+at the -th stage of equally spaced discrete time intervals, and where and denote discrete approximations to and . This functional equation is known as the Bellman equation, which can be solved for an exact solution of the discrete approximation of the optimization equation.[3]
+Example from economics: Ramsey's problem of optimal saving
+[edit]In economics, the objective is generally to maximize (rather than minimize) some dynamic social welfare function. In Ramsey's problem, this function relates amounts of consumption to levels of utility. Loosely speaking, the planner faces the trade-off between contemporaneous consumption and future consumption (via investment in capital stock that is used in production), known as intertemporal choice. Future consumption is discounted at a constant rate . A discrete approximation to the transition equation of capital is given by
+where is consumption, is capital, and is a production function satisfying the Inada conditions. An initial capital stock is assumed.
+Let be consumption in period t, and assume consumption yields utility as long as the consumer lives. Assume the consumer is impatient, so that he discounts future utility by a factor b each period, where . Let be capital in period t. Assume initial capital is a given amount , and suppose that this period's capital and consumption determine next period's capital as , where A is a positive constant and . Assume capital cannot be negative. Then the consumer's decision problem can be written as follows:
+- subject to for all
+Written this way, the problem looks complicated, because it involves solving for all the choice variables . (The capital is not a choice variable—the consumer's initial capital is taken as given.)
+The dynamic programming approach to solve this problem involves breaking it apart into a sequence of smaller decisions. To do so, we define a sequence of value functions , for which represent the value of having any amount of capital k at each time t. There is (by assumption) no utility from having capital after death, .
+The value of any quantity of capital at any previous time can be calculated by backward induction using the Bellman equation. In this problem, for each , the Bellman equation is
+- subject to
+This problem is much simpler than the one we wrote down before, because it involves only two decision variables, and . Intuitively, instead of choosing his whole lifetime plan at birth, the consumer can take things one step at a time. At time t, his current capital is given, and he only needs to choose current consumption and saving .
+To actually solve this problem, we work backwards. For simplicity, the current level of capital is denoted as k. is already known, so using the Bellman equation once we can calcula

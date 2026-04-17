@@ -1,0 +1,46 @@
+int v; // we want to find the sign of v int sign; // the result goes here // CHAR_BIT is the number of bits per byte (normally 8). sign = -(v < 0); // if v < 0 then -1, else 0. // or, to avoid branching on CPUs with flag registers (IA32): sign = -(int)((unsigned int)((int)v) >> (sizeof(int) * CHAR_BIT - 1)); // or, for one less instruction (but not portable): sign = v >> (sizeof(int) * CHAR_BIT - 1);The last expression above evaluates to sign = v >> 31 for 32-bit integers. This is one operation faster than the obvious way, sign = -(v < 0). This trick works because when signed integers are shifted right, the value of the far left bit is copied to the other bits. The far left bit is 1 when the value is negative and 0 otherwise; all 1 bits gives -1. Unfortunately, this behavior is architecture-specific.
+Alternatively, if you prefer the result be either -1 or +1, then use:
+sign = +1 | (v >> (sizeof(int) * CHAR_BIT - 1)); // if v < 0 then -1, else +1
+On the other hand, if you prefer the result be either -1, 0, or +1, then use:
+sign = (v != 0) | -(int)((unsigned int)((int)v) >> (sizeof(int) * CHAR_BIT - 1)); // Or, for more speed but less portability: sign = (v != 0) | (v >> (sizeof(int) * CHAR_BIT - 1)); // -1, 0, or +1 // Or, for portability, brevity, and (perhaps) speed: sign = (v > 0) - (v < 0); // -1, 0, or +1If instead you want to know if something is non-negative, resulting in +1 or else 0, then use:
+sign = 1 ^ ((unsigned int)v >> (sizeof(int) * CHAR_BIT - 1)); // if v < 0 then 0, else 1Caveat: On March 7, 2003, Angus Duggan pointed out that the 1989 ANSI C specification leaves the result of signed right-shift implementation-defined, so on some systems this hack might not work. For greater portability, Toby Speight suggested on September 28, 2005 that CHAR_BIT be used here and throughout rather than assuming bytes were 8 bits long. Angus recommended the more portable versions above, involving casting on March 4, 2006. Rohit Garg suggested the version for non-negative integers on September 12, 2009.
+int x, y; // input values to compare signs bool f = ((x ^ y) < 0); // true iff x and y have opposite signsManfred Weis suggested I add this entry on November 26, 2009.
+int v; // we want to find the absolute value of v unsigned int r; // the result goes here int const mask = v >> sizeof(int) * CHAR_BIT - 1; r = (v + mask) ^ mask;Patented variation:
+r = (v ^ mask) - mask;Some CPUs don't have an integer absolute value instruction (or the compiler fails to use them). On machines where branching is expensive, the above expression can be faster than the obvious approach, r = (v < 0) ? -(unsigned)v : v, even though the number of operations is the same. On March 7, 2003, Angus Duggan pointed out that the 1989 ANSI C specification leaves the result of signed right-shift implementation-defined, so on some systems this hack might not work. I've read that ANSI C does not require values to be represented as two's complement, so it may not work for that reason as well (on a diminishingly small number of old machines that still use one's complement). On March 14, 2004, Keith H. Duggar sent me the patented variation above; it is superior to the one I initially came up with,
+r=(+1|(v>>(sizeof(int)*CHAR_BIT-1)))*v
+,
+because a multiply is not used.
+Unfortunately, this method has been
+patented in the USA on June 6, 2000 by Vladimir Yu Volkonsky and
+assigned to Sun Microsystems.
+On August 13, 2006, Yuriy
+Kaminskiy told me that the patent is likely invalid because the method
+was published well before the patent was even filed, such as in
+How to Optimize for
+the Pentium Processor by Agner Fog, dated November, 9, 1996. Yuriy also
+mentioned that this document was translated to Russian in 1997, which
+Vladimir could have read. Moreover, the Internet Archive also has an old
+link to it.
+On January 30, 2007, Peter Kankowski shared with me an
+abs version
+he discovered that was inspired by Microsoft's Visual C++ compiler output.
+It is featured here as the primary solution.
+On December 6, 2007, Hai Jin complained that the result was signed, so when
+computing the abs of the most negative value, it was still negative.
+On April 15, 2008 Andrew Shapira pointed out that the obvious approach
+could overflow, as it lacked an (unsigned) cast then;
+for maximum portability he suggested
+(v < 0) ? (1 + ((unsigned)(-1-v))) : (unsigned)v
+.
+But citing the ISO C99 spec on July 9, 2008,
+Vincent Lefèvre convinced me
+to remove it becasue even on non-2s-complement machines -(unsigned)v
+will do the right thing. The evaluation of -(unsigned)v first converts
+the negative value of v to an unsigned by adding 2**N,
+yielding a 2s complement representation of v's value that I'll call U.
+Then, U is negated, giving the desired result,
+-U = 0 - U = 2**N - U = 2**N - (v+2**N) = -v = abs(v).
+int x; // we want to find the minimum of x and y int y; int r; // the result goes here r = y ^ ((x ^ y) & -(x < y)); // min(x, y)On some rare machines where branching is very expensive and no condition move instructions exist, the above expression might be faster than the obvious approach, r = (x < y) ? x : y, even though it involves two more instructions. (Typically, the obvious approach is best, though.) It works because if x < y, then -(x < y) will be all ones, so r = y ^ (x ^ y) & ~0 = y ^ x ^ y = x. Otherwise, if x >= y, then -(x < y) will be all zeros, so r = y ^ ((x ^ y) & 0) = y. On some machines, evaluating (x < y) as 0 or 1 requires a branch instruction, so there may be no advantage.
+To find the maximum, use:
+r = x ^ ((x ^ y) & -(x < y)); // max(x, y)
+r = y + ((x - y) & ((x - y) >> (sizeof(int) * CHAR_BIT - 1))); // min(x, y) r = x - ((x - y) & ((x - y) >> (sizeof(int) * CHAR_BIT - 1))); // max(x, y)Note that the 1989 ANSI C specification doesn't specify the result of signed right-shift, so these aren't portable. If exceptions are thrown on overflows, then the values of x and y should be unsigned or cast to unsigned for the subtractions to avoid unnecessarily t

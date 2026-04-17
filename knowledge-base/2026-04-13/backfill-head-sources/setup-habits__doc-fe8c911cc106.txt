@@ -1,0 +1,58 @@
+I thought I was done reading books for the learning phase of my study process, and was itching to get back to the coding problems phase.
+But something was missing.
+I had read several books and watched months worth of videos, and the code I had seen along the way was C, Java, C++, but not too much in Python. Because Python is my language of choice for the interview, I felt I was lacking in seeing code that represented the data structures and algorithms I was learning.
+I bought Grokking Algorithms, for review purposes and for some key chapters. The code is in Python, but some early chapters don’t show very much code at all. It’s a great book, but wasn’t scratching my itch.
+Looking for the Perfect Book
+The dream book I was looking for was: Introduction to Algorithms (CLRS), but instead of pseudocode, I wanted all the code in Python. In addition, I can do without the countless pages of mathematical proofs.
+The perfect find: Data Structures and Algorithms in Python by Goodrich, Tamassia, and Goldwasser.
+The same text, in Java, is used as an optional text for the introductory algorithms course at UC Berkeley (CS 61B).
+If you’re interviewing with Java or C++ as your chosen language, you can use those versions of the book:
+- Java
+- C++ - the 1st edition has some low reviews, but 2nd edition reviews look great. See below about the free 7-day evaluation.
+What I Like
+The textbook is large, at over 700 pages, and it was pretty rough reading it for hours every day until it was done. But it was worth it.
+It was not only an excellent review of the material, but also a terrific resource on coding in Python 3. It uses Pythonic code all the way through, including wide use of the Python data model (for example, using/implementing dunder methods in classes).
+It’s a textbook on par in its breadth with Introduction to Algorithms, but without the extreme mathematical rigor/proofs.
+Here’s what it covers (abbreviated to save my fingers):
+- Python Primer
+- Object-Oriented Programming
+- Algorithm Analysis
+- Recursion
+- Array-Based Sequences
+- Stacks, Queues, and Deques
+- Priority Queues
+- Maps, Hash Tables, and Skip Lists
+- Search Trees
+- Binary Search Trees
+- Balanced Search Trees
+- AVL Trees
+- Splay Trees
+- (2,4) Trees
+- Red-Black Trees
+- Sorting and Selection
+- Merge-Sort
+- Quick-Sort
+- Selection
+- Selection
+- Pattern-Matching Algorithms
+- Dynamic Programming
+- Text Compression and the Greedy Method
+- Tries
+- Graph Algorithms
+- Data Structures for Graphs
+- Graph Traversals
+- Transitive Closure
+- Directed Acyclic Graphs
+- Shortest Paths
+- Minimum Spanning Trees
+- Memory Management and B-Trees
+- Memory Management
+- Memory Hierarchies and Caching
+- External Searching and B-Trees
+- External-Memory Sorting
+Do you need to know all of this? No. But I want to be super-awesome not only when I interview, but also on day one.
+Where to Get It
+Amazon has it, but it’s expensive in hardcover. I purchased the paperback version from an Amazon vendor for $15. I think it’s a no-no that they are selling the paperback (international version) in the US, but I really don’t want to shell out $100 to $150. I would’ve paid $60 to own.
+While you’re waiting for the paper edition, you can read a free version on Kindle or Kindle app on iPad, Android, or desktop. That’s what I did. I’m still waiting for my copy of the book to arrive.
+Click the eTextbook tab and click “Try the eTextbook for free”.
+P.S. I found an easter egg on Amazon. When you load the page on Amazon for Introduction to Algorithms, after the page loads, Clifford Stein’s name fades in at the end of the author list. I think this is intentional, because for years Stein wasn’t an author. He came along later.

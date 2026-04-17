@@ -192,7 +192,7 @@ MODULES = [
         ],
         "resources": [
             {"label": "Sedgewick Mergesort", "url": "https://www.coursera.org/learn/algorithms-part1/home/week/3"},
-            {"label": "Sedgewick Quicksort", "url": "https://www.coursera.org/learn/algorithms-part1/home/week/3"},
+            {"label": "Sedgewick Quicksort", "url": "https://algs4.cs.princeton.edu/23quicksort/"},
             {"label": "Sorting in 18 Minutes", "url": "https://www.youtube.com/playlist?list=PL9xmBV_5YoZOZSbGAXAPIq1BeUf4j20pl"},
             {"label": "Visual Sort Comparison", "url": "https://www.youtube.com/watch?v=kPRA0W1kECg"},
             {"label": "Merge Sort for Linked List", "url": "http://www.geeksforgeeks.org/merge-sort-for-linked-list/"},
@@ -743,6 +743,8 @@ def _compute_prereq_module_ids(modules: list[dict]) -> dict[str, list[str]]:
                 prereq_edges.append((from_id, to_id))
 
     module_ids = {m["id"] for m in modules}
+    module_order = {m["id"]: index for index, m in enumerate(modules)}
+    module_track = {m["id"]: m.get("track", "dsa-leetcode") for m in modules}
     result: dict[str, list[str]] = {m["id"]: [] for m in modules}
 
     for module in modules:
@@ -762,7 +764,17 @@ def _compute_prereq_module_ids(modules: list[dict]) -> dict[str, list[str]]:
                 if module_id in module_ids and module_id != mid:
                     prereq_module_ids.add(module_id)
 
-        result[mid] = sorted(prereq_module_ids)
+        # Keep prerequisites actionable for the learner-facing linear roadmap:
+        # - same track only (cross-track references create noisy guidance)
+        # - backward edges only (avoid forward refs/cycles in module metadata)
+        filtered_prereq_ids = [
+            module_id
+            for module_id in prereq_module_ids
+            if module_track.get(module_id) == module_track.get(mid)
+            and module_order.get(module_id, -1) < module_order.get(mid, -1)
+        ]
+        filtered_prereq_ids.sort(key=lambda module_id: module_order[module_id])
+        result[mid] = filtered_prereq_ids
 
     return result
 

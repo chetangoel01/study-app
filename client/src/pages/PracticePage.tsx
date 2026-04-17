@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { DetailedReportModal } from '../components/DetailedReportModal.js';
 import { MockInterviewModal } from '../components/MockInterviewModal.js';
 import { useCurriculum } from '../hooks/useCurriculum.js';
 import { useDailyChallenge, usePracticeStats, useMockPeers } from '../hooks/usePractice.js';
@@ -7,6 +8,7 @@ import type { SkillBreakdownItem } from '../types.js';
 import {
   buildMasterySections,
   sectionsToSkillBreakdown,
+  type MasterySection,
 } from '../lib/practiceMastery.js';
 
 type TopicPracticeMode = 'dsa' | 'system-design' | 'concurrency';
@@ -60,9 +62,42 @@ const topicPracticeConfig: Record<
   },
 };
 
+type MasteryAreaKey = 'algorithms' | 'system-design' | 'concurrency';
+
+function clampPercent(score: number): number {
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function getMasteryAreaFromSkillName(name: string): MasteryAreaKey {
+  const normalized = name.toLowerCase();
+  if (normalized.includes('system')) return 'system-design';
+  if (normalized.includes('concurrency')) return 'concurrency';
+  return 'algorithms';
+}
+
+function getMasteryAreaFromMode(mode: string): MasteryAreaKey | null {
+  const normalized = mode.trim().toLowerCase();
+  if (normalized === 'system-design-mcq' || normalized === 'system_design_mcq') return 'system-design';
+  if (normalized === 'dsa' || normalized === 'dsa-drill' || normalized === 'dsa_drill') return 'algorithms';
+  if (normalized === 'concurrency-open' || normalized === 'concurrency_open') return 'concurrency';
+  return null;
+}
+
+function getMasteryAreaFromTag(tag: string): MasteryAreaKey {
+  const normalized = tag.trim().toLowerCase();
+  if (/(system|cache|consisten|scal|reliab|distributed|queue|idempot)/.test(normalized)) {
+    return 'system-design';
+  }
+  if (/(thread|lock|race|deadlock|parallel|concurr)/.test(normalized)) {
+    return 'concurrency';
+  }
+  return 'algorithms';
+}
+
 export function PracticePage() {
   const navigate = useNavigate();
   const [showMockModal, setShowMockModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [mockFeedback, setMockFeedback] = useState('');
   const [topicPracticeMode, setTopicPracticeMode] = useState<TopicPracticeMode>('dsa');
   const { data: curriculum } = useCurriculum();
@@ -74,6 +109,7 @@ export function PracticePage() {
   const extraPeers = Math.max(0, peers.length - visiblePeers.length);
   const streakDays = stats?.streakDays ?? 0;
   const streakWeek = stats?.streakWeek ?? Array.from({ length: 7 }, () => false);
+  const quizAnalytics = stats?.quizAnalytics;
   const masterySections = useMemo(
     () => buildMasterySections(curriculum?.modules ?? []),
     [curriculum?.modules],
@@ -84,6 +120,61 @@ export function PracticePage() {
     }
     return sectionsToSkillBreakdown(masterySections);
   }, [curriculum?.modules, masterySections, stats?.skillBreakdown]);
+  const calibratedCognitiveMastery = useMemo<SkillBreakdownItem[]>(() => {
+    if (!quizAnalytics || quizAnalytics.totalAttempts <= 0) {
+      return cognitiveMastery;
+    }
+
+    const modeTotals = new Map<MasteryAreaKey, { questions: number; weightedAccuracy: number }>();
+    for (const mode of quizAnalytics.byMode) {
+      const area = getMasteryAreaFromMode(mode.mode);
+      if (!area) continue;
+      const questions = Math.max(0, mode.questions);
+      if (questions <= 0) continue;
+      const existing = modeTotals.get(area) ?? { questions: 0, weightedAccuracy: 0 };
+      existing.questions += questions;
+      existing.weightedAccuracy += mode.accuracy * questions;
+      modeTotals.set(area, existing);
+    }
+
+    const areaModeAccuracy = new Map<MasteryAreaKey, number>();
+    for (const [area, totals] of modeTotals.entries()) {
+      if (totals.questions <= 0) continue;
+      areaModeAccuracy.set(area, Math.round(totals.weightedAccuracy / totals.questions));
+    }
+
+    const areaPenalty = new Map<MasteryAreaKey, number>([
+      ['algorithms', 0],
+      ['system-design', 0],
+      ['concurrency', 0],
+    ]);
+    for (const topic of quizAnalytics.weakTopics) {
+      const area = getMasteryAreaFromTag(topic.tag);
+      areaPenalty.set(area, (areaPenalty.get(area) ?? 0) + Math.max(0, topic.misses));
+    }
+
+    return cognitiveMastery.map((skill) => {
+      const base = clampPercent(skill.score);
+      const area = getMasteryAreaFromSkillName(skill.name);
+      const modeAccuracy = areaModeAccuracy.get(area);
+      const blended = typeof modeAccuracy === 'number'
+        ? Math.round((base * 0.7) + (modeAccuracy * 0.3))
+        : Math.round((base * 0.82) + (quizAnalytics.overallAccuracy * 0.18));
+      const penalty = Math.min(8, Math.round((areaPenalty.get(area) ?? 0) * 1.5));
+      return { ...skill, score: clampPercent(blended - penalty) };
+    });
+  }, [cognitiveMastery, quizAnalytics]);
+  const calibratedMasterySections = useMemo<MasterySection[]>(() => {
+    if (masterySections.length === 0) return masterySections;
+    const scoreByArea = new Map<MasteryAreaKey, number>();
+    for (const skill of calibratedCognitiveMastery) {
+      scoreByArea.set(getMasteryAreaFromSkillName(skill.name), clampPercent(skill.score));
+    }
+    return masterySections.map((section) => ({
+      ...section,
+      score: scoreByArea.get(section.key) ?? section.score,
+    }));
+  }, [calibratedCognitiveMastery, masterySections]);
 
   const launchTopicPractice = () => {
     if (topicPracticeMode === 'dsa' && dailyChallenge?.id) {
@@ -282,14 +373,13 @@ export function PracticePage() {
             </div>
           </div>
 
-          {/* Skill Breakdown */}
           <div className="sidebar-card">
             <div className="sidebar-card-header">
               <h3>Cognitive Mastery</h3>
             </div>
             <div className="skill-breakdown-list">
-              {cognitiveMastery.length > 0 ? (
-                cognitiveMastery.map((skill) => {
+              {calibratedCognitiveMastery.length > 0 ? (
+                calibratedCognitiveMastery.map((skill) => {
                   const score = Math.max(0, Math.min(100, Math.round(skill.score)));
                   return (
                     <div className="skill-row" key={skill.name}>
@@ -309,6 +399,9 @@ export function PracticePage() {
                 </div>
               )}
             </div>
+            <button type="button" className="skill-btn" onClick={() => setShowReportModal(true)}>
+              View Full Analytics
+            </button>
           </div>
 
         </aside>
@@ -327,6 +420,13 @@ export function PracticePage() {
             await proposeAvailability({ proposedFor, durationMinutes, topic, notes });
             setMockFeedback(`Availability posted for ${formatFriendlyDate(proposedFor)} (${durationMinutes} min).`);
           }}
+        />
+      )}
+      {showReportModal && (
+        <DetailedReportModal
+          onClose={() => setShowReportModal(false)}
+          skillBreakdown={calibratedCognitiveMastery}
+          sections={calibratedMasterySections.length > 0 ? calibratedMasterySections : undefined}
         />
       )}
     </div>

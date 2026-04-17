@@ -1,0 +1,31 @@
+By Alaina Kafkes
+How to construct & code dynamic programming algorithms
+Maybe you’ve heard about it in preparing for coding interviews. Maybe you’ve struggled through it in an algorithms course. Maybe you’re trying to learn how to code on your own, and were told somewhere along the way that it’s important to understand dynamic programming. Using dynamic programming (DP) to write algorithms is as essential as it is feared.
+And who can blame those who shrink away from it? Dynamic programming seems intimidating because it is ill-taught. Many tutorials focus on the outcome — explaining the algorithm, instead of the process — finding the algorithm . This encourages memorization, not understanding.
+During my algorithms class this year, I pieced together my own process for solving problems that require dynamic programming. Parts of it come from my algorithms professor (to whom much credit is due!), and parts from my own dissection of dynamic programming algorithms.
+But before I share my process, let’s start with the basics. What is dynamic programming, anyway?
+Dynamic Programming Defined
+Dynamic programming amounts to breaking down an optimization problem into simpler sub-problems, and storing the solution to each sub-problem so that each sub-problem is only solved once.
+To be honest, this definition may not make total sense until you see an example of a sub-problem. That’s okay, it’s coming up in the next section.
+What I hope to convey is that DP is a useful technique for optimization problems, those problems that seek the maximum or minimum solution given certain constraints, because it looks through all possible sub-problems and never recomputes the solution to any sub-problem. This guarantees correctness and efficiency, which we cannot say of most techniques used to solve or approximate algorithms. This alone makes DP special.
+In the next two sections, I’ll explain what a sub-problem is, and then motivate why storing solutions — a technique known as memoization — matters in dynamic programming.
+Sub-problems on Sub-problems on Sub-problems
+Sub-problems are smaller versions of the original problem. In fact, sub-problems often look like a reworded version of the original problem. If formulated correctly, sub-problems build on each other in order to obtain the solution to the original problem.
+To give you a better idea of how this works, let’s find the sub-problem in an example dynamic programming problem.
+Pretend you’re back in the 1950s working on an IBM-650 computer. You know what this means — punchcards! Your job is to man, or woman, the IBM-650 for a day. You’re given a natural number n punchcards to run. Each punchcard i must be run at some predetermined start time _si and stop running at some predetermined finish time _fi. Only one punchcard can run on the IBM-650 at once. Each punchcard also has an associated value _vi based on how important it is to your company.
+Problem: As the person in charge of the IBM-650, you must determine the optimal schedule of punchcards that maximizes the total value of all punchcards run.
+Because I’ll go through this example in great detail throughout this article, I’ll only tease you with its sub-problem for now:
+Sub-problem: The maximum value schedule for punchcards i through n such that the punchcards are sorted by start time.
+Notice how the sub-problem breaks down the original problem into components that build up the solution. With the sub-problem, you can find the maximum value schedule for punchcards n-1 through n, and then for punchcards n-2 through n, and so on. By finding the solutions for every single sub-problem, you can then tackle the original problem itself: the maximum value schedule for punchcards 1 through n. Since the sub-problem looks like the original problem, sub-problems can be used to solve the original problem.
+In dynamic programming, after you solve each sub-problem, you must memoize, or store it. Let’s find out why in the following section.
+Motivating Memoization with Fibonacci Numbers
+When told to implement an algorithm that calculates the Fibonacci value for any given number, what would you do? Most people I know would opt for a recursive algorithm that looks something like this in Python:
+def fibonacciVal(n): if n == 0: return 0 elif n == 1: return 1 else: return fibonacciVal(n-1) + fibonacciVal(n-2)
+This algorithm accomplishes its purpose, but at a huge cost. For example, let’s look at what this algorithm must calculate in order to solve for n = 5 (abbreviated as F(5)):
+F(5) / \ / \ / \ F(4) F(3) / \ / \ F(3) F(2) F(2) F(1) / \ / \ / \ F(2) F(1) F(1) F(0) F(1) F(0) / \ F(1) F(0)
+The tree above represents each computation that must be made in order to find the Fibonacci value for n = 5. Notice how the sub-problem for n = 2 is solved thrice. For a relatively small example (n = 5), that’s a lot of repeated , and wasted, computation!
+What if, instead of calculating the Fibonacci value for n = 2 three times, we created an algorithm that calculates it once, stores its value, and accesses the stored Fibonacci value for every subsequent occurrence of n = 2? That’s exactly what memoization does.
+With this in mind, I’ve written a dynamic programming solution to the Fibonacci value problem:
+def fibonacciVal(n): memo = [0] * (n+1) memo[0], memo[1] = 0, 1 for i in range(2, n+1): memo[i] = memo[i-1] + memo[i-2] return memo[n]
+Notice how the solution of the return value comes from the memoization array memo[ ], which is iteratively filled in by the for loop. By “iteratively,” I mean that memo[2] is calculated and stored before memo[3], memo[4], …, and memo[n]. Because memo[ ] is filled in this order, the solution for each sub-problem (n = 3) can be solved by the solutions to its preceding sub-problems (n = 2 and n = 1) because these values were already stored in memo[ ] at an earlier time.
+Memoization means no re-computation, which makes for a more efficient algorithm. Thus, memoization ensures that dynamic programming is efficient, but it i

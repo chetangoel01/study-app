@@ -1,0 +1,32 @@
+Akka (toolkit)
+| Akka | |
+|---|---|
+| Original author | Jonas Bonér |
+| Developer | Akka |
+| Initial release | July 2009 |
+| Stable release | 3.2
+/ March 2025 |
+| Written in | Java and Scala |
+| Operating system | Cross-platform |
+| Platform | Java Virtual Machine |
+| License | BSL |
+| Website | akka |
+| Repository |
+Akka is a source-available platform, SDK, toolkit, and runtime simplifying building concurrent and distributed applications on the JVM, for example, agentic AI, microservices, edge/IoT, and streaming applications. Akka supports multiple programming models for concurrency and distribution, but it emphasizes actor-based concurrency, with inspiration drawn from Erlang.[1]
+Language bindings exist for both Java and Scala. Akka is mainly written in Scala.[2]
+History
+[edit]An actor implementation, written by Philipp Haller, was released in July 2006 as part of Scala 2.1.7.[3] By 2008 Scala was attracting attention for use in complex server applications, but concurrency was still typically achieved by creating threads that shared memory and synchronized when necessary using locks. Aware of the difficulties with that approach and inspired by the Erlang programming language's library support for writing highly concurrent, distributed, and event-driven applications, the Swedish programmer Jonas Bonér created Akka to bring similar capabilities to the JVM. Bonér began working on Akka in early 2009[4] and wrote up his vision for it in June of that year.[5] The first public release was Akka 0.5,[6] announced in January 2010.[7] Akka is now part of the Lightbend Platform together with the Play framework and the Scala programming language.
+Akka has now evolved into the Akka Platform, providing a high-level SDK, transparent multi-region and multi-cloud clustering, edge computing allowing building complete Cloud-to-Edge applications, and operational capabilities, with options of running applications in your VPC or in our multi-tenant serverless environment.
+In addition to the Akka Libraries—with the actor-based programming model, clustering, distributed data (CRDTs), event sourcing, persistence, streaming, brokerless pub-sub, and more—Akka now also has a high-level SDK layered on top of the Akka Libraries, consisting of a highly opinionated and guard-railed developer experience through high-level components (Entity, View, Workflow, Endpoint, Consumer, Timer) and a local development environment (sandbox, console, etc.).
+In September 2022, Lightbend announced that Akka would change its license from the free software license Apache License 2.0 to a proprietary source-available license, known as the Business Source License (BSL). Any new code under the BSL would become available under the Apache License after three years.[8]
+Apache Pekko is an Apache licensed fork of Akka[9].
+Distinguishing features
+[edit]The key points distinguishing applications based on Akka are:
+- Asynchronous and non-blocking communication, distribution, and concurrency: Akka applications are event-based, asynchronous, and non-blocking: no mutable data are shared, and no synchronization primitives are used; Akka implements the actor model with support for streaming, Publish-Subscribe, HTTP, gRPC, and multiple other protocols (through the Alpakka module).
+- Location transparency: The way Akka-based services/agents interact is the same whether they are on the same host or separate hosts (cores, nodes, data centers, or clouds), communicating directly or through routing facilities. This means that the topology of the application is not fixed but dynamic and may be altered at deployment time through a configuration mechanism, allowing a program to be scaled up (to make use of more powerful servers), out (to make use of more servers), and clustered, without code modifications.
+- Self-healing through declarative failure management: Actors are arranged hierarchically in so-called ‘supervisor hierarchies’. Failures are treated as immutable facts, reified events, and sent asynchronously to the component’s supervisor, who can manage the failure in a safe and healthy context outside of the failed component (which, thanks to location transparency, can be on another node or even data center). In contrast to Erlang, Akka enforces parental supervision, which means that each actor is created and supervised by its parent actor.
+- Durable replicated in-memory persistence: Akka services/agents are durable with their in-memory state acting as the source of truth and each state-changing event (immutable fact) is logged to disk in the order they arrive leveraging so-called event-sourcing. Replaying the event log allows them to gracefully recover from failure, sourcing replicas, and provides a built-in audit log (full history) of everything that has happened in the system.
+- Multi-region/multi-cloud clustering: Akka services/agents are clustered automatically “from within”. Each service is its own fully replicated and sharded cluster of nodes that can span multiple data centers, regions, clouds, or span from the cloud to the edge.
+The programming model for Akka consists of Akka SDK and Akka Libraries:
+- Akka Libraries is an open-ended toolkit for building distributed systems. It has a modular structure, with a core module providing actors. Other modules are available to add features such as network distribution of actors, cluster support, Command and Event Sourcing, data distribution and management (through CRDTs and event logging), integration with various third-party systems through the Alpakka streaming integration module, and even support for other concurrency models such as asynchronous stream-processing and Futures.
+- Akka SDK is a high-level and opinionated framework built on top of the Akka Libraries. It encodes the most common and useful patterns and best practices learned from the use of Akka Libraries through a set of discrete composable components (Entity, View, Endpoint, Workflow, Consumer, and Timer), allowing developers to build highl

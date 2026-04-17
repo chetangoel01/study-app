@@ -1,0 +1,15 @@
+Architectural pattern
+Appearance
+Software architecture pattern is a reusable, proven solution to a specific, recurring problem focused on architectural design challenges, which can be applied within various architectural styles. [1]
+Examples
+[edit]Some examples of architectural patterns:
+See also
+[edit]- Process Driven Messaging Service
+- Enterprise architecture
+- Common layers in an information system logical architecture
+References
+[edit]- ^ Fundamentals of Software Architecture: An Engineering Approach. O'Reilly Media. 2020. ISBN 978-1492043454.
+Bibliography
+[edit]- Avgeriou, Paris; Zdun, Uwe (2005). "Architectural patterns revisited:a pattern language" (PDF). 10th European Conference on Pattern Languages of Programs (EuroPlop 2005), Irsee, Germany, July. UVK Verlagsgesellschaft. pp. 1–39. CiteSeerX 10.1.1.141.7444. ISBN 9783879408054.
+- Buschmann F.; Meunier R.; Rohnert H.; Sommerlad P.; Stal M. (1996). Pattern-Oriented Software Architecture: A System of Patterns. Wiley. ISBN 9781118725269.
+- Bass L.; Clements P.; Kazman R. (2003). Software Architecture in Practice. Addison-Wesley. ISBN 9780321154958.

@@ -1,0 +1,23 @@
+Blackboard (design pattern)
+In software engineering, the blackboard pattern is a behavioral design pattern[1] that provides a computational framework for the design and implementation of systems that integrate large and diverse specialized modules, and implement complex, non-deterministic control strategies.[2][1]
+This pattern was identified by the members of the Hearsay-II project and first applied to speech recognition.[2]
+Structure
+[edit]The blackboard model defines three main components:
+- blackboard—a structured global memory containing objects from the solution space
+- knowledge sources—specialized modules with their own representation
+- control component—selects, configures and executes modules.[2]
+Implementation
+[edit]The first step is to design the solution space (i.e. potential solutions) that leads to the blackboard structure. Then, knowledge sources are identified. These two activities are closely related.[2]
+The next step is to specify the control component; it generally takes the form of a complex scheduler that makes use of a set of domain-specific heuristics to rate the relevance of executable knowledge sources.[2]
+Applications
+[edit]Usage-domains include:
+- speech recognition
+- vehicle identification and tracking
+- protein structure identification
+- sonar signals interpretation.[2]
+Consequences
+[edit]The blackboard pattern provides effective solutions for designing and implementing complex systems where heterogeneous modules have to be dynamically combined to solve a problem. This provides non-functional properties such as:
+- reusability
+- changeability
+- robustness.[2]
+The blackboard pattern allows multiple processes to work closer together on separate threads, polling and reacting when necessary.[1]

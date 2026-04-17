@@ -20,6 +20,38 @@ function renderTrackPage() {
 }
 
 describe('TrackPage', () => {
+  test('shows in-progress status chip for the active module', () => {
+    useCurriculumMock.mockReturnValue({
+      data: {
+        tracks: [{ id: 'dsa-leetcode', label: 'DSA & LeetCode' }],
+        modules: [
+          {
+            id: 'big-o',
+            title: 'Big-O',
+            summary: 'big-o',
+            track: 'dsa-leetcode',
+            status: 'in-progress',
+            latest_progress_updated_at: '2026-04-14 12:00:00',
+            blockedBy: [],
+            totalItems: 10,
+            completedItems: 3,
+            guideStepsTotal: 4,
+            guideStepsCompleted: 1,
+            items: [],
+          },
+        ],
+      },
+      loading: false,
+      error: '',
+      refetch: vi.fn(),
+    });
+
+    renderTrackPage();
+
+    expect(screen.getByText('In Progress')).toBeInTheDocument();
+    expect(screen.getByText('Continue session')).toBeInTheDocument();
+  });
+
   test('shows a clear start CTA for available modules', () => {
     useCurriculumMock.mockReturnValue({
       data: {
@@ -33,6 +65,11 @@ describe('TrackPage', () => {
             status: 'available',
             latest_progress_updated_at: null,
             blockedBy: [],
+            totalItems: 10,
+            completedItems: 0,
+            guideStepsTotal: 3,
+            guideStepsCompleted: 0,
+            items: [],
           },
         ],
       },
@@ -58,6 +95,12 @@ describe('TrackPage', () => {
             track: 'dsa-leetcode',
             status: 'done',
             latest_progress_updated_at: null,
+            blockedBy: [],
+            totalItems: 10,
+            completedItems: 10,
+            guideStepsTotal: 0,
+            guideStepsCompleted: 0,
+            items: [],
           },
         ],
       },

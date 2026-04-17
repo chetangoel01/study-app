@@ -110,15 +110,15 @@ describe('GET /api/practice/quiz-spec', () => {
 
     const insertQuestion = db.prepare(`
       INSERT INTO practice_quiz_questions
-        (spec_id, position, difficulty, prompt, options_json, answer_index, explanation)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+        (spec_id, position, difficulty, prompt, options_json, answer_index, explanation, tags_json)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    insertQuestion.run(specId, 1, 'Medium', 'M1', '["A","B","C","D"]', 1, 'E1');
-    insertQuestion.run(specId, 2, 'Medium', 'M2', '["A","B","C","D"]', 2, 'E2');
-    insertQuestion.run(specId, 3, 'Hard', 'H1', '["A","B","C","D"]', 0, 'E3');
-    insertQuestion.run(specId, 4, 'Easy', 'E1', '["A","B","C","D"]', 3, 'E4');
-    insertQuestion.run(specId, 5, 'Medium', 'M3', '["A","B","C","D"]', 1, 'E5');
-    insertQuestion.run(specId, 6, 'Hard', 'H2', '["A","B","C","D"]', 2, 'E6');
+    insertQuestion.run(specId, 1, 'Medium', 'M1', '["A","B","C","D"]', 1, 'E1', '["caching"]');
+    insertQuestion.run(specId, 2, 'Medium', 'M2', '["A","B","C","D"]', 2, 'E2', '["reliability"]');
+    insertQuestion.run(specId, 3, 'Hard', 'H1', '["A","B","C","D"]', 0, 'E3', '["consistency"]');
+    insertQuestion.run(specId, 4, 'Easy', 'E1', '["A","B","C","D"]', 3, 'E4', '["queues"]');
+    insertQuestion.run(specId, 5, 'Medium', 'M3', '["A","B","C","D"]', 1, 'E5', '["scalability"]');
+    insertQuestion.run(specId, 6, 'Hard', 'H2', '["A","B","C","D"]', 2, 'E6', '["distributed-systems"]');
 
     const res = await app.request(
       '/api/practice/quiz-spec?mode=system-design-mcq&trackId=system-design&moduleId=system-design-mcq&difficulty=Medium&duration=15',
@@ -130,7 +130,7 @@ describe('GET /api/practice/quiz-spec', () => {
     expect(res.status).toBe(200);
     const body = await res.json() as {
       spec: { slug: string };
-      questions: Array<{ prompt: string; difficulty: string; answerIndex: number; options: string[] }>;
+      questions: Array<{ prompt: string; difficulty: string; answerIndex: number; options: string[]; tags: string[] }>;
       targetQuestionCount: number;
     };
 
@@ -142,6 +142,7 @@ describe('GET /api/practice/quiz-spec', () => {
     expect(body.questions[3].difficulty).not.toBeUndefined();
     expect(body.questions[0].options).toHaveLength(4);
     expect(body.questions[0].answerIndex).toBeGreaterThanOrEqual(0);
+    expect(body.questions[0].tags).toEqual(['caching']);
   });
 
   it('returns 404 when no matching active spec exists', async () => {
@@ -297,6 +298,64 @@ describe('GET /api/practice/stats', () => {
 
     expect(body.percentile).toBe(50);
   });
+
+  it('returns quiz analytics trend, mode/difficulty splits, and weak-topic signals', async () => {
+    const { id: userId } = db.prepare("SELECT id FROM users WHERE email = 'u@x.com'").get() as { id: number };
+    const insertAttempt = db.prepare(`
+      INSERT INTO practice_quiz_attempts
+        (user_id, mode, selected_difficulty, question_count, correct_count, accuracy_percentage, duration_seconds, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now', ?))
+    `);
+    const insertQuestionOutcome = db.prepare(`
+      INSERT INTO practice_quiz_attempt_questions
+        (attempt_id, question_id, difficulty, is_correct, tags_json, created_at)
+      VALUES (?, ?, ?, ?, ?, datetime('now'))
+    `);
+
+    const attemptOne = insertAttempt.run(userId, 'system-design-mcq', 'Medium', 3, 1, 33, 900, '-1 day');
+    const attemptTwo = insertAttempt.run(userId, 'system-design-mcq', 'Medium', 2, 2, 100, 850, '+0 day');
+    const attemptThree = insertAttempt.run(userId, 'dsa', 'Easy', 2, 1, 50, 700, '+0 day');
+
+    const attemptOneId = Number(attemptOne.lastInsertRowid);
+    const attemptTwoId = Number(attemptTwo.lastInsertRowid);
+    const attemptThreeId = Number(attemptThree.lastInsertRowid);
+
+    insertQuestionOutcome.run(attemptOneId, 1, 'Medium', 0, '["caching"]');
+    insertQuestionOutcome.run(attemptOneId, 2, 'Hard', 1, '["consistency"]');
+    insertQuestionOutcome.run(attemptOneId, 3, 'Hard', 0, '["consistency"]');
+    insertQuestionOutcome.run(attemptTwoId, 4, 'Easy', 1, '["caching"]');
+    insertQuestionOutcome.run(attemptTwoId, 5, 'Medium', 1, '["scalability"]');
+    insertQuestionOutcome.run(attemptThreeId, 6, 'Easy', 0, '["arrays"]');
+    insertQuestionOutcome.run(attemptThreeId, 7, 'Easy', 1, '["arrays"]');
+
+    const res = await app.request('/api/practice/stats', {
+      headers: { Cookie: accessCookie },
+    });
+    expect(res.status).toBe(200);
+
+    const body = await res.json() as {
+      quizAnalytics: {
+        totalAttempts: number;
+        totalQuestions: number;
+        overallAccuracy: number;
+        accuracyTrend: Array<{ date: string; attempts: number; accuracy: number }>;
+        byDifficulty: Array<{ difficulty: string; questions: number; accuracy: number }>;
+        byMode: Array<{ mode: string; label: string; attempts: number; questions: number; accuracy: number }>;
+        weakTopics: Array<{ tag: string; misses: number; attempts: number; accuracy: number }>;
+      };
+      tagSignals: Array<{ tag: string; count: number }>;
+    };
+
+    expect(body.quizAnalytics.totalAttempts).toBe(3);
+    expect(body.quizAnalytics.totalQuestions).toBe(7);
+    expect(body.quizAnalytics.overallAccuracy).toBe(57);
+    expect(body.quizAnalytics.accuracyTrend.length).toBeGreaterThanOrEqual(2);
+    expect(body.quizAnalytics.byDifficulty.find((row) => row.difficulty === 'Hard')?.accuracy).toBe(50);
+    expect(body.quizAnalytics.byMode.find((row) => row.mode === 'system-design-mcq')?.attempts).toBe(2);
+    expect(body.quizAnalytics.byMode.find((row) => row.mode === 'system-design-mcq')?.label).toBe('System Design MCQ');
+    expect(body.quizAnalytics.weakTopics.some((row) => row.tag === 'consistency' && row.misses >= 1)).toBe(true);
+    expect(body.tagSignals.some((row) => row.tag === 'caching')).toBe(true);
+  });
 });
 
 describe('POST /api/practice/sessions', () => {
@@ -331,6 +390,65 @@ describe('POST /api/practice/sessions', () => {
     expect(row.title).toBe('System Design MCQ Set');
     expect(row.durationSeconds).toBe(1260);
     expect(row.score).toBe(80);
+  });
+
+  it('stores quiz-attempt metadata and per-question outcomes when provided', async () => {
+    const res = await app.request('/api/practice/sessions', {
+      method: 'POST',
+      headers: { Cookie: accessCookie, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'system_design_mcq',
+        title: 'System Design MCQ Set',
+        durationSeconds: 900,
+        score: 50,
+        quizAttempt: {
+          mode: 'system-design-mcq',
+          selectedDifficulty: 'Medium',
+          quizSpecId: null,
+          questions: [
+            { questionId: 101, difficulty: 'Easy', isCorrect: true, tags: ['caching'] },
+            { questionId: 102, difficulty: 'Hard', isCorrect: false, tags: ['consistency'] },
+          ],
+        },
+      }),
+    });
+    expect(res.status).toBe(200);
+
+    const { id: userId } = db.prepare("SELECT id FROM users WHERE email = 'u@x.com'").get() as { id: number };
+    const attempt = db.prepare(`
+      SELECT
+        mode,
+        question_count as questionCount,
+        correct_count as correctCount,
+        accuracy_percentage as accuracy
+      FROM practice_quiz_attempts
+      WHERE user_id = ?
+      ORDER BY id DESC
+      LIMIT 1
+    `).get(userId) as {
+      mode: string;
+      questionCount: number;
+      correctCount: number;
+      accuracy: number;
+    };
+
+    expect(attempt.mode).toBe('system-design-mcq');
+    expect(attempt.questionCount).toBe(2);
+    expect(attempt.correctCount).toBe(1);
+    expect(attempt.accuracy).toBe(50);
+
+    const outcomes = db.prepare(`
+      SELECT difficulty, is_correct as isCorrect, tags_json as tagsJson
+      FROM practice_quiz_attempt_questions
+      ORDER BY id ASC
+      LIMIT 2
+    `).all() as Array<{ difficulty: string; isCorrect: number; tagsJson: string }>;
+
+    expect(outcomes).toHaveLength(2);
+    expect(outcomes[0].difficulty).toBe('Easy');
+    expect(outcomes[0].isCorrect).toBe(1);
+    expect(outcomes[0].tagsJson).toBe('["caching"]');
+    expect(outcomes[1].isCorrect).toBe(0);
   });
 
   it('returns 400 for out-of-range score', async () => {

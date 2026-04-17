@@ -1,0 +1,30 @@
+Software design pattern
+A software design pattern describes a reusable solution to a commonly needed behavior in software.[1] A design pattern is not a rigid structure to be copied directly into source code. Rather, it is a description of and a template for solving a particular type of problem that can be used in many different contexts, including different programming languages and computing platforms.[2] Design patterns can be viewed as formalized best practices that the programmer may use to solve common problems when designing software.
+Object-oriented design patterns typically show relationships and interactions between classes or objects, without specifying the final application classes or objects that are involved.[citation needed] Patterns that imply mutable state may be unsuited for functional programming languages. Some patterns can be rendered unnecessary in languages that have built-in support for solving the problem they are trying to solve, and object-oriented patterns are not necessarily suitable for non-object-oriented languages.[citation needed]
+History
+[edit]Patterns originated as an architectural concept by Christopher Alexander as early as 1977 in A Pattern Language (cf. his article, "The Pattern of Streets," JOURNAL OF THE AIP, September, 1966, Vol. 32, No. 5, pp. 273–278). In 1987, Kent Beck and Ward Cunningham began experimenting with the idea of applying patterns to programming – specifically pattern languages – and presented their results at the OOPSLA conference that year.[3][4] In the following years, Beck, Cunningham and others followed up on this work.
+Design patterns gained popularity in computer science after the book Design Patterns: Elements of Reusable Object-Oriented Software was published in 1994 by the so-called "Gang of Four" (Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides), which is frequently abbreviated as "GoF". That same year, the first Pattern Languages of Programming Conference was held, and the following year the Portland Pattern Repository was set up for documentation of design patterns.
+Although design patterns have been applied practically for a long time, formalization of the concept of design patterns languished for several years.[5]
+Practice
+[edit]Design patterns can speed up the development process by providing proven development paradigms.[6] Effective software design requires considering issues that may not become apparent until later in the implementation. Freshly written code can often have hidden, subtle issues that take time to be detected – issues that sometimes can cause major problems down the road. Reusing design patterns can help to prevent such issues,[7] and enhance code readability for those familiar with the patterns.
+Software design techniques are difficult to apply to a broader range of problems.[citation needed] Design patterns provide general solutions, documented in a format that does not require specifics tied to a particular problem.
+In 1996, Christopher Alexander was invited to give a Keynote Speech to the 1996 OOPSLA Convention. Here he reflected on how his work on Patterns in Architecture had developed and his hopes for how the Software Design community could help Architecture extend Patterns to create living structures that use generative schemes that are more like computer code.
+Motif
+[edit]A pattern describes a design motif, a.k.a. prototypical micro-architecture, as a set of program constituents (e.g., classes, methods...) and their relationships. A developer adapts the motif to their codebase to solve the problem described by the pattern. The resulting code has structure and organization similar to the chosen motif.
+Domain-specific patterns
+[edit]Efforts have also been made to codify design patterns in particular domains, including the use of existing design patterns as well as domain-specific design patterns. Examples include user interface design patterns,[8] information visualization,[9] secure design,[10] "secure usability",[11] Web design [12] and business model design.[13]
+The annual Pattern Languages of Programming Conference proceedings [14] include many examples of domain-specific patterns.
+Object-oriented programming
+[edit]Object-oriented design patterns typically show relationships and interactions between classes or objects, without specifying the final application classes or objects that are involved. Patterns that imply mutable state may be unsuited for functional programming languages. Some patterns can be rendered unnecessary in languages that have built-in support for solving the problem they are trying to solve, and object-oriented patterns are not necessarily suitable for non-object-oriented languages.
+Examples
+[edit]Design patterns can be organized into groups based on what kind of problem they solve.
+Creational
+[edit]A creational pattern creates objects.
+| Name | Description | In Design Patterns | In Code Complete[15] | Other |
+|---|---|---|---|---|
+| Abstract factory | Provide an interface for creating families of related or dependent objects without specifying their concrete classes. | Yes | Yes | N/a |
+| Builder | Separate the construction of a complex object from its representation, allowing the same construction process to create various representations. | Yes | Yes | N/a |
+| Dependency Injection | A class accepts the objects it requires from an injector instead of creating the objects directly. | N/a | Yes | N/a |
+| Factory method | Define an interface for creating a single object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses. | Yes | Yes | N/a |
+| Lazy initialization | Tactic of delaying the creation of an object, the calculation of a value, or some other expensive process until the first time it is needed. This pattern appears in the GoF catalog as "virtual proxy", an implementation strategy for the Proxy pattern. | Yes | Yes | PoEAA[16] |
+| Multiton | Ensure a class has only named instances, an

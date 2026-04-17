@@ -1,0 +1,44 @@
+Reactor pattern
+The reactor software design pattern is an event handling strategy that can respond to many potential service requests concurrently. The pattern's key component is an event loop, running in a single thread or process, which demultiplexes incoming requests and dispatches them to the correct request handler.[1]
+By relying on event-based mechanisms rather than blocking I/O or multi-threading, a reactor can handle many concurrent I/O bound requests with minimal delay.[2] A reactor also allows for easily modifying or expanding specific request handler routines, though the pattern does have some drawbacks and limitations.[1]
+With its balance of simplicity and scalability, the reactor has become a central architectural element in several server applications and software frameworks for networking. Derivations such as the multireactor and proactor also exist for special cases where even greater throughput, performance, or request complexity are necessary.[1][2][3][4]
+Overview
+[edit]Practical considerations for the client–server model in large networks, such as the C10k problem for web servers, were the original motivation for the reactor pattern.[5]
+A naive approach to handle service requests from many potential endpoints, such as network sockets or file descriptors, is to listen for new requests from within an event loop, then immediately read the earliest request. Once the entire request has been read, it can be processed and forwarded on by directly calling the appropriate handler. An entirely "iterative" server like this, which handles one request from start-to-finish per iteration of the event loop, is logically valid. However, it will fall behind once it receives multiple requests in quick succession. The iterative approach cannot scale because reading the request blocks the server's only thread until the full request is received, and I/O operations are typically much slower than other computations.[2]
+One strategy to overcome this limitation is multi-threading: by immediately splitting off each new request into its own worker thread, the first request will no longer block the event loop, which can immediately iterate and handle another request. This "thread per connection" design scales better than a purely iterative one, but it still contains multiple inefficiencies and will struggle past a point. From a standpoint of underlying system resources, each new thread or process imposes overhead costs in memory and processing time (due to context switching). The fundamental inefficiency of each thread waiting for I/O to finish isn't resolved either.[1][2]
+From a design standpoint, both approaches tightly couple the general demultiplexer with specific request handlers too, making the server code brittle and tedious to modify. These considerations suggest a few major design decisions:
+- Retain a single-threaded event handler; multi-threading introduces overhead and complexity without resolving the real issue of blocking I/O
+- Use an event notification mechanism to demultiplex requests only after I/O is complete (so I/O is effectively non-blocking)
+- Register request handlers as callbacks with the event handler for better separation of concerns
+Combining these insights leads to the reactor pattern, which balances the advantages of single-threading with high throughput and scalability.[1][2]
+Usage
+[edit]The reactor pattern can be a good starting point for any concurrent, event-handling problem. The pattern is not restricted to network sockets either; hardware I/O, file system or database access, inter-process communication, and even abstract message passing systems are all possible use-cases.[citation needed]
+However, the reactor pattern does have limitations, a major one being the use of callbacks, which make program analysis and debugging more difficult, a problem common to designs with inverted control.[1] The simpler thread-per-connection and fully iterative approaches avoid this and can be valid solutions if scalability or high-throughput are not required.[a][citation needed]
+Single-threading can also become a drawback in use-cases that require maximum throughput, or when requests involve significant processing. Different multi-threaded designs can overcome these limitations, and in fact, some still use the reactor pattern as a sub-component for handling events and I/O.[1]
+Applications
+[edit]The reactor pattern (or a variant of it) has found a place in many web servers, application servers, and networking frameworks:
+- Adaptive Communication Environment (ACE)[1]
+- EventMachine[citation needed]
+- Netty[3]
+- Nginx[4]
+- Node.js[2][6]
+- Perl Object Environment[citation needed]
+- POCO C++ Libraries[7]
+- Spring Framework (version 5 and later)[8]
+- Tokio[citation needed]
+- Twisted[9]
+- Vert.x[3]
+Structure
+[edit]-
+UML 2 component diagram of a reactive application.[1]
+-
+UML 2 sequence diagram of a reactive server.[1]
+A reactive application consists of several moving parts and will rely on some support mechanisms:[1]
+- Handle
+- An identifier and interface to a specific request, with IO and data. This will often take the form of a socket, file descriptor, or similar mechanism, which should be provided by most modern operating systems.
+- Demultiplexer
+- An event notifier that can efficiently monitor the status of a handle, then notify other subsystems of a relevant status change (typically an IO handle becoming "ready to read"). Traditionally this role was filled by the select() system call, but more contemporary examples include epoll, kqueue, and IOCP.
+- Dispatcher
+- The actual event loop of the reactive application, this component maintains the registry of valid event handlers, then invokes the appropriate handler when an event is raised.
+- Event Handler
+- Also known as a request handler, this is the specific logic for processing one type of service request. The reactor pattern suggests registering these dynamically with the dispatcher as callbacks for greater flexibility. By default, a

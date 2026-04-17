@@ -1,0 +1,47 @@
+For doing daily programming problems, I started using this Algorithm Design Canvas created by HiredInTech. Their methodical process is really good. Check it out.
+By the way, their design canvas is the starting point for the Coding Question Practice section on Coding Interview University.
+This is their canvas:
+I drew the left part out on my whiteboard and left about 2/3 of the board for code.
+My Additions
+After a few programming problems, I added some sections of my own to help me remember to ask about some details:
+The sections:
+- Problem: the title of the problem or a summary of what I’m solving
+- Constraints: the limits, requirements, expectations outlined by the interviewer:
+- x has only unique elements
+- you only have y memory
+- you have an adjacency matrix
+- etc
+- Maintenance: things to keep track of:
+- tail pointer on a linked list
+- incrementing some value at the end of a long loop
+- Inputs: the inputs to the function, their types, and maybe sizes:
+- array of 32-bit integers
+- string of ASCII characters
+- Return: what your function should return:
+- return integer, etc
+- returns nothing but input string x is altered, like C functions that pass a pointer
+- if your algorithm is just supposed to print something (like all permutations of a string), then write the words “void” and “print outputs” in there.
+- Error / N/A: what to do given bad input, item not found, etc
+- throw an exception
+- return false, None, NULL, etc.
+- return some sentinel value: -1 or similar
+- Ideas: where you can write an overview of your algorithm ideas, starting with a brute force version
+- 2 sections here:
+- top part is for your top-of-your-head brute force, awful, inefficient algorithm.
+- bottom part is for your well-thought, lovely algorithm that shows how brilliant and creative you are.
+- T and S are your time and space complexities for each algorithm
+- 2 sections here:
+- Tests: a list of test inputs for how you’ll test the algorithm
+- bad inputs: integer input where a string is expected
+- empty inputs: null pointer, empty string, empty array
+- short inputs: array with one element
+- negative inputs: like -1, -52
+- zero inputs: 0
+- normal inputs with 2 elements
+- normal inputs with even number of elements (for algorithms where you’re finding midpoints or doing jumps, like binary search or array-backed heap operations)
+- normal inputs with odd number of elements (same reason)
+Once you’ve filled it in, you should be well-prepared to start coding, and your interviewer will see that you understand the expectations of the desired algorithm.
+I’ll draw out this canvas and that should be pretty impressive, right? Usually, when I’m coding something complicated I draw diagrams and make notes in a composition notebook, but that’s not the case in the interview. The interview needs to know what you’re thinking so they can follow your thought process so they can throw hints when they see your algorithm is reaching a dead end or there is an issue with time or space complexity.
+When I go into the interview I hope I get a big whiteboard and not one of those little ones you hold in your lap.
+Here’s where to get a cheap whiteboard for home use.
+By the way, this is my interviewer. I talk to this poster about my algorithm. I figure if I can talk through breadth-first search with this guy staring at me, other interviewers will be easier :)

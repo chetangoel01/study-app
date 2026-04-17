@@ -3,7 +3,9 @@ from __future__ import annotations
 import base64
 import binascii
 import io
+import logging
 import re
+import time
 from collections import deque
 from dataclasses import asdict, dataclass, field
 from html import unescape
@@ -18,6 +20,8 @@ from youtube_transcript_api._errors import NoTranscriptFound, TranscriptsDisable
 
 from config import (
     MAX_ARTICLE_CHARS,
+    MARKDOWN_CRAWL_ALLOW_HOST_SUBSTRINGS,
+    MAX_MARKDOWN_CRAWL_LINKS,
     MAX_GITHUB_DOC_FILES,
     MAX_SITE_CRAWL_DEPTH,
     MAX_SITE_CRAWL_PAGES,
@@ -117,6 +121,8 @@ _TEXTUAL_GITHUB_EXTENSIONS = {".md", ".mdx", ".rst", ".txt"}
 _BINARY_GITHUB_EXTENSIONS = {".pdf"}
 _SKIP_MARKDOWN_CRAWL_DOMAINS = {"github.com", "www.github.com", "raw.githubusercontent.com"}
 
+log = logging.getLogger(__name__)
+
 
 @dataclass
 class ScrapeResult:
@@ -165,10 +171,10 @@ class _LinkCollector(HTMLParser):
 
 
 def scrape_url(url: str) -> ScrapeResult:
-    return _scrape_url(url, depth=0)
+    return _scrape_url(url, depth=0, allow_site_crawl=True)
 
 
-def _scrape_url(url: str, depth: int) -> ScrapeResult:
+def _scrape_url(url: str, depth: int, *, allow_site_crawl: bool) -> ScrapeResult:
     try:
         url_type = classify(url)
 
@@ -177,20 +183,22 @@ def _scrape_url(url: str, depth: int) -> ScrapeResult:
         if url_type == UrlType.YOUTUBE_PLAYLIST:
             return _fallback_from_url(url, url_type)
         if url_type == UrlType.COURSERA:
-            return _scrape_coursera(url)
+            return _scrape_coursera(url, allow_site_crawl=allow_site_crawl)
         if url_type == UrlType.GITHUB_PDF:
             return _scrape_github_pdf(url)
         if url_type == UrlType.GITHUB_MARKDOWN:
             return _scrape_github_markdown(url)
         if url_type == UrlType.GITHUB_REPO:
             return _scrape_github_repo(url)
+        if url_type == UrlType.LEETCODE:
+            return _scrape_leetcode(url)
         if url_type == UrlType.SHORTLINK:
             return _scrape_shortlink(url, depth)
         if url_type == UrlType.PLATFORM:
             return _fallback_from_url(url, url_type)
         if url_type == UrlType.ARCHIVE:
-            return _scrape_article_like(url, url_type, min_chars=100)
-        return _scrape_article_like(url, url_type, min_chars=100)
+            return _scrape_article_like(url, url_type, min_chars=100, allow_site_crawl=allow_site_crawl)
+        return _scrape_article_like(url, url_type, min_chars=100, allow_site_crawl=allow_site_crawl)
     except Exception as exc:
         return ScrapeResult(
             url=url,
@@ -240,12 +248,104 @@ def _scrape_youtube_video(url: str) -> ScrapeResult:
         return _fallback_from_url(url, UrlType.YOUTUBE_VIDEO, resolved_url=url)
 
 
-def _scrape_article_like(url: str, url_type: UrlType, min_chars: int) -> ScrapeResult:
+def _scrape_leetcode(url: str) -> ScrapeResult:
+    path = urlparse(url).path.rstrip("/")
+    parts = [p for p in path.split("/") if p]
+    # Only scrape /problems/{slug} — all other paths (explore, discuss, etc.) are
+    # either behind auth or not useful as curriculum content.
+    if len(parts) < 2 or parts[0] != "problems":
+        return _fallback_from_url(url, UrlType.LEETCODE)
+
+    slug = parts[1]
+    query = """
+query questionData($titleSlug: String!) {
+    question(titleSlug: $titleSlug) {
+        title
+        difficulty
+        content
+        topicTags { name }
+    }
+}
+"""
+    try:
+        response = requests.post(
+            "https://leetcode.com/graphql",
+            json={"query": query, "variables": {"titleSlug": slug}},
+            headers={**_HTTP_HEADERS, "Content-Type": "application/json", "Referer": "https://leetcode.com", "Origin": "https://leetcode.com"},
+            timeout=REQUEST_TIMEOUT,
+        )
+        response.raise_for_status()
+        question = (response.json().get("data") or {}).get("question")
+        if not question or not question.get("content"):
+            return _fallback_from_url(url, UrlType.LEETCODE)
+        content = re.sub(r"<[^>]+>", " ", question["content"])
+        content = unescape(" ".join(content.split()))
+        title = str(question.get("title") or slug)
+        tags = ", ".join(t["name"] for t in (question.get("topicTags") or []))
+        text = f"{title} [{question.get('difficulty', '')}]\n\nTopics: {tags}\n\n{content}"
+        return ScrapeResult(
+            url=url,
+            url_type=UrlType.LEETCODE,
+            resolved_url=url,
+            content=text,
+            title=title,
+            og_description="",
+            status="ok",
+            error=None,
+            segments=[
+                asdict(ScrapedSegment(
+                    segment_id=f"leetcode:{slug}",
+                    kind="leetcode_problem",
+                    source_url=url,
+                    title=title,
+                    heading_path=[title],
+                    text=text,
+                ))
+            ],
+        )
+    except Exception as exc:
+        return ScrapeResult(
+            url=url,
+            url_type=UrlType.LEETCODE,
+            resolved_url=url,
+            content="",
+            title="",
+            og_description="",
+            status="failed",
+            error=str(exc),
+        )
+
+
+def _scrape_article_like(url: str, url_type: UrlType, min_chars: int, *, allow_site_crawl: bool) -> ScrapeResult:
     response = _http_get(url, allow_redirects=True)
+    if _is_bot_challenge_response(response):
+        return ScrapeResult(
+            url=url,
+            url_type=url_type,
+            resolved_url=response.url,
+            content="",
+            title="",
+            og_description="",
+            status="fallback",
+            error="bot-challenge: access blocked by bot protection",
+            segments=[],
+        )
     response.raise_for_status()
 
     resolved_url = _normalize_crawl_url(response.url)
     title, description = _extract_html_metadata(response.text)
+    if _is_bare_domain_url(resolved_url):
+        return ScrapeResult(
+            url=url,
+            url_type=url_type,
+            resolved_url=resolved_url,
+            content="",
+            title=title,
+            og_description=description,
+            status="fallback",
+            error="skipped: bare-domain landing page",
+            segments=[],
+        )
     if _should_fallback_article_url(url, resolved_url, title, url_type):
         return ScrapeResult(
             url=url,
@@ -258,7 +358,10 @@ def _scrape_article_like(url: str, url_type: UrlType, min_chars: int) -> ScrapeR
             error=None,
             segments=[],
         )
-    pages = _crawl_site(resolved_url, response.text)
+    if allow_site_crawl:
+        pages = _crawl_site(resolved_url, response.text)
+    else:
+        pages = [_page_snapshot(resolved_url, response.text)]
     content = _aggregate_pages(pages)
 
     if len(content) < min_chars:
@@ -289,8 +392,8 @@ def _scrape_article_like(url: str, url_type: UrlType, min_chars: int) -> ScrapeR
     )
 
 
-def _scrape_coursera(url: str) -> ScrapeResult:
-    return _scrape_article_like(url, UrlType.COURSERA, min_chars=200)
+def _scrape_coursera(url: str, *, allow_site_crawl: bool) -> ScrapeResult:
+    return _scrape_article_like(url, UrlType.COURSERA, min_chars=200, allow_site_crawl=allow_site_crawl)
 
 
 def _should_fallback_article_url(requested_url: str, resolved_url: str, title: str, url_type: UrlType) -> bool:
@@ -454,7 +557,7 @@ def _scrape_shortlink(url: str, depth: int) -> ScrapeResult:
             segments=[],
         )
 
-    nested = _scrape_url(resolved_url, depth=depth + 1)
+    nested = _scrape_url(resolved_url, depth=depth + 1, allow_site_crawl=True)
     if nested.status == "failed":
         return _fallback_from_url(
             url,
@@ -478,11 +581,12 @@ def _scrape_shortlink(url: str, depth: int) -> ScrapeResult:
 
 def _crawl_site(start_url: str, start_html: str) -> list[PageSnapshot]:
     start_url = _normalize_crawl_url(start_url)
-    allowed_host = urlparse(start_url).netloc.lower()
+    allowed_host = _normalize_host(urlparse(start_url).netloc)
     queue = deque([(start_url, 0, start_html)])
     visited = set()
     queued = {start_url}
     snapshots: list[PageSnapshot] = []
+    crawl_start = start_url
 
     while queue and len(snapshots) < MAX_SITE_CRAWL_PAGES:
         current_url, depth, html_text = queue.popleft()
@@ -499,13 +603,21 @@ def _crawl_site(start_url: str, start_html: str) -> list[PageSnapshot]:
                 continue
 
             try:
+                log.debug(
+                    "site-crawl fetch start host=%s depth=%s pages=%s/%s url=%s",
+                    allowed_host,
+                    depth + 1,
+                    len(snapshots),
+                    MAX_SITE_CRAWL_PAGES,
+                    candidate_url,
+                )
                 response = _http_get(candidate_url, allow_redirects=True)
                 response.raise_for_status()
             except Exception:
                 continue
 
             resolved_url = _normalize_crawl_url(response.url)
-            if urlparse(resolved_url).netloc.lower() != allowed_host:
+            if _normalize_host(urlparse(resolved_url).netloc) != allowed_host:
                 continue
             if resolved_url in visited or resolved_url in queued:
                 continue
@@ -516,6 +628,13 @@ def _crawl_site(start_url: str, start_html: str) -> list[PageSnapshot]:
             queued.add(resolved_url)
             queue.append((resolved_url, depth + 1, response.text))
 
+    log.info(
+        "site-crawl done host=%s pages=%s visited=%s start=%s",
+        allowed_host,
+        len(snapshots),
+        len(visited),
+        crawl_start,
+    )
     return snapshots
 
 
@@ -647,7 +766,7 @@ def _extract_candidate_links(base_url: str, html_text: str, allowed_host: str) -
         seen.add(candidate)
 
         parsed = urlparse(candidate)
-        if parsed.netloc.lower() != allowed_host:
+        if _normalize_host(parsed.netloc) != allowed_host:
             continue
         if not _is_crawlable_html_path(parsed.path):
             continue
@@ -756,13 +875,23 @@ def _markdown_segment(
 def _crawl_markdown_link_segments(base_url: str, markdown_text: str, seen_links: set[str] | None = None) -> list[dict]:
     seen_links = seen_links if seen_links is not None else set()
     candidates = [link for link in _extract_markdown_links(markdown_text, base_url) if _should_crawl_markdown_link(link)]
+    if MAX_MARKDOWN_CRAWL_LINKS > 0:
+        candidates = candidates[:MAX_MARKDOWN_CRAWL_LINKS]
     linked_segments: list[dict] = []
 
-    for link in candidates:
+    log.info("markdown-crawl start base=%s candidates=%s cap=%s", base_url, len(candidates), MAX_MARKDOWN_CRAWL_LINKS)
+    for idx, link in enumerate(candidates, start=1):
         if link in seen_links:
             continue
         seen_links.add(link)
-        result = _scrape_url(link, depth=0)
+        try:
+            if idx == 1 or idx % 10 == 0 or idx == len(candidates):
+                log.info("markdown-crawl progress base=%s link=%s/%s url=%s", base_url, idx, len(candidates), link)
+            # Depth-1 crawl: only follow links listed in the markdown file.
+            # For linked pages, fetch+extract the page itself, but do not site-crawl further.
+            result = _scrape_url(link, depth=0, allow_site_crawl=False)
+        except Exception:
+            continue
         if result.status != "ok":
             continue
         for segment in result.segments:
@@ -771,12 +900,18 @@ def _crawl_markdown_link_segments(base_url: str, markdown_text: str, seen_links:
                 continue
             linked_segments.append(segment)
 
+    log.info("markdown-crawl done base=%s linked_segments=%s", base_url, len(linked_segments))
     return linked_segments
 
 
 def _should_crawl_markdown_link(link: str) -> bool:
     host = urlparse(link).netloc.casefold()
-    return bool(host) and host not in _SKIP_MARKDOWN_CRAWL_DOMAINS
+    if not host or host in _SKIP_MARKDOWN_CRAWL_DOMAINS:
+        return False
+    if not MARKDOWN_CRAWL_ALLOW_HOST_SUBSTRINGS:
+        return True
+    host_l = host.lower()
+    return any(token in host_l for token in MARKDOWN_CRAWL_ALLOW_HOST_SUBSTRINGS)
 
 
 def _extract_markdown_links(markdown_text: str, base_url: str) -> list[str]:
@@ -870,13 +1005,55 @@ def _clean_html_text(value: str) -> str:
     return " ".join(value.split())
 
 
-def _http_get(url: str, *, allow_redirects: bool = False) -> requests.Response:
-    return requests.get(
-        url,
-        headers=_HTTP_HEADERS,
-        allow_redirects=allow_redirects,
-        timeout=REQUEST_TIMEOUT,
+def _is_bare_domain_url(url: str) -> bool:
+    parsed = urlparse(url)
+    path = (parsed.path or "").strip()
+    # Skip "homepage" URLs like https://www.hackerrank.com/ which are usually
+    # login/marketing shells and very low signal for curriculum extraction.
+    return path in {"", "/"} and not parsed.query and not parsed.fragment
+
+
+def _is_bot_challenge_response(response: requests.Response) -> bool:
+    """Return True if the response is a bot-protection challenge (e.g. Cloudflare)
+    rather than real content. These should be recorded as 'fallback', not 'failed'."""
+    if response.status_code not in {403, 503}:
+        return False
+    body = response.text.lower()
+    return (
+        "just a moment" in body
+        or "cf-ray" in response.headers
+        or ("cloudflare" in body and "checking your browser" in body)
     )
+
+
+def _normalize_host(netloc: str) -> str:
+    """Strip 'www.' prefix for host comparisons so that example.com and
+    www.example.com are treated as the same site during crawls."""
+    return netloc.lower().removeprefix("www.")
+
+
+def _http_get(url: str, *, allow_redirects: bool = False, _retries: int = 2) -> requests.Response:
+    _TRANSIENT_STATUS = {429, 500, 502, 503, 504}
+    last_exc: Exception | None = None
+    for attempt in range(_retries + 1):
+        try:
+            response = requests.get(
+                url,
+                headers=_HTTP_HEADERS,
+                allow_redirects=allow_redirects,
+                timeout=REQUEST_TIMEOUT,
+            )
+            if response.status_code in _TRANSIENT_STATUS and attempt < _retries:
+                time.sleep(2 ** attempt)
+                continue
+            return response
+        except (requests.Timeout, requests.ConnectionError) as exc:
+            last_exc = exc
+            if attempt < _retries:
+                time.sleep(2 ** attempt)
+    if last_exc:
+        raise last_exc
+    return response  # type: ignore[return-value]
 
 
 def _github_api_get(url: str) -> dict:

@@ -1,0 +1,42 @@
+Greedy algorithm
+A greedy algorithm is any algorithm that follows the problem-solving heuristic of making the locally optimal choice at each stage.[1] In many problems, a greedy strategy does not produce an optimal solution, but a greedy heuristic can yield locally optimal solutions that approximate a globally optimal solution in a reasonable amount of time.[2]
+For example, a greedy strategy for the travelling salesman problem (which is of high computational complexity) is the following heuristic: "At each step of the journey, visit the nearest unvisited city." This heuristic does not intend to find the best solution, but it terminates in a reasonable number of steps; finding an optimal solution to such a complex problem typically requires unreasonably many steps.[3]
+In mathematical optimization, greedy algorithms optimally solve combinatorial problems having the properties of matroids and give constant-factor approximations to optimization problems with the submodular structure.
+Specifics
+[edit]Greedy algorithms produce good solutions on some mathematical problems, but not on others. Most problems for which they work will have two properties:
+- Greedy choice property
+- Whichever choice seems best at a given moment can be made and then (recursively) solve the remaining sub-problems. The choice made by a greedy algorithm may depend on choices made so far, but not on future choices or all the solutions to the subproblem. It iteratively makes one greedy choice after another, reducing each given problem into a smaller one. In other words, a greedy algorithm never reconsiders its choices. This is the main difference from dynamic programming, which is exhaustive and is guaranteed to find the best (that is, the 'optimal') solution. After every stage, dynamic programming makes decisions based on all the decisions made in the previous stage and may reconsider the previous stage's algorithmic path to the solution.
+- Optimal substructure
+- "A problem exhibits optimal substructure if an optimal solution to the problem contains optimal solutions to the sub-problems."[4]
+Correctness Proofs
+[edit]A common technique for proving the correctness of greedy algorithms uses an inductive exchange argument.[5] The exchange argument demonstrates that any solution different from the greedy solution can be transformed into the greedy solution without degrading its quality. This proof pattern typically follows these steps:
+- Assume there exists an optimal solution different from the greedy solution
+- Identify the first point where the optimal and greedy solutions differ
+- Prove that exchanging the optimal choice for the greedy choice at this point cannot worsen the solution
+- Conclude by induction that there must exist an optimal solution identical to the greedy solution
+In some cases, an additional step may be needed to prove that no optimal solution can strictly improve upon the greedy solution.
+Cases of failure
+[edit]Greedy algorithms fail to produce the optimal solution for many other problems and may even produce the unique worst possible solution. One example is the travelling salesman problem mentioned above: for each number of cities, there is an assignment of distances between the cities for which the nearest-neighbour heuristic produces the unique worst possible tour.[6] For other possible examples, see horizon effect.
+Types
+[edit]This section needs additional citations for verification. (June 2018) |
+Greedy algorithms can be characterized as being 'short sighted', and also as 'non-recoverable'. They are ideal only for problems that have an 'optimal substructure'. Despite this, for many simple problems, the best-suited algorithms are greedy. It is important, however, to note that the greedy algorithm can be used as a selection algorithm to prioritize options within a search, or branch-and-bound algorithm. There are a few variations to the greedy algorithm:[7]
+- Pure greedy algorithms
+- Orthogonal greedy algorithms
+- Relaxed greedy algorithms
+Theory
+[edit]Greedy algorithms have a long history of study in combinatorial optimization and theoretical computer science. Greedy heuristics are known to produce suboptimal results on many problems,[8] and so natural questions are:
+- For which problems do greedy algorithms perform optimally?
+- For which problems do greedy algorithms guarantee an approximately optimal solution?
+- For which problems are greedy algorithms guaranteed not to produce an optimal solution?
+A large body of literature exists answering these questions for general classes of problems, such as matroids, as well as for specific problems, such as set cover.
+Matroids
+[edit]A matroid is a mathematical structure that generalizes the notion of linear independence from vector spaces to arbitrary sets. If an optimization problem has the structure of a matroid, then the appropriate greedy algorithm will solve it optimally.[9]
+Submodular functions
+[edit]A function defined on subsets of a set is called submodular if for every we have that .
+Suppose one wants to find a set which maximizes . The greedy algorithm, which builds up a set by incrementally adding the element which increases the most at each step, produces as output a set that is at least .[10] That is, greedy performs within a constant factor of as good as the optimal solution.
+Similar guarantees are provable when additional constraints, such as cardinality constraints,[11] are imposed on the output, though often slight variations on the greedy algorithm are required. See [12] for an overview.
+Greedy approximation algorithms with performance guarantees
+[edit]Constructing a solution using a greedy rule is an effective strategy for constructing approximation algorithms for several problems. Problems for which the greedy algorithm gives a provable guarantee, but not an optimal solution, include
+Many of these problems have matching lower bounds; i.e., the greedy algorithm does not perform better than the guarantee in the worst case.
+Applications
+[edi

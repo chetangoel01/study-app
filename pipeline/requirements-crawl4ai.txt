@@ -1,0 +1,5 @@
+# Optional: browser-based crawl experiments (Playwright). Not used by runner.py.
+#   pip install -r pipeline/requirements-crawl4ai.txt
+#   crawl4ai-setup
+#   python3 pipeline/crawl4ai_try_repo.py https://github.com/owner/repo
+crawl4ai>=0.8.6

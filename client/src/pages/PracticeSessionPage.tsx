@@ -14,11 +14,13 @@ interface PracticePromptModeContent {
 
 interface SystemDesignQuestion {
   id: string;
+  sourceQuestionId?: number | null;
   difficulty: SessionDifficulty;
   prompt: string;
   options: string[];
   answerIndex: number;
   explanation: string;
+  tags?: string[];
 }
 
 interface PracticeQuizSpecResponse {
@@ -39,6 +41,7 @@ interface PracticeQuizSpecResponse {
     options: string[];
     answerIndex: number;
     explanation: string;
+    tags?: string[];
   }>;
 }
 
@@ -330,6 +333,40 @@ function optionLabel(index: number): string {
   return String.fromCharCode(65 + index);
 }
 
+function normalizeTags(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const unique = new Set<string>();
+  for (const tag of raw) {
+    if (typeof tag !== 'string') continue;
+    const normalized = tag.trim().toLowerCase();
+    if (!normalized) continue;
+    unique.add(normalized);
+    if (unique.size >= 8) break;
+  }
+  return [...unique];
+}
+
+function inferTagsFromPrompt(prompt: string): string[] {
+  const normalized = prompt.toLowerCase();
+  const tags: string[] = [];
+  const candidates: Array<[string, RegExp]> = [
+    ['caching', /\bcache|caching|cdn\b/],
+    ['scalability', /\bscal|throughput|latency|tail latency|slo\b/],
+    ['idempotency', /\bidempot|retry|retries|duplicate\b/],
+    ['consistency', /\bconsisten|replica|read-after-write|eventual\b/],
+    ['queues', /\bqueue|backpressure|consumer|producer\b/],
+    ['distributed-systems', /\bdistributed|partition|consensus|global\b/],
+    ['concurrency', /\bthread|lock|race|parallel|deadlock\b/],
+    ['reliability', /\breliab|fault|failure|circuit breaker|degrade\b/],
+  ];
+
+  for (const [tag, pattern] of candidates) {
+    if (pattern.test(normalized)) tags.push(tag);
+    if (tags.length >= 3) break;
+  }
+  return tags.length > 0 ? tags : ['system-design'];
+}
+
 export function PracticeSessionPage() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -349,6 +386,8 @@ export function PracticeSessionPage() {
     [isSystemDesignMcq, difficulty, durationMinutes],
   );
   const [remoteQuiz, setRemoteQuiz] = useState<{
+    specId: number;
+    mode: string;
     title: string;
     description: string;
     questions: SystemDesignQuestion[];
@@ -386,11 +425,17 @@ export function PracticeSessionPage() {
             }
             return {
               id: String(question.id),
+              sourceQuestionId: question.id,
               difficulty: normalizeDifficulty(question.difficulty ?? null),
               prompt: String(question.prompt ?? '').trim(),
               options,
               answerIndex: question.answerIndex,
               explanation: String(question.explanation ?? '').trim(),
+              tags: (() => {
+                const parsedTags = normalizeTags(question.tags);
+                if (parsedTags.length > 0) return parsedTags;
+                return inferTagsFromPrompt(String(question.prompt ?? ''));
+              })(),
             };
           })
           .filter((question): question is SystemDesignQuestion => Boolean(question?.prompt));
@@ -402,6 +447,8 @@ export function PracticeSessionPage() {
         }
 
         setRemoteQuiz({
+          specId: payload.spec.id,
+          mode: payload.spec.mode,
           title: payload.spec.title || 'System Design MCQ Set',
           description: payload.spec.descriptionMarkdown || '',
           questions: mappedQuestions,
@@ -466,12 +513,26 @@ export function PracticeSessionPage() {
     const sessionDurationSeconds = reason === 'timeout'
       ? durationMinutes * 60
       : Math.max(60, elapsedSeconds);
+    const questionOutcomes = questions.map((question) => ({
+      questionId: question.sourceQuestionId ?? null,
+      difficulty: question.difficulty,
+      isCorrect: selectedAnswers[question.id] === question.answerIndex,
+      tags: normalizeTags(question.tags).length > 0
+        ? normalizeTags(question.tags)
+        : inferTagsFromPrompt(question.prompt),
+    }));
 
     void api.post('/api/practice/sessions', {
       type: 'system_design_mcq',
       title: quizTitle,
       durationSeconds: sessionDurationSeconds,
       score,
+      quizAttempt: {
+        mode: remoteQuiz?.mode || mode || 'system-design-mcq',
+        selectedDifficulty: difficulty,
+        quizSpecId: remoteQuiz?.specId ?? null,
+        questions: questionOutcomes,
+      },
     })
       .then(() => setSaveState('saved'))
       .catch(() => setSaveState('error'));

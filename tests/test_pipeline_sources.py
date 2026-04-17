@@ -62,6 +62,7 @@ def _install_stub_modules() -> None:
 _install_stub_modules()
 
 import build_study_data
+import config
 import graph_builder
 import scraper
 from url_classifier import UrlType
@@ -109,6 +110,30 @@ class FakePdfReader:
 
 
 class PipelineSourceConfigurationTests(unittest.TestCase):
+    def test_stage1_seed_list_excludes_leetcode_crash_course_card_urls(self):
+        crash = (
+            "https://leetcode.com/explore/interview/card/"
+            "leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/"
+        )
+        self.assertTrue(config.pipeline_url_excluded_from_stage1_seeds(crash))
+        self.assertFalse(
+            config.pipeline_url_excluded_from_stage1_seeds("https://leetcode.com/problems/two-sum")
+        )
+
+    def test_stage1_seed_list_excludes_noisy_hosts(self):
+        noisy = [
+            "https://www.freecodecamp.org/news/sorting-algorithms-explained/",
+            "https://www.topcoder.com/thrive/articles/Greedy%20Algorithms",
+            "https://www.programiz.com/dsa/greedy-algorithm",
+            "https://geni.us/q7svoz",
+            "https://startupnextdoor.com/retaining-computer-science-knowledge/",
+            "https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850/",
+            "https://archive.org/details/SomeArchiveItem",
+            "https://www.khanacademy.org/computing/computer-science/algorithms",
+        ]
+        for url in noisy:
+            self.assertTrue(config.pipeline_url_excluded_from_stage1_seeds(url), url)
+
     def test_pipeline_only_sources_include_user_repositories(self):
         expected_urls = {
             # GitHub repositories

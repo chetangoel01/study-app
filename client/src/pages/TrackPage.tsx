@@ -116,18 +116,14 @@ export function TrackPage() {
                 tabIndex={isLocked ? -1 : undefined}
                 onClick={isLocked ? (event) => event.preventDefault() : undefined}
               >
-                {(displayStatus !== 'in-progress' || m.status === 'done') && (
-                  <div className="timeline-card-status">
-                    {displayStatus !== 'in-progress' && (
-                      <span className={`status-chip status-${displayStatus}`}>
-                        {MODULE_STATUS_LABELS[displayStatus]}
-                      </span>
-                    )}
-                    {m.status === 'done' && (
-                      <span className="timeline-check" aria-hidden="true">✓</span>
-                    )}
-                  </div>
-                )}
+                <div className="timeline-card-status">
+                  <span className={`status-chip status-${displayStatus}`}>
+                    {MODULE_STATUS_LABELS[displayStatus]}
+                  </span>
+                  {m.status === 'done' && (
+                    <span className="timeline-check" aria-hidden="true">✓</span>
+                  )}
+                </div>
                 <h3 className="timeline-card-title">{m.title}</h3>
                 <p className="timeline-card-summary">{m.summary}</p>
                 {blockerTitles ? (

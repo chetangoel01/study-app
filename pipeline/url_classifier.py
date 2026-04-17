@@ -14,6 +14,7 @@ class UrlType(str, Enum):
     SHORTLINK = "shortlink"
     PLATFORM = "platform"
     ARCHIVE = "archive"
+    LEETCODE = "leetcode"
     ARTICLE = "article"
 
 
@@ -73,5 +74,8 @@ def classify(url: str) -> UrlType:
 
     if host.endswith("archive.org"):
         return UrlType.ARCHIVE
+
+    if host.endswith("leetcode.com"):
+        return UrlType.LEETCODE
 
     return UrlType.ARTICLE

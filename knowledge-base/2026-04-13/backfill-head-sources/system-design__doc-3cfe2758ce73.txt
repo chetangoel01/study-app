@@ -1,0 +1,7 @@
+How to Practice?
+Practicing system design questions is more difficult than practicing algorithm design questions, period. For algorithm design there are online judges like LeetCode that contain problem banks with sample solutions and automated graders that can tell you exactly how good your solution is. This is simply priceless. There is no such thing for system design.
+So what do you do?
+We have several suggestions in the following lessons in this section.
+Also, there are some more useful resources online that you can take a look at:
+- Nice YouTube channel about system design interviews
+- System Design course from Educative.io (Paid)

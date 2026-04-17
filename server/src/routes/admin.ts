@@ -39,6 +39,7 @@ interface QuizQuestionRow {
   options_json: string;
   answer_index: number;
   explanation: string;
+  tags_json: string;
   created_at: string;
   updated_at: string;
 }
@@ -75,6 +76,15 @@ function parseOptions(raw: unknown): string[] | null {
     .filter((entry) => entry.length > 0);
   if (options.length < 2) return null;
   return options;
+}
+
+function parseTags(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const tags = raw
+    .map((entry) => (typeof entry === 'string' ? entry.trim().toLowerCase() : ''))
+    .filter((entry) => entry.length > 0)
+    .slice(0, 12);
+  return [...new Set(tags)];
 }
 
 function normalizeDifficulty(value: unknown, fallback = 'Medium'): string {
@@ -119,6 +129,7 @@ function toQuizQuestion(row: QuizQuestionRow) {
     options: parseJsonArray(row.options_json).filter((entry): entry is string => typeof entry === 'string'),
     answerIndex: row.answer_index,
     explanation: row.explanation,
+    tags: parseJsonArray(row.tags_json).filter((entry): entry is string => typeof entry === 'string'),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -405,6 +416,7 @@ export function makeAdminRouter(db: Database.Database): Hono {
     const answerIndex = parseOptionalInt(body.answerIndex);
     const explanation = typeof body.explanation === 'string' ? body.explanation.trim() : '';
     const difficulty = normalizeDifficulty(body.difficulty);
+    const tags = parseTags(body.tags);
 
     if (!prompt || !options || answerIndex === null) {
       return c.json({ error: 'Missing required fields: prompt, options, answerIndex' }, 400);
@@ -423,9 +435,9 @@ export function makeAdminRouter(db: Database.Database): Hono {
 
     const result = db.prepare(`
       INSERT INTO practice_quiz_questions
-        (spec_id, position, difficulty, prompt, options_json, answer_index, explanation, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
-    `).run(specId, position, difficulty, prompt, JSON.stringify(options), answerIndex, explanation);
+        (spec_id, position, difficulty, prompt, options_json, answer_index, explanation, tags_json, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+    `).run(specId, position, difficulty, prompt, JSON.stringify(options), answerIndex, explanation, JSON.stringify(tags));
 
     const row = db.prepare('SELECT * FROM practice_quiz_questions WHERE id = ?').get(result.lastInsertRowid) as QuizQuestionRow;
     return c.json(toQuizQuestion(row), 201);
@@ -472,6 +484,9 @@ export function makeAdminRouter(db: Database.Database): Hono {
     const nextExplanation = body.explanation !== undefined
       ? (typeof body.explanation === 'string' ? body.explanation.trim() : '')
       : row.explanation;
+    const nextTags = body.tags !== undefined
+      ? parseTags(body.tags)
+      : parseJsonArray(row.tags_json).filter((entry): entry is string => typeof entry === 'string');
 
     db.prepare(`
       UPDATE practice_quiz_questions
@@ -482,9 +497,20 @@ export function makeAdminRouter(db: Database.Database): Hono {
         options_json = ?,
         answer_index = ?,
         explanation = ?,
+        tags_json = ?,
         updated_at = datetime('now')
       WHERE id = ? AND spec_id = ?
-    `).run(nextPosition, nextDifficulty, nextPrompt, JSON.stringify(nextOptions), nextAnswerIndex, nextExplanation, questionId, specId);
+    `).run(
+      nextPosition,
+      nextDifficulty,
+      nextPrompt,
+      JSON.stringify(nextOptions),
+      nextAnswerIndex,
+      nextExplanation,
+      JSON.stringify(nextTags),
+      questionId,
+      specId,
+    );
 
     const updated = getQuizQuestionById(db, specId, questionId) as QuizQuestionRow;
     return c.json(toQuizQuestion(updated));

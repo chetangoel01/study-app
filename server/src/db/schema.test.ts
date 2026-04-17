@@ -24,6 +24,8 @@ describe('applySchema', () => {
     expect(names).toContain('mock_interview_availability_proposals');
     expect(names).toContain('practice_quiz_specs');
     expect(names).toContain('practice_quiz_questions');
+    expect(names).toContain('practice_quiz_attempts');
+    expect(names).toContain('practice_quiz_attempt_questions');
   });
 
   it('is idempotent — applying schema twice does not throw', () => {
@@ -75,5 +77,32 @@ describe('applySchema', () => {
     expect(row.slug).toBe('system-design-mcq');
     expect(row.prompt).toBe('Prompt?');
     expect(row.answerIndex).toBe(2);
+  });
+
+  it('practice quiz questions support tags_json metadata', () => {
+    db = new Database(':memory:');
+    applySchema(db);
+
+    const spec = db.prepare(`
+      INSERT INTO practice_quiz_specs
+        (slug, mode, track_id, module_id, title, description_markdown, default_duration_mins, is_active)
+      VALUES ('quiz-tags', 'system-design-mcq', 'system-design', 'module-a', 'Tagged Quiz', '', 30, 1)
+    `).run();
+    const specId = Number(spec.lastInsertRowid);
+
+    db.prepare(`
+      INSERT INTO practice_quiz_questions
+        (spec_id, position, difficulty, prompt, options_json, answer_index, explanation, tags_json)
+      VALUES (?, 1, 'Medium', 'Prompt?', '["A","B"]', 0, 'Why', '["caching","latency"]')
+    `).run(specId);
+
+    const row = db.prepare(`
+      SELECT tags_json as tagsJson
+      FROM practice_quiz_questions
+      WHERE spec_id = ?
+      LIMIT 1
+    `).get(specId) as { tagsJson: string };
+
+    expect(row.tagsJson).toBe('["caching","latency"]');
   });
 });

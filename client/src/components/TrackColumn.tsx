@@ -22,6 +22,11 @@ function advisoryBlocked(module: CurriculumModule, inTrack: CurriculumModule[]):
   });
 }
 
+function getRecencyTimestamp(module: CurriculumModule): number {
+  const parsed = Date.parse(module.latest_progress_updated_at ?? '');
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export function TrackColumn({ track, modules }: { track: Track; modules: CurriculumModule[] }) {
   const done = modules.filter((m) => m.status === 'done').length;
   const fractionalDone = modules.reduce((sum, m) => {
@@ -30,9 +35,14 @@ export function TrackColumn({ track, modules }: { track: Track; modules: Curricu
     return sum + (total === 0 ? 0 : (m.completedItems + m.guideStepsCompleted) / total);
   }, 0);
   const pct = modules.length > 0 ? Math.round((fractionalDone / modules.length) * 100) : 0;
-  const remainingModules = modules.filter((m) => m.status !== 'done');
+  const inProgressModules = modules
+    .filter((m) => m.status === 'in-progress')
+    .sort((a, b) => getRecencyTimestamp(b) - getRecencyTimestamp(a));
+  const availableModules = modules.filter((m) => m.status === 'available');
+  const remainingModules = [...inProgressModules, ...availableModules];
   const preview = remainingModules.slice(0, 2);
   const previewOverflow = Math.max(remainingModules.length - preview.length, 0);
+  const nextLabel = inProgressModules.length > 0 ? 'Current and next' : 'Next up';
   const isEmpty = modules.length === 0;
   const emptyCopy = EMPTY_TRACK_COPY[track.id] ?? 'This lane is still being fleshed out in the curriculum.';
   const icon = TRACK_ICON[track.id];
@@ -57,23 +67,36 @@ export function TrackColumn({ track, modules }: { track: Track; modules: Curricu
         </div>
       ) : (
         <div className="track-col-modules-bucket">
-          <p className="track-col-next-label">Next up</p>
+          <p className="track-col-next-label">{nextLabel}</p>
           <div className="track-col-next-list">
             {preview.length === 0 ? (
               <p className="track-col-all-done">All complete in this track.</p>
             ) : (
               preview.map((m) => {
                 const lockedRow = advisoryBlocked(m, modules);
+                const activeRow = m.status === 'in-progress' && !lockedRow;
                 const rowClass = lockedRow
                   ? 'track-col-next-row track-col-next-row--locked'
-                  : 'track-col-next-row';
+                  : activeRow
+                    ? 'track-col-next-row track-col-next-row--active'
+                    : 'track-col-next-row';
+                const rowIcon = lockedRow
+                  ? 'lock'
+                  : activeRow
+                    ? 'history'
+                    : 'play_circle';
 
                 return (
                   <div key={m.id} className={rowClass}>
                     <span className="material-symbols-outlined" aria-hidden="true">
-                      {lockedRow ? 'lock' : 'play_circle'}
+                      {rowIcon}
                     </span>
-                    <span className="track-col-next-title">{m.title}</span>
+                    <span className="track-col-next-main">
+                      <span className="track-col-next-title">{m.title}</span>
+                      {activeRow && (
+                        <span className="track-col-next-state">Current session</span>
+                      )}
+                    </span>
                   </div>
                 );
               })

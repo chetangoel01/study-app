@@ -1,0 +1,12 @@
+C does not have true multidimensional arrays. However, because of the generality of C's type system, you can have arrays of arrays, which are almost as good. (This should not surprise you; you can have arrays of anything, so why not arrays of arrays?)
+We'll use two-dimensional arrays as examples in this section, although the techniques can be extended to three or more dimensions. Here is a two-dimensional array:
+int a2[5][7];Formally, a2 is an array of 5 elements, each of which is an array of 7 ints. (We usually think of it as having 5 rows and 7 columns, although this interpretation is not mandatory.)
+Just as we declared a two-dimensional array using two pairs of brackets, we access its individual elements using two pairs of brackets:
+int i, j; for(i = 0; i < 5; i++) { for(j = 0; j < 7; j++) a2[i][j] = 0; }Make sure that you remember to put each subscript in its own, correct pair of brackets. Neither
+int a2[5, 7]; /* XXX WRONG */nor
+a2[i, j] = 0; /* XXX WRONG */nor
+a2[j][i] = 0; /* XXX WRONG */would do anything remotely like what you wanted.
+23.1: Multidimensional Arrays and Functions
+23.2: Dynamically Allocating Multidimensional Arrays
+Read sequentially: prev next up top
+This page by Steve Summit // Copyright 1996-1999 // mail feedback

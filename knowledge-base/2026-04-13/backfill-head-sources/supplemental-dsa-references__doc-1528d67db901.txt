@@ -1,0 +1,83 @@
+This handbook will teach you the basics of TypeScript, including what it is, why it is useful, and the key features it offers.
+TypeScript was created by Anders Hejlsberg, a prominent software engineer at Microsoft who’s also known for his work on C# and Delphi. TypeScript was designed to enhance JavaScript by adding static types, making it easier to build and maintain large-scale applications.
+We’ll start by using Vite to integrate TypeScript with a React project. Then you’ll learn about key concepts like type annotations, type inference, and how to handle objects and arrays.
+After that, we’ll explore advanced topics such as union and any types, readonly properties, functions with specific parameter and return types, generics for flexible and reusable code, and the distinctive roles of type aliases and interfaces.
+I’ll provide detailed examples and explanations throughout the handbook to give you a comprehensive understanding of how TypeScript's features can improve JavaScript development.
+Prerequisites
+I assume you are already familiar with the fundamentals of JavaScript and React. So in this handbook, I won’t be going into in-depth explanations of certain concepts, such as the file structure when scaffolding projects.
+Table of Contents
+What is TypeScript?
+Before diving into what TypeScript is, it's important to understand why it was created. JavaScript is a loosely typed language, meaning variables are defined and their types are determined at runtime. This flexibility can lead to unexpected behavior, especially in larger projects.
+For example, you might accidentally assign a value of the wrong type to a variable, resulting in errors that you only discover when the code is executed.
+Here’s an example of JavaScript that demonstrates this issue:
+let userName = "Alice";
+userName = 42; // No error during assignment, but this might break the code later.
+function greetUser(name) {
+console.log("Hello, " + name.toUpperCase()); // Error at runtime if `name` is not a string.
+}
+greetUser(userName); // Throws an error because `userName` is a number, not a string.
+This error can be challenging to debug, as it only surfaces at runtime, making large projects harder to maintain and more prone to bugs.
+This is where TypeScript comes into the picture. TypeScript is a programming language that builds on JavaScript by adding static typing. Static typing means you can explicitly specify the types of variables, function arguments, return values, and more. Unlike dynamic typing, where types are determined at runtime, static typing allows TypeScript to catch type-related errors early during development, improving code quality and reducing bugs.
+For example, here’s the same code written in TypeScript:
+let userName: string = "Alice";
+// userName = 42; // Error: Type 'number' is not assignable to type 'string'.
+function greetUser(name: string): void {
+console.log("Hello, " + name.toUpperCase());
+}
+greetUser(userName); // Works perfectly since `userName` is correctly typed.
+Setting Up the Project
+We will be using Vite to set up our TypeScript project. Vite is a modern build tool designed to offer a faster and leaner development experience for web projects.
+To get started, run the following command to create a new Vite project with TypeScript support:
+npm create vite@latest
+Then enter a name for your project (you may choose any name you prefer). Follow the instructions carefully in the subsequent steps
+Select your project template by choosing ‘React’ from the available options. We will be using React with TypeScript for this project's development.
+When prompted for a variant selection, choose 'TypeScript' from the available options.
+After completing these steps, you will be prompted to navigate to your project directory and run npm install
+. You can use any code editor of your choice. For this example, I will be using VS Code.
+After running npm install
+, run npm run dev
+to start the project on the local server. Once that’s up and running, we are ready to dive into learning TypeScript concepts.
+But first, let's create our first TypeScript file, test.ts
+(you can choose to use .ts
+or .tsx
+). Create the test.ts
+file inside the src
+folder of your project, and add the following code to log a test message:
+test.ts
+console.log('Testing our first TypeScript file');
+To view this in the console, import the test.ts
+file into the main.tsx
+file located in the src
+folder.
+main.tsx
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
+import "./test.ts";
+createRoot(document.getElementById("root")!).render(
+<StrictMode>
+<App />
+</StrictMode>
+);
+To view the log in the console, make sure to import the test.ts
+file into the main.tsx
+file located in the src
+folder. After that, check the console of your project running on the local server, and you should see the logged message displayed there.
+Voilà!
+Now let’s get down to the real business of learning TypeScript.
+Type Annotations and Type Inference
+What are Type Annotations?
+Type annotations in TypeScript enable you to explicitly specify the type of a variable. This ensures that the variable is assigned only values of the specified type, enhancing type safety and making your code easier to maintain.
+To define a type annotation in TypeScript, you simply append a colon :
+followed by the desired type after the variable name. This allows you to specify the type that a variable will hold, adding a layer of clarity and precision to your code. For instance, let’s specify a variable of type string
+in our test.ts
+file, ensuring that only a string value is assigned:
+test.ts
+let name: string = 'Stephen';
+In this example, we have declared a variable name
+and specified that its type must be string
+. TypeScript will now ensure that only a string value can be assigned to name
+.
+📄 Note: All code snippets are in a file called test.ts
+for demonstration purposes. You can rename the file or copy the snippets into your TypeScri

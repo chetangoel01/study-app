@@ -1,0 +1,48 @@
+I’ve written for 21 years, 575 essays, and 4.7 million words and counting. You can read a quick intro or my best work, which I curate below.
+Most of my writing cycles these days go into Bits about Money, my weekly newsletter on the intersection of technology and financial infrastructure. You would probably enjoy it.
+Most Popular
+Career Advice
+Marketing
+In a nutshell: Every software company should assign full-time engineers to working on their marketing funnel. Virtually no one does. Most of my largest career wins are shipping relatively simple engineering artifacts (like e.g. automated drip email campaigns) which directly affect funnel math by 3~15%.
+Drip email campaigns:
+- My most common consulting engagement was delivering a lifecycle email campaign, often for first-time users of the software. This was because it routinely increased conversion by ~15%. Due to SaaS math that rounds to a 15% increase in enterprise value for one to two weeks of work. (I have a video course on this.)
+- Only enough time to write one email? Send all customers on a month-to-month SaaS plan an email offering to upgrade them to the annual plan for a modest discount (10% off or one month free). You can do this in an hour; it routinely gets 20%+ uptake and is great for your cash flow and churn rate. Here’s one annotated example.
+Conversion Optimization:
+AdWords:
+Measurement:
+Miscellaneous:
+Weird Hobbies
+I have some weird hobbies. Some people have, probably justly, accused me of having a hobby of having weird hobbies. Occasionally I write what I learn from them:
+- I used to ghostwrite letters to banks to resolve consumer credit problems, which prepared me very well for when Equifax had their data security breach. Writeup: Identity, Credit Reports, and You
+- I researched and wrote about the economics of the discount brokerage industry. How Discount Brokerages Make Money
+- I have a longstanding informal research interest in the economics of fraud, and have been chasing Tether for years, which I called the largest fraud since Madoff. It is now larger, and will blow up. I periodically write followups here and elsewhere.
+Conference Talks
+I present at conferences about 4~5 times a year, and generally request that the talk be made available after the conference.
+I’ve spoken at Microconf almost every year and consider that community my home-away-from-home. You should absolutely attend if you are at all interested in running a software business.
+MicroConf recommends my talks in this order, but chronologically works best for some people so:
+- 2011: A Software Business on 5 Hours a Week (not recorded, but I have the slides)
+- 2012: How to Engineer Marketing Success. Explains some of my common tactics, and broader mindset, on building engineering artifacts to influence marketing / sales outcomes.
+- 2013: Building Things to Help You Sell the Things You Build, again on the mechanics of engineering sales and marketing.
+- 2014: I’ve always said that the only thing that could keep me away from Microconf was the birth of a child. In 2014, we were blessed by the birth of our daughter Lillian.
+- 2015: Leveling Up, on how entrepreneurship effectively has a career ladder, where what you learn doing one company can be used to help jumpstart the next. Slides
+- 2016: I attended Microconf but was hip-deep in Starfighter and didn’t present.
+- 2017: Paint by Numbers: From Productized Consulting to SaaS. This is the glide path for bootstrapping a software business off of a consulting/infoproduct sort of offering, and helps you avoid the long slow SaaS ramp of death. Slides.
+- 2018: Your First 60 Days, on booting up a new Internet business. Covers marketing from a cold start, how to prioritize product development and other tasks, and what the minimum viable backoffice work is. Slides
+- 2019: The Ethos of MicroConf, a bit of a personal reflection on life and business. Slides
+- 2020-2022: I was not able to attend MicroConf due to the pandemic. Here’s hoping for 2023!
+I also periodically speak at other conferences, on a potpurri of topics. You can find many of my presentations on Slideshare or SpeakerDeck.
+Podcast
+I am a frequent guest on podcasts.
+I also occasionally host my own podcast. Some recent episodes:
+Videos
+- Andrew Warner interviewed me on Mixergy. (About one hour, comes with transcript half-written by me.) Andrew is, by the way, the best interviewer in technology today. You cannot do better than some of the insights he teases out of guests, and he has a wonderful way of making people so comfortable they forget to not answer the tough questions he slides in there.
+- Gabriel Weinberg interviewed me with specific regards to SEO, mini-sites, and conversion optimization. (About one hour, comes with transcript written by me.)
+- I did a 7.5 minute lightning talk on selling software to underserved markets at Business of Software 2010.
+- I spoke on Productizing Twilio Applications at TwilioConf 2011.
+- Google brought me in to do a tech talk about What Engineers Don’t Know We Know About Marketing.
+SEO
+Content Creation:
+- Before launch (July 1, 2006) I had a rough cut of my content creation strategy and figured out there would be seasonal elements to it.
+- Right after launch, I stumbled on what turned into my first major SEO opportunity: Dolch Sight Words. This started working rather quickly (was my main source of sales for almost a year), both for traffic and for backlinks.
+- Optimizing your website for snowflake queries: the ones Google only sees once. This eventually formed the core of my content creation strategy: as many pages as possible, each targeted at one specific, narrow interest.
+- Most recommended series: After seeing the results of doing content creation by hand in notepad, I started trying to scale it up using Rails and get the content written by freelancers. This ended up getting early positive results and eventually virtually taking over the business (now accounting for some 50% of sales and 75% of profits, give or take). I even

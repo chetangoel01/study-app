@@ -1,0 +1,26 @@
+Concurrency pattern
+Appearance
+A concurrency pattern is a software design pattern that supports concurrent processing.
+Examples
+[edit]Examples include:
+- Active object[1][2]
+- Balking pattern
+- Barrier
+- Double-checked locking
+- Guarded suspension
+- Monitor object
+- Nuclear reaction
+- Reactor pattern
+- Readers–writer lock
+- Scheduler pattern
+- Thread pool pattern
+- Thread-local storage
+See also
+[edit]References
+[edit]- ^ Douglas C. Schmidt, Michael Stal, Hans Rohnert, Frank Buschmann "Pattern-Oriented Software Architecture, Volume 2, Patterns for Concurrent and Networked Objects", Wiley, 2000
+- ^ R. Greg Lavender, Douglas C. Schmidt (1995). "Active Object" (PDF). Archived from the original (PDF) on 2010-06-15. Retrieved 2010-06-17.
+External links
+[edit]- ScaleConf Presentation about concurrency patterns
+- GopherCon Rethinking Classical Concurrency Patterns slides
+- GoWiki: Learn Concurrency
+Recordings about concurrency patterns from Software Engineering Radio:

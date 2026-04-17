@@ -1,0 +1,59 @@
+By Terrence Kuo
+An in-depth analysis of the résumé that got me interviews at Google, Facebook, Amazon, Microsoft, Apple, and more.
+This résumé got me interviews at Google, Facebook, Amazon, Microsoft, and Apple.
+2017 Senior Year Résumé
+I obtained these interviews by sending my résumé to the résumé black hole, also known as applying online.
+Applying online is the most common way people go about applying for a job and therefore the least effective way to land an interview due to competition. Yet that is exactly how I obtained all my interviews.
+How did I accomplish this?
+In this article, I will go through a line-by-line analysis of my résumé for the following purposes:
+- explaining the choices that I made in creating my résumé
+- why I believe this résumé worked to help me land those interviews, and
+- how you can create an even better résumé!
+I decided to write this article because I struggled a lot with landing interviews when I first started looking for a job. It would have been extremely helpful for me to have a real-life example résumé to look at.
+This article is organized into the following sections:
+- The All Too Familiar Way of Not Landing an Interview - a short anecdote of my frustrations when I first started applying for jobs
+- Evaluating the Options: Moving Forward - a reflection on different strategies to improve the odds of landing interviews
+Learning How to Write a Killer Résumé By Example - the step-by-step analysis of my résumé with each of the following sections corresponding to my résumé:
+The Essentials from a Glance
+- Who Are You
+- Contact Information
+- Education
+- Employment
+- Personal Projects
+- Skills
+The All Too Familiar Way of Not Landing an Interview
+Applying Online
+You probably know the link that every company provides for online applications. It’s the classic career site that shows you a bunch of job titles which you think you are totally qualified for until you open the job description and read the minimum requirements.
+Google Career Page
+A job description with a bunch of words that you have never heard of, may have heard of, or hoped you had heard of. And it has an innocent-looking “Apply” button.
+Google Job Description
+Despite the uncertainty you may feel about your qualifications, you apply anyway because you want a job.
+So you fill out the application form, press submit — and wait and hope for a positive response.
+Your results will be varied:
+- Phone Interview ? (yay, a chance at employment!!!)
+- Immediate Rejection ? (darn, back to the drawing board)
+- No reply ? (ugh, at least give me the courtesy of having some closure)
+Repeat Until Success… Right?
+Sadly, this is the typical process that many people go through when looking for a job/internship.
+Apply to a couple of companies. Get a couple of rejections or no replies. Apply to a couple more companies. Get a couple more rejections or no replies. Over, and over, and over again.
+Why do we do this to ourselves? We spend all this time doing the same repetitive task to obtain the same, disappointing results.
+Because this is what everyone does to get an interview, right? Because at least we’re working towards the right direction and have a glimmer of hope, right? How else are you supposed to get an interview?
+Evaluating the Options: Moving Forward
+“Discouragement and failure are two of the surest stepping stones to success.”
+- Dale Carnegie, (author of “How to Win Friends and Influence People”)
+We can think of approaching the problem of not getting interviews in two ways:
+- Putting your application/ résumé under the microscope
+- Questioning the process in which you go about obtaining an interview
+This article focuses on the former, because no matter what avenue you end up taking to get an interview, essentially every company utilizes your résumé as a basis for evaluation. Therefore, we will examine my résumé under a microscope and focus on learning how to write a remarkable résumé.
+Getting an interview via online application is extremely challenging because your résumé has to pass numerous stages before it gets into the hands of the hiring manager.
+It has to bypass online keyword filters, stand out to a recruiter who reviews it for about 6 seconds and meet the expectations of the hiring manager who decides whether you are worth interviewing.
+Yet, despite all those hurdles, I obtained all my interviews by applying online. How? Trial and error. I’ve applied to hundreds of different software engineering positions since my sophomore year of college.
+When I first started applying, I faced a staggering number of rejections, but over time I learned how to adapt. By the time I was a senior, I was extremely successful in landing interviews from almost every company I applied to.
+The résumé that landed me all those interviews is the exact one in this article.
+It took me four years of iteration and real-life testing to get to this point. From this experience, I have come up with a list of résumé writing principles to help you write an even better software résumé. These are principles that have helped me land my dream job and are principles that can help you land yours.
+While it took me four years of college to figure this all out, you don’t have to go through all the leaps and bounds because you can learn all of it right here, right now.
+My goal is to be the one-stop hub for all your questions on how to obtain a software engineering interview. That way, you don’t have to waste countless hours cross-referencing Google search results to find the best answer on how to write a software engineering résumé that gets interviews.
+Your valuable time could be better spent on writing your killer résumé.
+So start here and now with this article. Reap the benefits from my past experiences and let’s begin the step-by-step walkthrough of my résumé!
+Learning How to Write a Killer Résumé — By Example
+“As to methods there may be a million and then some, but principles are few. The man who grasps principles can successfully select his own method

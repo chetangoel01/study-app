@@ -1,0 +1,59 @@
+Apache Cassandra
+This article's use of external links may not follow Wikipedia's policies or guidelines. (October 2023) |
+| Apache Cassandra | |
+|---|---|
+| Original authors | Avinash Lakshman, Prashant Malik / Facebook |
+| Developer | Apache Software Foundation |
+| Initial release | July 2008 |
+| Stable release | 5.0.7[1]
+/ March 23, 2026 |
+| Written in | Java |
+| Operating system | Cross-platform |
+| Available in | English |
+| Type | NoSQL Database, data store |
+| License | Apache License 2.0 |
+| Website | cassandra |
+| Repository |
+Apache Cassandra is a free and open-source database management system designed to handle large volumes of data across multiple commodity servers. The system prioritizes availability and scalability over consistency, making it particularly suited for systems with high write throughput requirements due to its LSM tree indexing storage layer.[2] As a wide-column database, Cassandra supports flexible schemas and efficiently handles data models with numerous sparse columns. The system is optimized for applications with well-defined data access patterns that can be incorporated into the schema design.[2] Cassandra supports computer clusters which may span multiple data centers,[3] featuring asynchronous and masterless replication. It enables low-latency operations for all clients and incorporates Amazon's Dynamo distributed storage and replication techniques, combined with Google's Bigtable data storage engine model.[4]
+History
+[edit]Avinash Lakshman, a co-author of Amazon's Dynamo, and Prashant Malik developed Cassandra at Facebook to support the inbox search functionality. Facebook released Cassandra as open-source software on Google Code in July 2008.[5] In March 2009, it became an Apache Incubator project[6] and on February 17, 2010, it graduated to a top-level project.[7]
+The developers at Facebook named their database after Cassandra, the mythological Trojan prophetess, referencing her curse of making prophecies that were never believed.[8]
+Features and limitations
+[edit]This section may incorporate text from a large language model. (March 2026) |
+Cassandra uses a distributed architecture where all nodes perform identical functions, eliminating single points of failure. The system employs configurable replication strategies to distribute data across clusters, providing redundancy and disaster recovery capabilities. The system is capable of linear scaling, which increases read and write throughput with the addition of new nodes, while maintaining continuous service.
+Cassandra is categorized as an AP (Availability and Partition Tolerance) system, emphasizing availability and partition tolerance over consistency. While it offers tunable consistency levels for both read and write operations, its architecture makes it less suitable for use cases requiring strict consistency guarantees.[2] Additionally, Cassandra's compatibility with Hadoop and related tools allows for integration with existing big data processing workflows. Eventual consistency is maintained using tombstones to manage reads, upserts, and deletes.
+The system's query capabilities have notable limitations. Cassandra does not support advanced query patterns such as multi-table JOINs, ad hoc aggregations, or complex queries.[2] These limitations stem from its distributed architecture, which optimizes for scalability and availability rather than complex query operations.
+Data model
+[edit]As a wide-column store, Cassandra combines features of both key-value and tabular database systems. It implements a partitioned row store model with adjustable consistency levels.[9] The following table compares Cassandra and relational database management systems (RDBMS).
+| Feature | Cassandra | RDBMS |
+|---|---|---|
+| Organization | Keyspace → Table → Row | Database → Table → Row |
+| Row Structure | Dynamic columns | Fixed schema |
+| Column Data | Name, type, value, timestamp | Name, type, value |
+| Schema Changes | Runtime modifications | Usually requires downtime |
+| Data Model | Denormalized | Normalized with JOINs |
+The data model consists of several hierarchical components:
+Keyspace
+[edit]A keyspace in Cassandra is analogous to a database in relational systems. It contains multiple tables and manages configuration information, including replication strategy and user-defined types (UDTs).[2]
+Tables
+[edit]Tables (formerly called column families prior to CQL 3) are containers for rows of data. Each table has a name and configuration information for its stored data. Tables may be created, dropped, or altered at run-time without blocking updates and queries.[10]
+Rows and columns
+[edit]Each row is identified by a primary key and contains columns. The first component of a table's primary key is the partition key; within a partition, rows are clustered by the remaining columns of the key.[11]
+Columns contain data belonging to a row and consist of:
+- A name
+- A type
+- A value
+- Timestamp metadata (used for write conflict resolution via "last write wins")
+Unlike traditional RDBMS tables, rows within the same table can have varying columns, providing a flexible structure. This flexibility distinguishes Cassandra from relational databases, as not all columns need to be specified for each row.[2] Other columns may be indexed separately from the primary key.[12]
+Storage model
+[edit]Cassandra uses a Log Structured Merge Tree (LSM tree) index to optimize write throughput, in contrast to the B-tree indexes used by most databases.[2]
+| Feature | Cassandra | RDBMS |
+|---|---|---|
+| Index Structure | LSM Tree | B-Tree |
+| Write Process | Append-only with Memtable | In-place updates |
+| Storage Components | Commit Log, Memtable, SSTable | Data files, Transaction Log |
+| Update Strategy | New entry for each change | Modify existing data |
+| Delete Handling | Tombstone markers | Direct removal |
+| Read Optimization | Secondary | Primary |
+| Write Optimization | Primary | Secondary |
+The storage architecture consists of three main com

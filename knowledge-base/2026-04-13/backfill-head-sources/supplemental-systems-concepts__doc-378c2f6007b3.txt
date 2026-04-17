@@ -1,0 +1,81 @@
+Category:Software design patterns
+Appearance
+Software design pattern refers to a reusable, proven solution to a specific, recurring problem typically focused on component-level design, though they can sometimes span multiple components. Design patterns address specific issues related to object creation, interaction, or behavior. [1][2][3][4]
+It is important to distinguish software design patterns from software architecture patterns and software architecture styles, as they address different levels of system design. [2][3][4]
+Wikimedia Commons has media related to Software design patterns.
+- ^ Alexandrescu, Andrei (2001). Modern C++ Design: Generic Programming and Design Patterns Applied. Addison-Wesley. p. xviii. ISBN 978-0-201-70431-0.
+- ^ a b Fundamentals of Software Architecture: An Engineering Approach. O'Reilly Media. 2020. ISBN 978-1492043454.
+- ^ a b Design Patterns: Elements of Reusable Object-Oriented Software. ISBN 978-0201633610.
+- ^ a b Patterns of Enterprise Application Architecture. ISBN 978-0321127426.
+Subcategories
+This category has the following 3 subcategories, out of 3 total.
+A
+- Anti-patterns (31 P)
+S
+Pages in category "Software design patterns"
+The following 147 pages are in this category, out of 147 total. This list may not reflect recent changes.
+A
+B
+C
+D
+- Data access object
+- Data mapper pattern
+- Data transfer object
+- Data, context and interaction
+- Debugging pattern
+- Decorator pattern
+- Delegation pattern
+- Dependency injection
+- Dependency inversion principle
+- Blackboard (design pattern)
+- Chain-of-responsibility pattern
+- Design Patterns
+- Differentiated service
+- Dispose pattern
+- Distributed design patterns
+- Double dispatch
+- Double-checked locking
+F
+I
+L
+M
+- Map (parallel pattern)
+- Marker interface pattern
+- Robert C. Martin
+- Mediator pattern
+- Memento pattern
+- Message broker
+- Micro frontend
+- Mixin
+- Mock object
+- Model–view–adapter
+- Model–view–controller
+- Model–view–presenter
+- Model–view–viewmodel
+- Module pattern
+- Monad (functional programming)
+- Monitor (synchronization)
+- Multitier architecture
+- Multiton pattern
+- Mutex
+- MVC4WPF
+P
+R
+S
+- Scheduled-task pattern
+- Scheduling (computing)
+- Servant (design pattern)
+- Service locator pattern
+- Service-oriented architecture
+- Shard (database architecture)
+- Single-serving visitor pattern
+- Singleton pattern
+- Software architectural model
+- Specification pattern
+- State pattern
+- Store-passing style
+- Strangler fig pattern
+- Strategy pattern
+- Strongly typed identifier
+- Structural pattern
+- Substitution failure is not an error

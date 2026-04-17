@@ -1,0 +1,147 @@
+# System Design
+
+Hey, welcome to the course. I hope this course provides a great learning experience.
+
+_This course is also available on my [website](https://karanpratapsingh.com/courses/system-design) and as an ebook on [leanpub](https://leanpub.com/systemdesign). Please leave a ⭐ as motivation if this was helpful!_
+
+# Table of contents
+
+- **Getting Started**
+
+  - [What is system design?](#what-is-system-design)
+
+- **Chapter I**
+
+  - [IP](#ip)
+  - [OSI Model](#osi-model)
+  - [TCP and UDP](#tcp-and-udp)
+  - [Domain Name System (DNS)](#domain-name-system-dns)
+  - [Load Balancing](#load-balancing)
+  - [Clustering](#clustering)
+  - [Caching](#caching)
+  - [Content Delivery Network (CDN)](#content-delivery-network-cdn)
+  - [Proxy](#proxy)
+  - [Availability](#availability)
+  - [Scalability](#scalability)
+  - [Storage](#storage)
+
+- **Chapter II**
+
+  - [Databases and DBMS](#databases-and-dbms)
+  - [SQL databases](#sql-databases)
+  - [NoSQL databases](#nosql-databases)
+  - [SQL vs NoSQL databases](#sql-vs-nosql-databases)
+  - [Database Replication](#database-replication)
+  - [Indexes](#indexes)
+  - [Normalization and Denormalization](#normalization-and-denormalization)
+  - [ACID and BASE consistency models](#acid-and-base-consistency-models)
+  - [CAP theorem](#cap-theorem)
+  - [PACELC Theorem](#pacelc-theorem)
+  - [Transactions](#transactions)
+  - [Distributed Transactions](#distributed-transactions)
+  - [Sharding](#sharding)
+  - [Consistent Hashing](#consistent-hashing)
+  - [Database Federation](#database-federation)
+
+- **Chapter III**
+
+  - [N-tier architecture](#n-tier-architecture)
+  - [Message Brokers](#message-brokers)
+  - [Message Queues](#message-queues)
+  - [Publish-Subscribe](#publish-subscribe)
+  - [Enterprise Service Bus (ESB)](#enterprise-service-bus-esb)
+  - [Monoliths and Microservices](#monoliths-and-microservices)
+  - [Event-Driven Architecture (EDA)](#event-driven-architecture-eda)
+  - [Event Sourcing](#event-sourcing)
+  - [Command and Query Responsibility Segregation (CQRS)](#command-and-query-responsibility-segregation-cqrs)
+  - [API Gateway](#api-gateway)
+  - [REST, GraphQL, gRPC](#rest-graphql-grpc)
+  - [Long polling, WebSockets, Server-Sent Events (SSE)](#long-polling-websockets-server-sent-events-sse)
+
+- **Chapter IV**
+
+  - [Geohashing and Quadtrees](#geohashing-and-quadtrees)
+  - [Circuit breaker](#circuit-breaker)
+  - [Rate Limiting](#rate-limiting)
+  - [Service Discovery](#service-discovery)
+  - [SLA, SLO, SLI](#sla-slo-sli)
+  - [Disaster recovery](#disaster-recovery)
+  - [Virtual Machines (VMs) and Containers](#virtual-machines-vms-and-containers)
+  - [OAuth 2.0 and OpenID Connect (OIDC)](#oauth-20-and-openid-connect-oidc)
+  - [Single Sign-On (SSO)](#single-sign-on-sso)
+  - [SSL, TLS, mTLS](#ssl-tls-mtls)
+
+- **Chapter V**
+
+  - [System Design Interviews](#system-design-interviews)
+  - [URL Shortener](#url-shortener)
+  - [WhatsApp](#whatsapp)
+  - [Twitter](#twitter)
+  - [Netflix](#netflix)
+  - [Uber](#uber)
+
+- **Appendix**
+
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is system design?
+
+Before we start this course, let's talk about what even is system design.
+
+System design is the process of defining the architecture, interfaces, and data
+for a system that satisfies specific requirements. System design meets the needs
+of your business or organization through coherent and efficient systems. It requires
+a systematic approach to building and engineering systems. A good system design requires
+us to think about everything, from infrastructure all the way down to the data and how it's stored.
+
+## Why is System Design so important?
+
+System design helps us define a solution that meets the business requirements. It is
+one of the earliest decisions we can make when building a system. Often it is essential
+to think from a high level as these decisions are very difficult to correct later. It
+also makes it easier to reason about and manage architectural changes as the system evolves.
+
+# IP
+
+An IP address is a unique address that identifies a device on the internet or a local network. IP stands for _"Internet Protocol"_, which is the set of rules governing the format of data sent via the internet or local network.
+
+In essence, IP addresses are the identifier that allows information to be sent between devices on a network. They contain location information and make devices accessible for communication. The internet needs a way to differentiate between different computers, routers, and websites. IP addresses provide a way of doing so and form an essential part of how the internet works.
+
+## Versions
+
+Now, let's learn about the different versions of IP addresses:
+
+### IPv4
+
+The original Internet Protocol is IPv4 which uses a 32-bit numeric dot-decimal notation that only allows for around 4 billion IP addresses. Initially, it was more than enough but as internet adoption grew, we needed something better.
+
+_Example: `102.22.192.181`_
+
+### IPv6
+
+IPv6 is a new protocol that was introduced in 1998. Deployment commenced in the mid-2000s and since the internet users have grown exponentially, it is still ongoing.
+
+This new protocol uses 128-bit alphanumeric hexadecimal notation. This means that IPv6 can provide about ~340e+36 IP addresses. That's more than enough to meet the growing demand for years to come.
+
+_Example: `2001:0db8:85a3:0000:0000:8a2e:0370:7334`_
+
+## Types
+
+Let's discuss types of IP addresses:
+
+### Public
+
+A public IP address is an address where one primary address is associated with your whole network. In this type of IP address, each of the connected devices has the same IP address.
+
+_Example: IP address provided to your router by the ISP._
+
+### Private
+
+A private IP address is a unique IP number assigned to every device that connects to your internet network, which includes devices like computers, tablets, and smartphones, which are used in your household.
+
+_Example: IP addresses generated by your home router for your devices._
+
+### Static
+
+A static IP ad

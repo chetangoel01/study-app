@@ -1,0 +1,1 @@
+Here are some mock FAANG interviews that demonstrate the advice given in the "Stages of an interview" article. The performance in these interviews is very high (fast solves) and should not be the expectation. These mock interviews are meant to demonstrate the advice given regarding the stages of an interview. Meta Amazon Google

@@ -1,0 +1,40 @@
+Abstract data type
+This article has multiple issues. Please help improve it or discuss these issues on the talk page. (Learn how and when to remove these messages)
+|
+In computer science, an abstract data type (ADT) is a mathematical model for data types, defined by its behavior (semantics) from the point of view of a user of the data, specifically in terms of possible values, possible operations on data of this type, and the behavior of these operations. This mathematical model contrasts with data structures, which are concrete representations of data, and are the point of view of an implementer, not a user. For example, a stack has push/pop operations that follow a Last-In-First-Out rule, and can be concretely implemented using either a list or an array. Another example is a set which stores values, without any particular order, and no repeated values. Values themselves are not retrieved from sets; rather, one tests a value for membership to obtain a Boolean "in" or "not in".
+ADTs are a theoretical concept, used in formal semantics and program verification and, less strictly, in the design and analysis of algorithms, data structures, and software systems. Most mainstream computer languages do not directly support formally specifying ADTs. However, various language features correspond to certain aspects of implementing ADTs, and are easily confused with ADTs proper; these include abstract types, opaque data types, protocols, and design by contract. For example, in modular programming, the module declares procedures that correspond to the ADT operations, often with comments that describe the constraints. This information hiding strategy allows the implementation of the module to be changed without disturbing the client programs, but the module only informally defines an ADT. The notion of abstract data types is related to the concept of data abstraction, important in object-oriented programming and design by contract methodologies for software engineering.[1]
+History
+[edit]ADTs were first proposed by Barbara Liskov and Stephen N. Zilles in 1974, as part of the development of the CLU language.[2] Algebraic specification was an important subject of research in CS around 1980 and almost a synonym for abstract data types at that time.[3] It has a mathematical foundation in universal algebra.[4]
+Definition
+[edit]Formally, an ADT is analogous to an algebraic structure in mathematics,[5] consisting of a domain, a collection of operations, and a set of constraints the operations must satisfy.[6] The domain is often defined implicitly, for example the free object over the set of ADT operations. The interface of the ADT typically refers only to the domain and operations, and perhaps some of the constraints on the operations, such as pre-conditions and post-conditions; but not to other constraints, such as relations between the operations, which are considered behavior. There are two main styles of formal specifications for behavior, axiomatic semantics and operational semantics.[7]
+Despite not being part of the interface, the constraints are still important to the definition of the ADT; for example a stack and a queue have similar add element/remove element interfaces, but it is the constraints that distinguish last-in-first-out from first-in-first-out behavior. The constraints do not consist only of equations such as fetch(store(S,v))=v
+but also logical formulas.
+Axiomatic semantics
+[edit]In the spirit of functional programming, each state of an abstract data structure is a separate entity or value. In this view, each operation is modelled as a mathematical function with no side effects. Operations that modify the ADT are modeled as functions that take the old state as an argument and returns the new state as part of the result. The order in which operations are evaluated is immaterial, and the same operation applied to the same arguments (including the same input states) will always return the same results (and output states). The constraints are specified as axioms or algebraic laws that the operations must satisfy.
+Operational semantics
+[edit]In the spirit of imperative programming, an abstract data structure is conceived as an entity that is mutable—meaning that there is a notion of time and the ADT may be in different states at different times. Operations then change the state of the ADT over time; therefore, the order in which operations are evaluated is important, and the same operation on the same entities may have different effects if executed at different times. This is analogous to the instructions of a computer or the commands and procedures of an imperative language. To underscore this view, it is customary to say that the operations are executed or applied, rather than evaluated, similar to the imperative style often used when describing abstract algorithms. The constraints are typically specified in prose.
+Auxiliary operations
+[edit]Presentations of ADTs are often limited in scope to only key operations. More thorough presentations often specify auxiliary operations on ADTs, such as:
+create()
+, that yields a new instance of the ADT;compare(s, t)
+, that tests whether two instances' states are equivalent in some sense;hash(s)
+, that computes some standard hash function from the instance's state;print(s)
+orshow(s)
+, that produces a human-readable representation of the instance's state.
+These names are illustrative and may vary between authors. In imperative-style ADT definitions, one often finds also:
+initialize(s)
+, that prepares a newly created instances
+for further operations, or resets it to some "initial state";copy(s)
+, that puts instances
+in a state equivalent to that oft
+;clone(t)
+, that performss
+←create()
+,copy(s, t)
+, and returnss
+;free(s)
+ordestroy(s)
+, that reclaims the memory and other resources used bys
+.
+The free
+operation is not normally relevant or meaningful, since ADTs are theoretical entities that do not "use memory". However, it may be necessary when one needs to
