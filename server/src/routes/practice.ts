@@ -40,18 +40,6 @@ interface ParsedQuizAttempt {
   questions: ParsedQuizAttemptQuestion[];
 }
 
-function getInitials(fullName: string): string {
-  const parts = fullName
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-  if (parts.length === 0) return 'U';
-  return parts
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('') || 'U';
-}
-
 function shiftIsoDay(isoDay: string, dayOffset: number): string {
   const date = new Date(`${isoDay}T00:00:00.000Z`);
   date.setUTCDate(date.getUTCDate() + dayOffset);
@@ -831,80 +819,6 @@ export function makePracticeRouter(db: Database.Database): Hono {
         weakTopics,
       },
     });
-  });
-
-  // Peers for mock interviews
-  router.get('/peers', (c) => {
-    const user = c.get('user');
-    const peers = db.prepare(`
-      SELECT u.id, u.full_name, u.bio
-      FROM users u
-      JOIN user_preferences p ON u.id = p.user_id
-      WHERE p.allow_mock_interviews = 1
-        AND u.id != ?
-      LIMIT 50
-    `).all(user.id) as any[];
-
-    return c.json(peers.map((p) => ({
-      id: String(p.id),
-      fullName: p.full_name || 'Anonymous User',
-      initials: getInitials(p.full_name || '')
-    })));
-  });
-
-  router.post('/mock-interviews/schedule', async (c) => {
-    const user = c.get('user');
-    const { peerId, scheduledFor, topic } = await c.req.json().catch(() => ({} as any));
-
-    if (!peerId || !scheduledFor) {
-      return c.json({ error: 'Missing required fields' }, 400);
-    }
-
-    if (Number.isNaN(Date.parse(scheduledFor))) {
-      return c.json({ error: 'Invalid scheduledFor value' }, 400);
-    }
-
-    const peer = db.prepare(`
-      SELECT u.id
-      FROM users u
-      JOIN user_preferences p ON u.id = p.user_id
-      WHERE u.id = ?
-        AND p.allow_mock_interviews = 1
-        AND u.id != ?
-    `).get(peerId, user.id) as { id: number } | undefined;
-
-    if (!peer) {
-      return c.json({ error: 'Peer unavailable' }, 404);
-    }
-
-    db.prepare(`
-      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, topic)
-      VALUES (?, ?, 'pending_acceptance', ?, ?)
-    `).run(user.id, peerId, scheduledFor, topic || 'General Technical');
-
-    return c.json({ ok: true });
-  });
-
-  router.post('/mock-interviews/proposals', async (c) => {
-    const user = c.get('user');
-    const { proposedFor, durationMinutes, topic, notes } = await c.req.json().catch(() => ({} as any));
-
-    if (!proposedFor || Number.isNaN(Date.parse(proposedFor))) {
-      return c.json({ error: 'Missing or invalid proposedFor' }, 400);
-    }
-
-    const duration = Number(durationMinutes ?? 45);
-    if (!Number.isFinite(duration) || duration < 15 || duration > 180) {
-      return c.json({ error: 'Invalid durationMinutes' }, 400);
-    }
-
-    db.prepare(`
-      INSERT INTO mock_interview_availability_proposals
-        (user_id, proposed_for, duration_minutes, topic, notes, status)
-      VALUES (?, ?, ?, ?, ?, 'open')
-    `).run(user.id, proposedFor, Math.round(duration), topic || 'General Technical', notes || '');
-
-    return c.json({ ok: true });
   });
 
   return router;

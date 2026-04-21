@@ -137,6 +137,44 @@ describe('GET /api/user/oauth-connections', () => {
   });
 });
 
+describe('defaultRolePreference preference', () => {
+  it('round-trips defaultRolePreference', async () => {
+    const { db, app } = setup();
+    const row = db.prepare(
+      "INSERT INTO users (email) VALUES ('a@b.com') RETURNING id"
+    ).get() as { id: number };
+    const cookie = await authCookie(row.id, 'a@b.com');
+
+    const put = await app.request('/api/user/preferences', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json', Cookie: cookie },
+      body: JSON.stringify({ defaultRolePreference: 'interviewer' }),
+    });
+    expect(put.status).toBe(200);
+
+    const get = await app.request('/api/user/preferences', { headers: { Cookie: cookie } });
+    const body = await get.json() as any;
+    expect(body.defaultRolePreference).toBe('interviewer');
+    db.close();
+  });
+
+  it('rejects invalid defaultRolePreference', async () => {
+    const { db, app } = setup();
+    const row = db.prepare(
+      "INSERT INTO users (email) VALUES ('a@b.com') RETURNING id"
+    ).get() as { id: number };
+    const cookie = await authCookie(row.id, 'a@b.com');
+
+    const put = await app.request('/api/user/preferences', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json', Cookie: cookie },
+      body: JSON.stringify({ defaultRolePreference: 'bogus' }),
+    });
+    expect(put.status).toBe(400);
+    db.close();
+  });
+});
+
 describe('DELETE /api/user/account', () => {
   it('deletes the user row', async () => {
     const { db, app } = setup();

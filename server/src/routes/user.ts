@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { setCookie } from 'hono/cookie';
 import type Database from 'better-sqlite3';
 import { requireAuth } from '../middleware/auth.js';
+import { isValidRole } from '../lib/scheduling.js';
 
 const COOKIE_OPTS = {
   httpOnly: true,
@@ -24,11 +25,12 @@ interface PreferencesRow {
   notify_community: number | null;
   dashboard_density: string | null;
   allow_mock_interviews: number | null;
+  default_role_preference: string | null;
 }
 
 function readPreferences(db: Database.Database, userId: number) {
   const row = db.prepare(
-    `SELECT theme, notify_daily_challenge, notify_weekly_progress, notify_community, dashboard_density, allow_mock_interviews
+    `SELECT theme, notify_daily_challenge, notify_weekly_progress, notify_community, dashboard_density, allow_mock_interviews, default_role_preference
       FROM user_preferences
       WHERE user_id = ?`
   ).get(userId) as PreferencesRow | undefined;
@@ -40,6 +42,7 @@ function readPreferences(db: Database.Database, userId: number) {
     notifyCommunity: Boolean(row?.notify_community ?? 0),
     dashboardDensity: row?.dashboard_density === 'dense' ? 'dense' : 'expansive',
     allowMockInterviews: Boolean(row?.allow_mock_interviews ?? 0),
+    defaultRolePreference: (row?.default_role_preference ?? 'either') as 'interviewee' | 'interviewer' | 'either',
   };
 }
 
@@ -105,6 +108,7 @@ export function makeUserRouter(db: Database.Database): Hono {
       notifyCommunity?: boolean;
       dashboardDensity?: string;
       allowMockInterviews?: boolean;
+      defaultRolePreference?: string;
     } = await c.req.json<{
       theme?: string;
       notifyDailyChallenge?: boolean;
@@ -112,7 +116,13 @@ export function makeUserRouter(db: Database.Database): Hono {
       notifyCommunity?: boolean;
       dashboardDensity?: string;
       allowMockInterviews?: boolean;
+      defaultRolePreference?: string;
     }>().catch(() => ({}));
+
+    if (body.defaultRolePreference !== undefined && !isValidRole(body.defaultRolePreference)) {
+      return c.json({ error: 'invalid_defaultRolePreference' }, 400);
+    }
+
     const current = readPreferences(db, user.id);
     const next = {
       theme: body.theme === 'dark' || body.theme === 'light' ? body.theme : current.theme,
@@ -124,12 +134,13 @@ export function makeUserRouter(db: Database.Database): Hono {
           ? body.dashboardDensity
           : current.dashboardDensity,
       allowMockInterviews: body.allowMockInterviews ?? current.allowMockInterviews,
+      defaultRolePreference: isValidRole(body.defaultRolePreference) ? body.defaultRolePreference : current.defaultRolePreference,
     };
 
     db.prepare(`
       INSERT INTO user_preferences
-        (user_id, theme, notify_daily_challenge, notify_weekly_progress, notify_community, dashboard_density, allow_mock_interviews)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+        (user_id, theme, notify_daily_challenge, notify_weekly_progress, notify_community, dashboard_density, allow_mock_interviews, default_role_preference)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(user_id) DO UPDATE SET
         theme = excluded.theme,
         notify_daily_challenge = excluded.notify_daily_challenge,
@@ -137,6 +148,7 @@ export function makeUserRouter(db: Database.Database): Hono {
         notify_community = excluded.notify_community,
         dashboard_density = excluded.dashboard_density,
         allow_mock_interviews = excluded.allow_mock_interviews,
+        default_role_preference = excluded.default_role_preference,
         updated_at = datetime('now')
     `).run(
       user.id,
@@ -145,7 +157,8 @@ export function makeUserRouter(db: Database.Database): Hono {
       next.notifyWeeklyProgress ? 1 : 0,
       next.notifyCommunity ? 1 : 0,
       next.dashboardDensity,
-      next.allowMockInterviews ? 1 : 0
+      next.allowMockInterviews ? 1 : 0,
+      next.defaultRolePreference
     );
 
     return c.json(next);
