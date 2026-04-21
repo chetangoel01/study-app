@@ -142,3 +142,82 @@ describe('GET /api/practice/mock-interviews/:id', () => {
     expect(res.status).toBe(404);
   });
 });
+
+describe('POST /api/practice/mock-interviews/schedule', () => {
+  it('creates invite with created event', async () => {
+    const res = await app.request('/api/practice/mock-interviews/schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({
+        peerId: String(userBId),
+        scheduledFor: '2026-05-01T14:00:00Z',
+        durationMinutes: 60,
+        topic: 'System Design',
+        rolePreference: 'interviewer', // A interviews, B is interviewee (compatible with B default 'interviewee')
+      }),
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json() as any;
+    expect(body.id).toBeTruthy();
+
+    const invite = db.prepare('SELECT * FROM mock_interviews WHERE id = ?').get(Number(body.id)) as any;
+    expect(invite.initiator_id).toBe(userAId);
+    expect(invite.peer_id).toBe(userBId);
+    expect(invite.role_preference).toBe('interviewer');
+    expect(invite.duration_minutes).toBe(60);
+
+    const events = db.prepare('SELECT * FROM mock_interview_events WHERE invite_id = ?').all(Number(body.id)) as any[];
+    expect(events).toHaveLength(1);
+    expect(events[0].event_type).toBe('created');
+    expect(events[0].actor_id).toBe(userAId);
+  });
+
+  it('returns 409 on role incompatibility', async () => {
+    // B default is 'interviewee'; A requests 'interviewee' too → incompatible.
+    const res = await app.request('/api/practice/mock-interviews/schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({
+        peerId: String(userBId),
+        scheduledFor: '2026-05-01T14:00:00Z',
+        durationMinutes: 45,
+        rolePreference: 'interviewee',
+      }),
+    });
+    expect(res.status).toBe(409);
+    const body = await res.json() as any;
+    expect(body.error).toBe('role_incompatible');
+  });
+
+  it('returns 409 on overlap with existing accepted invite', async () => {
+    // Pre-seed an accepted invite for user A.
+    db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, duration_minutes)
+      VALUES (?, ?, 'accepted', '2026-05-01T14:00:00Z', 60)
+    `).run(userAId, userBId);
+
+    const res = await app.request('/api/practice/mock-interviews/schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({
+        peerId: String(userBId),
+        scheduledFor: '2026-05-01T14:30:00Z',
+        durationMinutes: 45,
+        rolePreference: 'interviewer',
+      }),
+    });
+    expect(res.status).toBe(409);
+    const body = await res.json() as any;
+    expect(body.error).toBe('overlap');
+    expect(body.context.conflictingInviteId).toBeTruthy();
+  });
+
+  it('rejects invalid body', async () => {
+    const res = await app.request('/api/practice/mock-interviews/schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({ peerId: String(userBId) }),
+    });
+    expect(res.status).toBe(400);
+  });
+});
