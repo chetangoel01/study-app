@@ -3,6 +3,15 @@ import type Database from 'better-sqlite3';
 import { requireAuth } from '../middleware/auth.js';
 import { fetchInviteSummaryRows, fetchInviteEvents, getInitials, type InviteSummaryRow } from '../lib/scheduling.js';
 
+function parseEventPayload(raw: string | null): unknown {
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
 function summaryRowToResponse(row: InviteSummaryRow, callerId: number) {
   return {
     id: String(row.id),
@@ -81,7 +90,7 @@ export function makeMockInterviewsRouter(db: Database.Database): Hono {
       id: String(e.id),
       actorId: String(e.actor_id),
       eventType: e.event_type,
-      payload: e.payload ? JSON.parse(e.payload) : null,
+      payload: parseEventPayload(e.payload),
       createdAt: e.created_at,
     }));
 
