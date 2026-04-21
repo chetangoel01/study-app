@@ -103,3 +103,42 @@ describe('GET /api/practice/mock-interviews', () => {
     expect(body[0].status).toBe('pending_acceptance');
   });
 });
+
+describe('GET /api/practice/mock-interviews/:id', () => {
+  it('returns detail with ordered event timeline when caller is a party', async () => {
+    const info = db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, duration_minutes, topic, role_preference)
+      VALUES (?, ?, 'pending_acceptance', '2026-05-01T14:00:00Z', 45, 'DSA', 'interviewee')
+    `).run(userAId, userBId);
+    const inviteId = Number(info.lastInsertRowid);
+    db.prepare(`INSERT INTO mock_interview_events (invite_id, actor_id, event_type, payload, created_at) VALUES (?, ?, 'created', NULL, '2026-04-20T10:00:00Z')`).run(inviteId, userAId);
+    db.prepare(`INSERT INTO mock_interview_events (invite_id, actor_id, event_type, payload, created_at) VALUES (?, ?, 'rescheduled', '{"from":"X","to":"Y"}', '2026-04-20T11:00:00Z')`).run(inviteId, userAId);
+
+    const res = await app.request(`/api/practice/mock-interviews/${inviteId}`, { headers: { Cookie: cookieA } });
+    expect(res.status).toBe(200);
+    const body = await res.json() as any;
+    expect(body.id).toBe(String(inviteId));
+    expect(body.events).toHaveLength(2);
+    expect(body.events[0].eventType).toBe('created');
+    expect(body.events[1].eventType).toBe('rescheduled');
+    expect(body.events[1].payload).toEqual({ from: 'X', to: 'Y' });
+  });
+
+  it('returns 403 when caller is not a party', async () => {
+    const c = await signup('c@x.com', 'password123', 'Carol Curry');
+    db.prepare('INSERT INTO user_preferences (user_id) VALUES (?)').run(c.id);
+    const info = db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, duration_minutes)
+      VALUES (?, ?, 'pending_acceptance', '2026-05-01T14:00:00Z', 45)
+    `).run(userAId, userBId);
+    const inviteId = Number(info.lastInsertRowid);
+
+    const res = await app.request(`/api/practice/mock-interviews/${inviteId}`, { headers: { Cookie: c.cookie } });
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 404 when invite does not exist', async () => {
+    const res = await app.request('/api/practice/mock-interviews/999999', { headers: { Cookie: cookieA } });
+    expect(res.status).toBe(404);
+  });
+});

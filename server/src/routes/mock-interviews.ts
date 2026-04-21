@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import type Database from 'better-sqlite3';
 import { requireAuth } from '../middleware/auth.js';
-import { fetchInviteSummaryRows, getInitials, type InviteSummaryRow } from '../lib/scheduling.js';
+import { fetchInviteSummaryRows, fetchInviteEvents, getInitials, type InviteSummaryRow } from '../lib/scheduling.js';
 
 function summaryRowToResponse(row: InviteSummaryRow, callerId: number) {
   return {
@@ -55,6 +55,40 @@ export function makeMockInterviewsRouter(db: Database.Database): Hono {
 
     const rows = fetchInviteSummaryRows(db, user.id, { direction, statuses });
     return c.json(rows.map((r) => summaryRowToResponse(r, user.id)));
+  });
+
+  router.get('/:id', (c) => {
+    const user = c.get('user');
+    const id = Number(c.req.param('id'));
+    if (!Number.isInteger(id)) return c.json({ error: 'invalid_id' }, 400);
+
+    const rows = fetchInviteSummaryRows(db, user.id, {});
+    const row = rows.find((r) => r.id === id);
+    if (!row) {
+      // Check if invite exists at all vs. caller not party.
+      const exists = db.prepare('SELECT id, initiator_id, peer_id FROM mock_interviews WHERE id = ?').get(id) as
+        | { id: number; initiator_id: number; peer_id: number }
+        | undefined;
+      if (!exists) return c.json({ error: 'not_found' }, 404);
+      if (exists.initiator_id !== user.id && exists.peer_id !== user.id) {
+        return c.json({ error: 'forbidden' }, 403);
+      }
+      return c.json({ error: 'not_found' }, 404);
+    }
+
+    const eventRows = fetchInviteEvents(db, id);
+    const events = eventRows.map((e) => ({
+      id: String(e.id),
+      actorId: String(e.actor_id),
+      eventType: e.event_type,
+      payload: e.payload ? JSON.parse(e.payload) : null,
+      createdAt: e.created_at,
+    }));
+
+    return c.json({
+      ...summaryRowToResponse(row, user.id),
+      events,
+    });
   });
 
   return router;
