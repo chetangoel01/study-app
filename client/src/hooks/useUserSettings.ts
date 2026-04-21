@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api/client.js';
 import { applyDashboardDensity } from '../lib/dashboardDensity.js';
 import type { DashboardDensity } from '../lib/dashboardDensity.js';
+import type { RolePreference } from '../types.js';
 
 export interface UserProfile {
   email: string;
@@ -16,6 +17,7 @@ export interface UserPreferences {
   notifyCommunity: boolean;
   dashboardDensity: DashboardDensity;
   allowMockInterviews: boolean;
+  defaultRolePreference: RolePreference;
 }
 
 export interface OAuthConnections {

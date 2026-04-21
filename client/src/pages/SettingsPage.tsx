@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { api } from '../api/client.js';
 import { useUserSettings } from '../hooks/useUserSettings.js';
+import type { RolePreference } from '../types.js';
 
 type NotificationKey = 'notifyDailyChallenge' | 'notifyWeeklyProgress' | 'notifyCommunity';
 
@@ -356,6 +357,28 @@ export function SettingsPage() {
                 }
               }}
             />
+          </div>
+          <div className="settings-pref-row">
+            <div>
+              <strong>Default role preference</strong>
+              <p className="page-muted settings-pref-copy">Pre-fill this role when scheduling mock interviews or posting availability.</p>
+            </div>
+            <select
+              aria-label="Default role preference"
+              value={prefs?.defaultRolePreference ?? 'either'}
+              onChange={async (event) => {
+                setSettingsError('');
+                try {
+                  await savePreferences({ defaultRolePreference: event.target.value as RolePreference });
+                } catch {
+                  setSettingsError('Unable to save your preferences right now.');
+                }
+              }}
+            >
+              <option value="either">Either (default)</option>
+              <option value="interviewee">I want to be interviewed</option>
+              <option value="interviewer">I want to interview</option>
+            </select>
           </div>
         </section>
 
