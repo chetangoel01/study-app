@@ -21,7 +21,6 @@ describe('applySchema', () => {
     expect(names).toContain('notes');
     expect(names).toContain('module_guide_progress');
     expect(names).toContain('mock_interviews');
-    expect(names).toContain('mock_interview_availability_proposals');
     expect(names).toContain('practice_quiz_specs');
     expect(names).toContain('practice_quiz_questions');
     expect(names).toContain('practice_quiz_attempts');
@@ -104,5 +103,47 @@ describe('applySchema', () => {
     `).get(specId) as { tagsJson: string };
 
     expect(row.tagsJson).toBe('["caching","latency"]');
+  });
+
+  it('creates availability_proposals and availability_blocks tables', () => {
+    db = new Database(':memory:');
+    applySchema(db);
+    const tables = db.prepare(
+      "SELECT name FROM sqlite_master WHERE type='table'"
+    ).all() as { name: string }[];
+    const names = tables.map((t) => t.name);
+    expect(names).toContain('availability_proposals');
+    expect(names).toContain('availability_blocks');
+    expect(names).toContain('mock_interview_events');
+    expect(names).not.toContain('mock_interview_availability_proposals');
+  });
+
+  it('mock_interviews has role_preference, duration_minutes, source_block_id, updated_at', () => {
+    db = new Database(':memory:');
+    applySchema(db);
+    db.prepare('INSERT INTO users (id, email, password_hash) VALUES (1, ?, ?)').run('a@x.com', 'h');
+    db.prepare('INSERT INTO users (id, email, password_hash) VALUES (2, ?, ?)').run('b@x.com', 'h');
+    db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, role_preference, duration_minutes, scheduled_for, topic)
+      VALUES (1, 2, 'interviewee', 60, '2026-05-01T14:00:00Z', 'DSA')
+    `).run();
+    const row = db.prepare(`
+      SELECT role_preference, duration_minutes, source_block_id, updated_at FROM mock_interviews
+    `).get() as any;
+    expect(row.role_preference).toBe('interviewee');
+    expect(row.duration_minutes).toBe(60);
+    expect(row.source_block_id).toBeNull();
+    expect(row.updated_at).toBeTruthy();
+  });
+
+  it('user_preferences has default_role_preference', () => {
+    db = new Database(':memory:');
+    applySchema(db);
+    db.prepare('INSERT INTO users (id, email, password_hash) VALUES (1, ?, ?)').run('a@x.com', 'h');
+    db.prepare(`
+      INSERT INTO user_preferences (user_id, default_role_preference) VALUES (1, 'interviewer')
+    `).run();
+    const row = db.prepare('SELECT default_role_preference FROM user_preferences').get() as any;
+    expect(row.default_role_preference).toBe('interviewer');
   });
 });

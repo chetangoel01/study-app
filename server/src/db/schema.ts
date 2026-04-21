@@ -60,6 +60,42 @@ const SCHEMA_DDL = `
     UNIQUE(user_id)
   );
 
+  CREATE TABLE IF NOT EXISTS availability_proposals (
+    id               INTEGER PRIMARY KEY,
+    user_id          INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    duration_minutes INTEGER NOT NULL DEFAULT 45,
+    topic            TEXT,
+    notes            TEXT,
+    role_preference  TEXT NOT NULL DEFAULT 'either',
+    created_at       TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS availability_blocks (
+    id                INTEGER PRIMARY KEY,
+    proposal_id       INTEGER NOT NULL REFERENCES availability_proposals(id) ON DELETE CASCADE,
+    starts_at         TEXT NOT NULL,
+    status            TEXT NOT NULL DEFAULT 'open',
+    claimed_by        INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    claimed_at        TEXT,
+    mock_interview_id INTEGER REFERENCES mock_interviews(id) ON DELETE SET NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_availability_blocks_open
+    ON availability_blocks(status, starts_at)
+    WHERE status = 'open';
+
+  CREATE TABLE IF NOT EXISTS mock_interview_events (
+    id          INTEGER PRIMARY KEY,
+    invite_id   INTEGER NOT NULL REFERENCES mock_interviews(id) ON DELETE CASCADE,
+    actor_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    event_type  TEXT NOT NULL,
+    payload     TEXT,
+    created_at  TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_mock_interview_events_invite
+    ON mock_interview_events(invite_id, created_at);
+
   CREATE TABLE IF NOT EXISTS mock_interviews (
     id            INTEGER PRIMARY KEY,
     initiator_id  INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -68,17 +104,6 @@ const SCHEMA_DDL = `
     scheduled_for TEXT,
     topic         TEXT,
     created_at    TEXT DEFAULT (datetime('now'))
-  );
-
-  CREATE TABLE IF NOT EXISTS mock_interview_availability_proposals (
-    id               INTEGER PRIMARY KEY,
-    user_id          INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    proposed_for     TEXT NOT NULL,
-    duration_minutes INTEGER NOT NULL DEFAULT 45,
-    topic            TEXT,
-    notes            TEXT,
-    status           TEXT DEFAULT 'open',
-    created_at       TEXT DEFAULT (datetime('now'))
   );
 
   CREATE TABLE IF NOT EXISTS daily_challenge_pool (
@@ -205,4 +230,15 @@ export function applySchema(db: Database.Database): void {
   addCol("ALTER TABLE daily_challenge_pool ADD COLUMN test_cases TEXT DEFAULT '[]'");
   addCol("ALTER TABLE daily_challenge_pool ADD COLUMN tags TEXT DEFAULT '[]'");
   addCol("ALTER TABLE practice_quiz_questions ADD COLUMN tags_json TEXT NOT NULL DEFAULT '[]'");
+  addCol("ALTER TABLE mock_interviews ADD COLUMN role_preference TEXT NOT NULL DEFAULT 'either'");
+  addCol("ALTER TABLE mock_interviews ADD COLUMN duration_minutes INTEGER NOT NULL DEFAULT 45");
+  addCol("ALTER TABLE mock_interviews ADD COLUMN source_block_id INTEGER REFERENCES availability_blocks(id) ON DELETE SET NULL");
+  addCol("ALTER TABLE mock_interviews ADD COLUMN updated_at TEXT DEFAULT (datetime('now'))");
+  addCol("ALTER TABLE user_preferences ADD COLUMN default_role_preference TEXT NOT NULL DEFAULT 'either'");
+
+  try {
+    db.prepare('DROP TABLE IF EXISTS mock_interview_availability_proposals').run();
+  } catch {
+    // Table may already be gone.
+  }
 }
