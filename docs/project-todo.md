@@ -15,7 +15,7 @@
   - Normalize and validate backend submodule content payloads (titles, summaries, topic markdown, links).
   - Add safeguards/tests so malformed or thin scraped content is flagged before it reaches production data.
 
-- [ ] Redesign "Find a Peer" scheduling flow:
+- [x] Redesign "Find a Peer" scheduling flow:
   - Fix broken "Invite a Peer" path and verify invite creation succeeds end-to-end.
   - Clarify where "Post Availability" entries are visible/consumed in product UX.
   - Replace single-time availability posting with multiple selectable calendar blocks.
