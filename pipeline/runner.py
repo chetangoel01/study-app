@@ -28,7 +28,7 @@ def main() -> None:
     from edge_builder import build_topic_edges
     from planning_graph import build_planning_graph
     from progress import progress
-    from scraper import scrape_url
+    from scraper import scrape_url, score_scrape_quality
     from topic_lesson_synthesizer import synthesize_topic_lessons
     from topic_validator import canonicalize_topics, validate_topic_lessons
     from url_classifier import classify
@@ -92,6 +92,26 @@ def main() -> None:
     print(
         f"[STAGE 1] Wrote crawl-audit.json with "
         f"{len(crawl_audit['degraded_resources'])} fallback/failed resources"
+    )
+
+    quality_scores = [
+        score_scrape_quality(resource.get("segments") or [], resource.get("resource_url") or "")
+        for resource in collected_resources
+    ]
+    flagged = [score for score in quality_scores if score["is_thin"] or score["has_noise_signals"]]
+    quality_report = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "total_urls": len(quality_scores),
+        "thin_count": sum(1 for score in quality_scores if score["is_thin"]),
+        "noise_count": sum(1 for score in quality_scores if score["has_noise_signals"]),
+        "flagged": flagged,
+    }
+    quality_report_path = OUTPUT_PATH.parent / "scrape-quality-report.json"
+    quality_report_path.write_text(json.dumps(quality_report, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(
+        f"[STAGE 1] Wrote scrape-quality-report.json: "
+        f"{quality_report['thin_count']} thin, {quality_report['noise_count']} noisy, "
+        f"{len(flagged)} flagged"
     )
 
     print(f"[STAGE 2] Building source docs from {len(collected_resources)} collected resources")

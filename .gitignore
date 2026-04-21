@@ -6,6 +6,7 @@ node_modules/
 .cursor/
 pipeline/.cache/
 crawl-audit.json
+scrape-quality-report.json
 course_exports/
 *.cookies.txt
 *_cookies.txt

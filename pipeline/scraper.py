@@ -174,6 +174,37 @@ def scrape_url(url: str) -> ScrapeResult:
     return _scrape_url(url, depth=0, allow_site_crawl=True)
 
 
+_NOISE_PATTERNS = [
+    "enable javascript",
+    "cookie consent",
+    "403 forbidden",
+    "page not found",
+    "access denied",
+]
+
+
+def score_scrape_quality(segments: list, url: str) -> dict:
+    """Quality signal for a scraped resource.
+
+    Returns segment_count, total_chars, is_thin (<500 chars), and
+    has_noise_signals (matches a known placeholder pattern). Pure observation —
+    callers decide whether to act on it.
+    """
+    total_chars = sum(len(s.get("text", "")) for s in segments)
+    has_noise_signals = any(
+        noise_pattern in s.get("text", "").lower()
+        for s in segments
+        for noise_pattern in _NOISE_PATTERNS
+    )
+    return {
+        "url": url,
+        "segment_count": len(segments),
+        "total_chars": total_chars,
+        "is_thin": total_chars < 500,
+        "has_noise_signals": has_noise_signals,
+    }
+
+
 def _scrape_url(url: str, depth: int, *, allow_site_crawl: bool) -> ScrapeResult:
     try:
         url_type = classify(url)
