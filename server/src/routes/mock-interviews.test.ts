@@ -221,3 +221,116 @@ describe('POST /api/practice/mock-interviews/schedule', () => {
     expect(res.status).toBe(400);
   });
 });
+
+describe('lifecycle transitions', () => {
+  async function createInvite(status = 'pending_acceptance'): Promise<number> {
+    const info = db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, duration_minutes, role_preference)
+      VALUES (?, ?, ?, '2026-05-01T14:00:00Z', 45, 'either')
+    `).run(userAId, userBId, status);
+    const id = Number(info.lastInsertRowid);
+    db.prepare(`INSERT INTO mock_interview_events (invite_id, actor_id, event_type) VALUES (?, ?, 'created')`).run(id, userAId);
+    return id;
+  }
+
+  it('accept: peer transitions pending → accepted + event', async () => {
+    const id = await createInvite();
+    const res = await app.request(`/api/practice/mock-interviews/${id}/accept`, {
+      method: 'POST', headers: { Cookie: cookieB },
+    });
+    expect(res.status).toBe(200);
+    const row = db.prepare('SELECT status FROM mock_interviews WHERE id = ?').get(id) as any;
+    expect(row.status).toBe('accepted');
+    const events = db.prepare('SELECT event_type, actor_id FROM mock_interview_events WHERE invite_id = ? ORDER BY id').all(id) as any[];
+    expect(events.map((e) => e.event_type)).toEqual(['created', 'accepted']);
+    expect(events[1].actor_id).toBe(userBId);
+  });
+
+  it('accept: 403 if caller is initiator', async () => {
+    const id = await createInvite();
+    const res = await app.request(`/api/practice/mock-interviews/${id}/accept`, {
+      method: 'POST', headers: { Cookie: cookieA },
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it('accept: 422 if already terminal', async () => {
+    const id = await createInvite('declined');
+    const res = await app.request(`/api/practice/mock-interviews/${id}/accept`, {
+      method: 'POST', headers: { Cookie: cookieB },
+    });
+    expect(res.status).toBe(422);
+  });
+
+  it('accept: 409 if accepter has overlap', async () => {
+    db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, duration_minutes)
+      VALUES (?, ?, 'accepted', '2026-05-01T14:15:00Z', 45)
+    `).run(userBId, userAId);
+    const id = await createInvite();
+    const res = await app.request(`/api/practice/mock-interviews/${id}/accept`, {
+      method: 'POST', headers: { Cookie: cookieB },
+    });
+    expect(res.status).toBe(409);
+    const body = await res.json() as any;
+    expect(body.error).toBe('overlap');
+  });
+
+  it('decline: peer transitions pending → declined', async () => {
+    const id = await createInvite();
+    const res = await app.request(`/api/practice/mock-interviews/${id}/decline`, {
+      method: 'POST', headers: { Cookie: cookieB },
+    });
+    expect(res.status).toBe(200);
+    const row = db.prepare('SELECT status FROM mock_interviews WHERE id = ?').get(id) as any;
+    expect(row.status).toBe('declined');
+  });
+
+  it('cancel: either party works pre-terminal', async () => {
+    const id1 = await createInvite('pending_acceptance');
+    const r1 = await app.request(`/api/practice/mock-interviews/${id1}/cancel`, { method: 'POST', headers: { Cookie: cookieA } });
+    expect(r1.status).toBe(200);
+
+    const id2 = await createInvite('accepted');
+    const r2 = await app.request(`/api/practice/mock-interviews/${id2}/cancel`, { method: 'POST', headers: { Cookie: cookieB } });
+    expect(r2.status).toBe(200);
+  });
+
+  it('cancel: 422 on terminal', async () => {
+    const id = await createInvite('cancelled');
+    const res = await app.request(`/api/practice/mock-interviews/${id}/cancel`, { method: 'POST', headers: { Cookie: cookieA } });
+    expect(res.status).toBe(422);
+  });
+
+  it('reschedule: transitions to pending_acceptance with new time and from/to payload', async () => {
+    const id = await createInvite('accepted');
+    const res = await app.request(`/api/practice/mock-interviews/${id}/reschedule`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({ scheduledFor: '2026-05-02T14:00:00Z' }),
+    });
+    expect(res.status).toBe(200);
+    const row = db.prepare('SELECT status, scheduled_for FROM mock_interviews WHERE id = ?').get(id) as any;
+    expect(row.status).toBe('pending_acceptance');
+    expect(row.scheduled_for).toBe('2026-05-02T14:00:00Z');
+    const event = db.prepare(`SELECT payload FROM mock_interview_events WHERE invite_id = ? AND event_type = 'rescheduled'`).get(id) as any;
+    expect(JSON.parse(event.payload)).toEqual({
+      from: '2026-05-01T14:00:00Z',
+      to: '2026-05-02T14:00:00Z',
+    });
+  });
+
+  it('reschedule: 409 on overlap', async () => {
+    db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, duration_minutes)
+      VALUES (?, ?, 'accepted', '2026-06-01T10:00:00Z', 60)
+    `).run(userAId, userBId);
+    const id = await createInvite('accepted');
+    const res = await app.request(`/api/practice/mock-interviews/${id}/reschedule`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({ scheduledFor: '2026-06-01T10:30:00Z' }),
+    });
+    expect(res.status).toBe(409);
+  });
+});
