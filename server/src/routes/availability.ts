@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import type Database from 'better-sqlite3';
 import { requireAuth } from '../middleware/auth.js';
-import { isValidRole, type RolePreference } from '../lib/scheduling.js';
+import { isValidRole, getInitials, type RolePreference } from '../lib/scheduling.js';
 
 interface CreateBody {
   durationMinutes?: number;
@@ -125,6 +125,85 @@ export function makeAvailabilityRouter(db: Database.Database): Hono {
     if (row.status !== 'open') return c.json({ error: 'invalid_state' }, 422);
     db.prepare(`UPDATE availability_blocks SET status = 'cancelled' WHERE id = ?`).run(blockId);
     return c.json({ ok: true });
+  });
+
+  router.get('/feed', (c) => {
+    const user = c.get('user');
+    const roleParam = c.req.query('role');
+    const topicParam = c.req.query('topic');
+    const fromParam = c.req.query('from');
+    const toParam = c.req.query('to');
+
+    const filters: string[] = ["b.status = 'open'", 'p.user_id != ?'];
+    const params: unknown[] = [user.id];
+
+    if (roleParam === 'interviewee') {
+      filters.push("p.role_preference IN ('interviewee', 'either')");
+    } else if (roleParam === 'interviewer') {
+      filters.push("p.role_preference IN ('interviewer', 'either')");
+    }
+    if (topicParam) {
+      filters.push('p.topic LIKE ?');
+      params.push(`%${topicParam}%`);
+    }
+    if (fromParam) {
+      filters.push('b.starts_at >= ?');
+      params.push(fromParam);
+    }
+    if (toParam) {
+      filters.push('b.starts_at < ?');
+      params.push(toParam);
+    }
+
+    const rows = db.prepare(`
+      SELECT b.id, b.proposal_id, b.starts_at,
+             p.duration_minutes, p.topic, p.notes, p.role_preference,
+             u.id AS user_id, u.full_name
+      FROM availability_blocks b
+      JOIN availability_proposals p ON p.id = b.proposal_id
+      JOIN users u ON u.id = p.user_id
+      WHERE ${filters.join(' AND ')}
+      ORDER BY b.starts_at ASC
+      LIMIT 100
+    `).all(...params) as Array<{
+      id: number; proposal_id: number; starts_at: string;
+      duration_minutes: number; topic: string | null; notes: string | null;
+      role_preference: RolePreference; user_id: number; full_name: string | null;
+    }>;
+
+    const accepted = db.prepare(`
+      SELECT scheduled_for, duration_minutes
+      FROM mock_interviews
+      WHERE status = 'accepted' AND (initiator_id = ? OR peer_id = ?)
+    `).all(user.id, user.id) as Array<{ scheduled_for: string; duration_minutes: number }>;
+    const acceptedRanges = accepted.map((a) => {
+      const start = new Date(a.scheduled_for).getTime();
+      return { start, end: start + a.duration_minutes * 60_000 };
+    });
+
+    const body = rows.flatMap((r) => {
+      const start = new Date(r.starts_at).getTime();
+      const end = start + r.duration_minutes * 60_000;
+      for (const a of acceptedRanges) {
+        if (start < a.end && end > a.start) return [];
+      }
+      return [{
+        blockId: String(r.id),
+        proposalId: String(r.proposal_id),
+        postedBy: {
+          id: String(r.user_id),
+          fullName: r.full_name || 'Anonymous User',
+          initials: getInitials(r.full_name || ''),
+        },
+        startsAt: r.starts_at,
+        durationMinutes: r.duration_minutes,
+        topic: r.topic ?? '',
+        notes: r.notes ?? '',
+        rolePreference: r.role_preference,
+      }];
+    });
+
+    return c.json(body);
   });
 
   router.delete('/:proposalId', (c) => {

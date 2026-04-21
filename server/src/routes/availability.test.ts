@@ -167,3 +167,50 @@ describe('DELETE /api/practice/availability/blocks/:id and /:proposalId', () => 
     expect(rows[1].status).toBe('claimed');
   });
 });
+
+describe('GET /api/practice/availability/feed', () => {
+  async function seedProposal(userId: number, role: string, blocks: string[]): Promise<number[]> {
+    const info = db.prepare(`
+      INSERT INTO availability_proposals (user_id, duration_minutes, topic, role_preference)
+      VALUES (?, 45, 'DSA', ?)
+    `).run(userId, role);
+    const proposalId = Number(info.lastInsertRowid);
+    const ids: number[] = [];
+    for (const startsAt of blocks) {
+      const b = db.prepare(`INSERT INTO availability_blocks (proposal_id, starts_at) VALUES (?, ?)`).run(proposalId, startsAt);
+      ids.push(Number(b.lastInsertRowid));
+    }
+    return ids;
+  }
+
+  it('returns blocks from other users only', async () => {
+    await seedProposal(userAId, 'either', ['2026-05-01T10:00:00Z']); // caller's own
+    await seedProposal(userBId, 'interviewee', ['2026-05-01T11:00:00Z']);
+    const res = await app.request('/api/practice/availability/feed', { headers: { Cookie: cookieA } });
+    const body = await res.json() as any[];
+    expect(body).toHaveLength(1);
+    expect(body[0].postedBy.id).toBe(String(userBId));
+  });
+
+  it('filters by role=interviewee includes interviewee + either', async () => {
+    await seedProposal(userBId, 'interviewee', ['2026-05-01T10:00:00Z']);
+    await seedProposal(userBId, 'interviewer', ['2026-05-02T10:00:00Z']);
+    await seedProposal(userBId, 'either', ['2026-05-03T10:00:00Z']);
+    const res = await app.request('/api/practice/availability/feed?role=interviewee', { headers: { Cookie: cookieA } });
+    const body = await res.json() as any[];
+    expect(body).toHaveLength(2);
+    expect(body.map((b) => b.rolePreference).sort()).toEqual(['either', 'interviewee']);
+  });
+
+  it('excludes blocks that overlap caller accepted invites', async () => {
+    await seedProposal(userBId, 'interviewee', ['2026-05-01T10:00:00Z', '2026-05-01T14:00:00Z']);
+    db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, duration_minutes)
+      VALUES (?, ?, 'accepted', '2026-05-01T10:15:00Z', 60)
+    `).run(userAId, userBId);
+    const res = await app.request('/api/practice/availability/feed', { headers: { Cookie: cookieA } });
+    const body = await res.json() as any[];
+    expect(body).toHaveLength(1);
+    expect(body[0].startsAt).toBe('2026-05-01T14:00:00Z');
+  });
+});
