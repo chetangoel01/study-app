@@ -128,8 +128,79 @@ export interface PracticeStats {
   quizAnalytics?: PracticeQuizAnalytics;
 }
 
+export type RolePreference = 'interviewee' | 'interviewer' | 'either';
+
+export type InviteStatus = 'pending_acceptance' | 'accepted' | 'declined' | 'cancelled';
+
+export interface InviteCounterparty {
+  id: string;
+  fullName: string;
+  initials: string;
+}
+
+export interface InviteSummary {
+  id: string;
+  direction: 'sent' | 'received';
+  counterparty: InviteCounterparty;
+  status: InviteStatus;
+  scheduledFor: string;
+  durationMinutes: number;
+  topic: string;
+  rolePreference: RolePreference;
+  sourceBlockId: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface InviteEvent {
+  id: string;
+  actorId: string;
+  eventType: 'created' | 'accepted' | 'declined' | 'cancelled' | 'rescheduled';
+  payload: Record<string, unknown> | null;
+  createdAt: string;
+}
+
+export interface InviteDetail extends InviteSummary {
+  events: InviteEvent[];
+}
+
+export interface AvailabilityBlockSummary {
+  blockId: string;
+  proposalId: string;
+  startsAt: string;
+  status: 'open' | 'claimed' | 'cancelled';
+  claimedBy: { id: string; fullName: string } | null;
+  mockInterviewId: string | null;
+}
+
+export interface MyAvailabilityProposal {
+  id: string;
+  durationMinutes: number;
+  topic: string;
+  notes: string;
+  rolePreference: RolePreference;
+  createdAt: string;
+  blocks: AvailabilityBlockSummary[];
+}
+
+export interface MyAvailability {
+  proposals: MyAvailabilityProposal[];
+}
+
+export interface FeedBlock {
+  blockId: string;
+  proposalId: string;
+  postedBy: { id: string; fullName: string; initials: string };
+  startsAt: string;
+  durationMinutes: number;
+  topic: string;
+  notes: string;
+  rolePreference: RolePreference;
+}
+
 export interface MockPeer {
   id: string;
   fullName: string;
   initials: string;
+  defaultRolePreference: RolePreference;
 }

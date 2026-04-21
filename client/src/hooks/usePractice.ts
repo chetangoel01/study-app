@@ -3,7 +3,6 @@ import { api } from '../api/client.js';
 import type {
   ChallengeRunResponse,
   DailyChallenge,
-  MockPeer,
   PracticeStats,
 } from '../types.js';
 
@@ -89,53 +88,4 @@ export function usePracticeStats() {
   const refetch = () => setTick((t) => t + 1);
 
   return { data, loading, refetch };
-}
-
-export function useMockPeers() {
-  const [peers, setPeers] = useState<MockPeer[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    api.get<MockPeer[]>('/api/practice/peers')
-      .then(setPeers)
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
-
-  const scheduleMock = async ({
-    peerId,
-    topic,
-    scheduledFor,
-  }: {
-    peerId: string;
-    topic: string;
-    scheduledFor: string;
-  }) => {
-    await api.post('/api/practice/mock-interviews/schedule', {
-      peerId,
-      topic,
-      scheduledFor,
-    });
-  };
-
-  const proposeAvailability = async ({
-    proposedFor,
-    durationMinutes,
-    topic,
-    notes,
-  }: {
-    proposedFor: string;
-    durationMinutes: number;
-    topic: string;
-    notes?: string;
-  }) => {
-    await api.post('/api/practice/mock-interviews/proposals', {
-      proposedFor,
-      durationMinutes,
-      topic,
-      notes: notes ?? '',
-    });
-  };
-
-  return { peers, loading, scheduleMock, proposeAvailability };
 }
