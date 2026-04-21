@@ -29,7 +29,11 @@ export interface ModuleContent {
 }
 
 export interface CurriculumResponse { tracks: Track[]; modules: CurriculumModule[]; }
-export interface AuthUser { id: number; email: string; }
+export interface AuthUser {
+  id: number;
+  email: string;
+  defaultRolePreference?: RolePreference;
+}
 
 export interface ChallengeTestCase {
   args: unknown[];

@@ -113,7 +113,14 @@ export function makeAuthRouter(db: Database.Database): Hono {
 
   router.get('/me', requireAuth, (c) => {
     const user = c.get('user');
-    return c.json({ id: user.id, email: user.email });
+    const pref = db
+      .prepare('SELECT default_role_preference FROM user_preferences WHERE user_id = ?')
+      .get(user.id) as { default_role_preference: string | null } | undefined;
+    return c.json({
+      id: user.id,
+      email: user.email,
+      defaultRolePreference: (pref?.default_role_preference ?? 'either') as 'interviewee' | 'interviewer' | 'either',
+    });
   });
 
   // OAuth — Google

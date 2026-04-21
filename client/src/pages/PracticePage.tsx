@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { DetailedReportModal } from '../components/DetailedReportModal.js';
-import { MockInterviewModal } from '../components/MockInterviewModal.js';
+import { MockInterviewsSection } from '../components/mock-interviews/MockInterviewsSection.js';
 import { useCurriculum } from '../hooks/useCurriculum.js';
-import { useDailyChallenge, usePracticeStats, useMockPeers } from '../hooks/usePractice.js';
+import { useDailyChallenge, usePracticeStats } from '../hooks/usePractice.js';
+import type { AppOutletContext } from '../outletContext.js';
 import type { SkillBreakdownItem } from '../types.js';
 import {
   buildMasterySections,
@@ -96,17 +97,13 @@ function getMasteryAreaFromTag(tag: string): MasteryAreaKey {
 
 export function PracticePage() {
   const navigate = useNavigate();
-  const [showMockModal, setShowMockModal] = useState(false);
+  const { user } = useOutletContext<AppOutletContext>();
   const [showReportModal, setShowReportModal] = useState(false);
-  const [mockFeedback, setMockFeedback] = useState('');
   const [topicPracticeMode, setTopicPracticeMode] = useState<TopicPracticeMode>('dsa');
   const { data: curriculum } = useCurriculum();
   const { data: dailyChallenge } = useDailyChallenge();
   const { data: stats } = usePracticeStats();
-  const { peers, scheduleMock, proposeAvailability } = useMockPeers();
   const activeTopicPractice = topicPracticeConfig[topicPracticeMode];
-  const visiblePeers = peers.slice(0, 2);
-  const extraPeers = Math.max(0, peers.length - visiblePeers.length);
   const streakDays = stats?.streakDays ?? 0;
   const streakWeek = stats?.streakWeek ?? Array.from({ length: 7 }, () => false);
   const quizAnalytics = stats?.quizAnalytics;
@@ -191,14 +188,6 @@ export function PracticePage() {
     });
     navigate(`/practice/session?${params.toString()}`);
   };
-
-  const formatFriendlyDate = (iso: string) =>
-    new Date(iso).toLocaleString(undefined, {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-    });
 
   return (
     <div className="practice-page-container">
@@ -298,49 +287,10 @@ export function PracticePage() {
               </button>
             </div>
 
-            {/* Mock Interviews */}
-            <div className="practice-category-card mock-card">
-              <div className="category-icon-bg mock-bg">
-                <div className="category-icon mock-icon" aria-hidden="true">
-                  <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="56" height="56" rx="16" fill="#E1C4F3" />
-                    <path d="M23 30.5H30.5C30.8542 30.5 31.151 30.3802 31.3906 30.1406C31.6302 29.901 31.75 29.6042 31.75 29.25V26.75L34.25 29.25V21.75L31.75 24.25V21.75C31.75 21.3958 31.6302 21.099 31.3906 20.8594C31.151 20.6198 30.8542 20.5 30.5 20.5H23C22.6458 20.5 22.349 20.6198 22.1094 20.8594C21.8698 21.099 21.75 21.3958 21.75 21.75V29.25C21.75 29.6042 21.8698 29.901 22.1094 30.1406C22.349 30.3802 22.6458 30.5 23 30.5ZM15.5 40.5V18C15.5 17.3125 15.7448 16.724 16.2344 16.2344C16.724 15.7448 17.3125 15.5 18 15.5H38C38.6875 15.5 39.276 15.7448 39.7656 16.2344C40.2552 16.724 40.5 17.3125 40.5 18V33C40.5 33.6875 40.2552 34.276 39.7656 34.7656C39.276 35.2552 38.6875 35.5 38 35.5H20.5L15.5 40.5ZM19.4375 33H38V18H18V34.4062L19.4375 33ZM18 33V18V33Z" fill="#523D63" />
-                  </svg>
-                </div>
-              </div>
-              <h3>Mock Interviews</h3>
-              <p>Simulate real-world pressure with AI-led or peer-to-peer technical interviews.</p>
-              <div className="mock-peer-avatars">
-                {visiblePeers.length > 0 ? (
-                  visiblePeers.map((peer, index) => (
-                    <div
-                      key={peer.id}
-                      className={`avatar peer-${index + 1}`}
-                      title={peer.fullName}
-                      aria-label={peer.fullName}
-                    >
-                      {peer.initials}
-                    </div>
-                  ))
-                ) : (
-                  <div className="avatar peer-placeholder" aria-hidden="true">--</div>
-                )}
-                {extraPeers > 0 ? (
-                  <div className="avatar peer-empty"><span>+{extraPeers}</span></div>
-                ) : null}
-              </div>
-              <p className="mock-peer-hint">
-                {mockFeedback || (peers.length > 0
-                  ? `Choose from ${peers.length} available peer${peers.length === 1 ? '' : 's'}.`
-                  : 'No peers online right now. Propose your availability and get matched.')}
-              </p>
-              <button 
-                className="category-btn mock-btn"
-                onClick={() => setShowMockModal(true)}
-              >
-                Find a Peer <span className="btn-arrow">→</span>
-              </button>
-            </div>
+            <MockInterviewsSection
+              callerId={String(user.id)}
+              defaultRolePreference={user.defaultRolePreference ?? 'either'}
+            />
           </div>
 
         </div>
@@ -407,21 +357,6 @@ export function PracticePage() {
         </aside>
       </div>
 
-      {showMockModal && (
-        <MockInterviewModal
-          peers={peers}
-          onClose={() => setShowMockModal(false)}
-          onSchedule={async ({ peerId, topic, scheduledFor }) => {
-            await scheduleMock({ peerId, topic, scheduledFor });
-            const peerName = peers.find((peer) => peer.id === peerId)?.fullName ?? 'your peer';
-            setMockFeedback(`Invite sent to ${peerName} for ${formatFriendlyDate(scheduledFor)}.`);
-          }}
-          onProposeAvailability={async ({ proposedFor, durationMinutes, topic, notes }) => {
-            await proposeAvailability({ proposedFor, durationMinutes, topic, notes });
-            setMockFeedback(`Availability posted for ${formatFriendlyDate(proposedFor)} (${durationMinutes} min).`);
-          }}
-        />
-      )}
       {showReportModal && (
         <DetailedReportModal
           onClose={() => setShowReportModal(false)}
