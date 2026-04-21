@@ -9275,3 +9275,204 @@ html[data-theme="dark"] .test-result-body pre {
     justify-content: center;
   }
 }
+
+/* ───── Mock interviews section on PracticePage ───── */
+.mock-interviews-section {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.mock-interviews-section > header h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin: 0 0 0.25rem;
+}
+.mock-interviews-section > header p {
+  color: var(--muted);
+  margin: 0;
+}
+.mock-section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.mock-card {
+  background: var(--surface-container);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-shadow: var(--shadow-soft);
+}
+.mock-card > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.mock-card > header .mock-card-count {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.mock-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.mock-card li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.mock-card li:last-child { border-bottom: none; }
+.mock-card .empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+.mock-card .card-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Availability block picker in CreateModal */
+.availability-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.availability-block-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.availability-block-row input[type="datetime-local"] {
+  flex: 1;
+}
+.availability-block-row button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.6rem;
+}
+.availability-block-row button:hover {
+  background: var(--surface-container-high);
+  color: var(--text);
+}
+
+/* Role selector (segmented control) */
+.role-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.role-option {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: center;
+  color: var(--text);
+  background: var(--surface-container-low);
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.role-option:hover {
+  background: var(--surface-container-high);
+}
+.role-option.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.role-option input { display: none; }
+
+/* Invite timeline */
+.invite-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.invite-timeline li {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.invite-timeline li:last-child { border-bottom: none; }
+.timeline-when {
+  color: var(--muted);
+  min-width: 10em;
+  font-variant-numeric: tabular-nums;
+}
+.timeline-what { flex: 1; color: var(--text); }
+.timeline-who { color: var(--muted); font-style: italic; }
+
+/* Availability block states */
+.availability-block {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.4rem 0;
+}
+.availability-block--claimed { color: var(--muted); }
+.availability-block--cancelled {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+/* Feed group */
+.feed-group { margin-top: 1rem; }
+.feed-group > header {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+.feed-block-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.feed-block-row:last-child { border-bottom: none; }
+.claim-confirm {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  background: var(--surface-container-low);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.claim-confirm select,
+.claim-confirm input[type="text"] {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-strong);
+  color: var(--text);
+}
