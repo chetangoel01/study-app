@@ -1,7 +1,14 @@
 import { Hono } from 'hono';
 import type Database from 'better-sqlite3';
 import { requireAuth } from '../middleware/auth.js';
-import { isValidRole, getInitials, type RolePreference } from '../lib/scheduling.js';
+import {
+  findOverlappingInvite,
+  getInitials,
+  insertEvent,
+  isRoleCompatible,
+  isValidRole,
+  type RolePreference,
+} from '../lib/scheduling.js';
 
 interface CreateBody {
   durationMinutes?: number;
@@ -204,6 +211,60 @@ export function makeAvailabilityRouter(db: Database.Database): Hono {
     });
 
     return c.json(body);
+  });
+
+  router.post('/blocks/:id/claim', async (c) => {
+    const user = c.get('user');
+    const blockId = Number(c.req.param('id'));
+    const body = await c.req.json().catch(() => ({} as any));
+    const { rolePreference, notes } = body;
+    if (!isValidRole(rolePreference)) return c.json({ error: 'invalid_role' }, 400);
+
+    const block = db.prepare(`
+      SELECT b.id, b.status, b.claimed_by, b.starts_at,
+             p.id AS proposal_id, p.user_id AS poster_id, p.duration_minutes, p.topic, p.role_preference
+      FROM availability_blocks b
+      JOIN availability_proposals p ON p.id = b.proposal_id
+      WHERE b.id = ?
+    `).get(blockId) as {
+      id: number; status: string; claimed_by: number | null; starts_at: string;
+      proposal_id: number; poster_id: number; duration_minutes: number; topic: string | null;
+      role_preference: RolePreference;
+    } | undefined;
+
+    if (!block) return c.json({ error: 'not_found' }, 404);
+    if (block.poster_id === user.id) return c.json({ error: 'cannot_claim_own_block' }, 400);
+
+    if (!isRoleCompatible(rolePreference as RolePreference, block.role_preference)) {
+      return c.json({ error: 'role_incompatible' }, 409);
+    }
+
+    const conflictForClaimant = findOverlappingInvite(db, user.id, block.starts_at, block.duration_minutes);
+    if (conflictForClaimant != null) {
+      return c.json({ error: 'overlap', context: { conflictingInviteId: String(conflictForClaimant) } }, 409);
+    }
+
+    const result = db.transaction(() => {
+      const upd = db.prepare(`
+        UPDATE availability_blocks
+        SET status = 'claimed', claimed_by = ?, claimed_at = datetime('now')
+        WHERE id = ? AND claimed_by IS NULL AND status = 'open'
+      `).run(user.id, blockId);
+      if (upd.changes === 0) return { raced: true } as const;
+
+      const ins = db.prepare(`
+        INSERT INTO mock_interviews
+          (initiator_id, peer_id, status, scheduled_for, duration_minutes, topic, role_preference, source_block_id)
+        VALUES (?, ?, 'pending_acceptance', ?, ?, ?, ?, ?)
+      `).run(user.id, block.poster_id, block.starts_at, block.duration_minutes, block.topic || 'General Technical', rolePreference, blockId);
+      const inviteId = Number(ins.lastInsertRowid);
+      db.prepare(`UPDATE availability_blocks SET mock_interview_id = ? WHERE id = ?`).run(inviteId, blockId);
+      insertEvent(db, inviteId, user.id, 'created', { sourceBlockId: String(blockId), claimNotes: notes ?? null });
+      return { raced: false, inviteId } as const;
+    })();
+
+    if (result.raced) return c.json({ error: 'block_already_claimed' }, 409);
+    return c.json({ inviteId: String(result.inviteId) });
   });
 
   router.delete('/:proposalId', (c) => {

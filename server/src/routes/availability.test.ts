@@ -214,3 +214,72 @@ describe('GET /api/practice/availability/feed', () => {
     expect(body[0].startsAt).toBe('2026-05-01T14:00:00Z');
   });
 });
+
+describe('POST /api/practice/availability/blocks/:id/claim', () => {
+  async function seedBlock(userId: number, role: string, startsAt: string): Promise<number> {
+    const p = db.prepare(`INSERT INTO availability_proposals (user_id, role_preference, duration_minutes) VALUES (?, ?, 45)`).run(userId, role);
+    const b = db.prepare(`INSERT INTO availability_blocks (proposal_id, starts_at) VALUES (?, ?)`).run(Number(p.lastInsertRowid), startsAt);
+    return Number(b.lastInsertRowid);
+  }
+
+  it('atomically claims block and creates invite', async () => {
+    const blockId = await seedBlock(userBId, 'interviewee', '2026-05-01T14:00:00Z');
+    const res = await app.request(`/api/practice/availability/blocks/${blockId}/claim`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({ rolePreference: 'interviewer' }),
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json() as any;
+    expect(body.inviteId).toBeTruthy();
+
+    const block = db.prepare('SELECT * FROM availability_blocks WHERE id = ?').get(blockId) as any;
+    expect(block.status).toBe('claimed');
+    expect(block.claimed_by).toBe(userAId);
+    expect(block.mock_interview_id).toBe(Number(body.inviteId));
+
+    const invite = db.prepare('SELECT * FROM mock_interviews WHERE id = ?').get(Number(body.inviteId)) as any;
+    expect(invite.initiator_id).toBe(userAId);
+    expect(invite.peer_id).toBe(userBId);
+    expect(invite.source_block_id).toBe(blockId);
+    expect(invite.status).toBe('pending_acceptance');
+  });
+
+  it('returns 409 if block already claimed', async () => {
+    const blockId = await seedBlock(userBId, 'interviewee', '2026-05-01T14:00:00Z');
+    db.prepare(`UPDATE availability_blocks SET status = 'claimed', claimed_by = ? WHERE id = ?`).run(userAId, blockId);
+    const res = await app.request(`/api/practice/availability/blocks/${blockId}/claim`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({ rolePreference: 'interviewer' }),
+    });
+    expect(res.status).toBe(409);
+    expect((await res.json() as any).error).toBe('block_already_claimed');
+  });
+
+  it('returns 409 on role incompatibility', async () => {
+    const blockId = await seedBlock(userBId, 'interviewee', '2026-05-01T14:00:00Z');
+    const res = await app.request(`/api/practice/availability/blocks/${blockId}/claim`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({ rolePreference: 'interviewee' }),
+    });
+    expect(res.status).toBe(409);
+    expect((await res.json() as any).error).toBe('role_incompatible');
+  });
+
+  it('returns 409 on overlap', async () => {
+    const blockId = await seedBlock(userBId, 'interviewee', '2026-05-01T14:00:00Z');
+    db.prepare(`
+      INSERT INTO mock_interviews (initiator_id, peer_id, status, scheduled_for, duration_minutes)
+      VALUES (?, ?, 'accepted', '2026-05-01T14:15:00Z', 30)
+    `).run(userAId, userBId);
+    const res = await app.request(`/api/practice/availability/blocks/${blockId}/claim`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: cookieA },
+      body: JSON.stringify({ rolePreference: 'interviewer' }),
+    });
+    expect(res.status).toBe(409);
+    expect((await res.json() as any).error).toBe('overlap');
+  });
+});
