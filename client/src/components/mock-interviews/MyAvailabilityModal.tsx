@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import type { MyAvailability } from '../../types.js';
+import { formatInZone } from '../../lib/scheduling-dates.js';
 
 interface Props {
   data: MyAvailability;
+  userTimezone: string;
   onClose: () => void;
   onCancelBlock: (blockId: string) => Promise<void>;
   onCancelProposal: (proposalId: string) => Promise<void>;
   onPostMore: () => void;
 }
 
-function fmt(iso: string): string { return new Date(iso).toLocaleString(); }
-
-export function MyAvailabilityModal({ data, onClose, onCancelBlock, onCancelProposal, onPostMore }: Props) {
+export function MyAvailabilityModal({ data, userTimezone, onClose, onCancelBlock, onCancelProposal, onPostMore }: Props) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
@@ -37,7 +37,7 @@ export function MyAvailabilityModal({ data, onClose, onCancelBlock, onCancelProp
             <ul>
               {p.blocks.map((b) => (
                 <li key={b.blockId} className={`availability-block availability-block--${b.status}`}>
-                  <span>{fmt(b.startsAt)}</span>
+                  <span>{formatInZone(b.startsAt, userTimezone)}</span>
                   <span>status: {b.status}</span>
                   {b.status === 'open' && (
                     <button type="button" className="secondary-link" onClick={() => onCancelBlock(b.blockId)}>Cancel</button>

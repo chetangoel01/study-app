@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useInvites, useMockInterviewPeers, useInviteDetail } from '../../hooks/useMockInterviews.js';
 import { useMyAvailability, useFeed } from '../../hooks/useAvailability.js';
 import type { RolePreference } from '../../types.js';
+import { formatInZone } from '../../lib/scheduling-dates.js';
 import { CreateModal } from './CreateModal.js';
 import { InviteDetailModal } from './InviteDetailModal.js';
 import { MyAvailabilityModal } from './MyAvailabilityModal.js';
@@ -10,16 +11,10 @@ import { AvailabilityFeedModal } from './AvailabilityFeedModal.js';
 interface Props {
   callerId: string;
   defaultRolePreference: RolePreference;
+  userTimezone: string;
 }
 
-function formatWhen(iso: string): string {
-  const d = new Date(iso);
-  const day = d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
-  const time = d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
-  return `${day} · ${time}`;
-}
-
-export function MockInterviewsSection({ callerId, defaultRolePreference }: Props) {
+export function MockInterviewsSection({ callerId, defaultRolePreference, userTimezone }: Props) {
   const { peers } = useMockInterviewPeers();
   const { invites, schedule, accept, decline, cancel, reschedule, refresh: refreshInvites } = useInvites();
   const { data: myAvailability, create: createAvailability, cancelBlock, cancelProposal, refresh: refreshMine } = useMyAvailability();
@@ -66,7 +61,7 @@ export function MockInterviewsSection({ callerId, defaultRolePreference }: Props
                 <li key={inv.id} className="mock-lane-item">
                   <button type="button" className="mock-lane-link" onClick={() => setOpenDetailId(inv.id)}>
                     <span className="mock-lane-primary">{inv.counterparty.fullName}</span>
-                    <span className="mock-lane-secondary">{inv.topic} · {formatWhen(inv.scheduledFor)}</span>
+                    <span className="mock-lane-secondary">{inv.topic} · {formatInZone(inv.scheduledFor, userTimezone)}</span>
                   </button>
                   <div className="mock-lane-actions">
                     <button type="button" className="mock-chip mock-chip--primary" onClick={() => accept(inv.id)}>Accept</button>
@@ -111,7 +106,7 @@ export function MockInterviewsSection({ callerId, defaultRolePreference }: Props
               <ul className="mock-lane-list">
                 {openBlocks.slice(0, 1).map((b) => (
                   <li key={b.blockId} className="mock-lane-item mock-lane-item--compact">
-                    <span className="mock-lane-primary">{formatWhen(b.startsAt)}</span>
+                    <span className="mock-lane-primary">{formatInZone(b.startsAt, userTimezone)}</span>
                   </li>
                 ))}
               </ul>
@@ -142,7 +137,7 @@ export function MockInterviewsSection({ callerId, defaultRolePreference }: Props
                   <span className="mock-feed-dot" aria-hidden="true" />
                   <div className="mock-lane-link mock-lane-link--static">
                     <span className="mock-lane-primary">{b.postedBy.fullName}</span>
-                    <span className="mock-lane-secondary">{formatWhen(b.startsAt)} · {b.rolePreference}</span>
+                    <span className="mock-lane-secondary">{formatInZone(b.startsAt, userTimezone)} · {b.rolePreference}</span>
                   </div>
                   <button type="button" className="mock-chip" onClick={() => setOpenFeed(true)}>Claim</button>
                 </li>
@@ -175,6 +170,7 @@ export function MockInterviewsSection({ callerId, defaultRolePreference }: Props
         <InviteDetailModal
           detail={detail}
           callerId={callerId}
+          userTimezone={userTimezone}
           onClose={() => setOpenDetailId(null)}
           onAction={async (action, args) => {
             if (action === 'accept') await accept(detail.id);
@@ -188,6 +184,7 @@ export function MockInterviewsSection({ callerId, defaultRolePreference }: Props
       {openMine && (
         <MyAvailabilityModal
           data={myAvailability}
+          userTimezone={userTimezone}
           onClose={() => setOpenMine(false)}
           onCancelBlock={cancelBlock}
           onCancelProposal={cancelProposal}
@@ -199,6 +196,7 @@ export function MockInterviewsSection({ callerId, defaultRolePreference }: Props
           blocks={feedBlocks}
           loading={feedLoading}
           roleFilter={roleFilter}
+          userTimezone={userTimezone}
           onRoleFilterChange={setRoleFilter}
           onClose={() => { setOpenFeed(false); refreshFeed(); refreshInvites(); }}
           onClaim={async (blockId, role, notes) => { await claim(blockId, role, notes); await refreshInvites(); }}

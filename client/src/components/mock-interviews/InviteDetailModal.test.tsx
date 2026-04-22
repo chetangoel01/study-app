@@ -17,7 +17,7 @@ const detail: InviteDetail = {
 
 describe('InviteDetailModal', () => {
   it('renders timeline in chronological order', () => {
-    render(<InviteDetailModal detail={detail} onClose={() => {}} onAction={async () => {}} callerId="1" />);
+    render(<InviteDetailModal detail={detail} onClose={() => {}} onAction={async () => {}} callerId="1" userTimezone="UTC" />);
     const timeline = screen.getByRole('list', { name: /timeline/i });
     const items = within(timeline).getAllByRole('listitem');
     expect(items[0].textContent).toMatch(/created/i);

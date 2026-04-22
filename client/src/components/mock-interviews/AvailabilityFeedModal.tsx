@@ -1,18 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { FeedBlock, RolePreference } from '../../types.js';
+import { formatInZone } from '../../lib/scheduling-dates.js';
 
 interface Props {
   blocks: FeedBlock[];
   loading: boolean;
   roleFilter: 'any' | 'interviewee' | 'interviewer';
+  userTimezone: string;
   onRoleFilterChange: (v: 'any' | 'interviewee' | 'interviewer') => void;
   onClose: () => void;
   onClaim: (blockId: string, rolePreference: RolePreference, notes?: string) => Promise<void>;
 }
 
-function fmt(iso: string): string { return new Date(iso).toLocaleString(); }
-
-export function AvailabilityFeedModal({ blocks, loading, roleFilter, onRoleFilterChange, onClose, onClaim }: Props) {
+export function AvailabilityFeedModal({ blocks, loading, roleFilter, userTimezone, onRoleFilterChange, onClose, onClaim }: Props) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
@@ -64,7 +64,7 @@ export function AvailabilityFeedModal({ blocks, loading, roleFilter, onRoleFilte
             <ul>
               {items.map((b) => (
                 <li key={b.blockId} className="feed-block-row">
-                  <span>{fmt(b.startsAt)}</span>
+                  <span>{formatInZone(b.startsAt, userTimezone)}</span>
                   <span>{b.durationMinutes} min</span>
                   <span>role: {b.rolePreference}</span>
                   {claimingId === b.blockId ? (

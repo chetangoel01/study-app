@@ -290,6 +290,7 @@ export function PracticePage() {
             <MockInterviewsSection
               callerId={String(user.id)}
               defaultRolePreference={user.defaultRolePreference ?? 'either'}
+              userTimezone={user.timezone}
             />
           </div>
 

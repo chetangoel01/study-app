@@ -19,7 +19,7 @@ vi.mock('../../hooks/useAvailability', () => ({
 
 describe('MockInterviewsSection', () => {
   it('renders empty states for all four cards', () => {
-    render(<MockInterviewsSection callerId="1" defaultRolePreference="either" />);
+    render(<MockInterviewsSection callerId="1" defaultRolePreference="either" userTimezone="UTC" />);
     expect(screen.getByText(/Nothing waiting on you/i)).toBeInTheDocument();
     expect(screen.getByText(/haven't sent any invites/i)).toBeInTheDocument();
     expect(screen.getByText(/Post a few time blocks/i)).toBeInTheDocument();
