@@ -62,9 +62,16 @@ export interface InviteSummaryRow {
 export function fetchInviteSummaryRows(
   db: Database.Database,
   userId: number,
-  opts: { direction?: 'sent' | 'received' | 'all'; statuses?: string[] } = {},
+  opts: {
+    direction?: 'sent' | 'received' | 'all';
+    statuses?: string[];
+    windowFrom?: string;
+    windowTo?: string;
+    sort?: 'asc' | 'desc';
+  } = {},
 ): InviteSummaryRow[] {
   const direction = opts.direction ?? 'all';
+  const sort = opts.sort ?? 'desc';
   const filters: string[] = [];
   const params: unknown[] = [];
 
@@ -84,6 +91,16 @@ export function fetchInviteSummaryRows(
     params.push(...opts.statuses);
   }
 
+  if (opts.windowFrom) {
+    filters.push('datetime(mi.scheduled_for) >= datetime(?)');
+    params.push(opts.windowFrom);
+  }
+
+  if (opts.windowTo) {
+    filters.push('datetime(mi.scheduled_for) < datetime(?)');
+    params.push(opts.windowTo);
+  }
+
   const sql = `
     SELECT
       mi.id, mi.initiator_id, mi.peer_id, mi.status, mi.scheduled_for,
@@ -93,8 +110,8 @@ export function fetchInviteSummaryRows(
     FROM mock_interviews mi
     JOIN users counterparty ON counterparty.id = CASE WHEN mi.initiator_id = ? THEN mi.peer_id ELSE mi.initiator_id END
     WHERE ${filters.join(' AND ')}
-    ORDER BY mi.scheduled_for DESC
-    LIMIT 50
+    ORDER BY mi.scheduled_for ${sort === 'asc' ? 'ASC' : 'DESC'}
+    LIMIT 200
   `;
   return db.prepare(sql).all(userId, ...params) as InviteSummaryRow[];
 }
