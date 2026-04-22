@@ -13,7 +13,11 @@ export const config = {
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
   githubClientId: process.env.GITHUB_CLIENT_ID ?? '',
   githubClientSecret: process.env.GITHUB_CLIENT_SECRET ?? '',
-  baseUrl: process.env.BASE_URL ?? 'http://localhost:3000',
+  baseUrl: (() => {
+    const raw = process.env.BASE_URL;
+    if (!raw || raw === '/' || !/^https?:\/\//.test(raw)) return 'http://localhost:3000';
+    return raw;
+  })(),
   CURRICULUM_JSON_VERSION: 1,
   KNOWLEDGE_BASE_VERSION: '3',
   PROXY_ALLOWLIST: new Set([
