@@ -10,6 +10,7 @@ import { PracticePage } from './pages/PracticePage.js';
 import { PracticeSessionPage } from './pages/PracticeSessionPage.js';
 import { SolveChallengePage } from './pages/SolveChallengePage.js';
 import { CommunityPage } from './pages/CommunityPage.js';
+import { SchedulePage } from './pages/SchedulePage.js';
 import { SettingsPage } from './pages/SettingsPage.js';
 import { ProtectedRoute } from './components/ProtectedRoute.js';
 import { RouteErrorBoundary } from './components/RouteErrorBoundary.js';
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: 'practice/session', element: <PracticeSessionPage /> },
       { path: 'practice/challenge/:id', element: <SolveChallengePage /> },
       { path: 'community', element: <CommunityPage /> },
+      { path: 'schedule', element: <SchedulePage /> },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'settings/:section', element: <SettingsPage /> },
     ],

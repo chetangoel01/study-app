@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useInvites, useMockInterviewPeers, useInviteDetail } from '../../hooks/useMockInterviews.js';
 import { useMyAvailability, useFeed } from '../../hooks/useAvailability.js';
 import type { RolePreference } from '../../types.js';
@@ -154,6 +155,7 @@ export function MockInterviewsSection({ callerId, defaultRolePreference, userTim
         <div className="mock-ghost-actions">
           <button type="button" className="mock-ghost" onClick={() => setOpenMine(true)}>Manage slots</button>
           <button type="button" className="mock-ghost" onClick={() => setOpenFeed(true)}>Browse feed</button>
+          <Link to="/schedule" className="mock-ghost">View full schedule →</Link>
         </div>
       </div>
 

@@ -16,7 +16,7 @@ describe('Layout', () => {
     expect(screen.getByText('Mindful Engineer')).toBeInTheDocument();
   });
 
-  test('renders all four nav links', () => {
+  test('renders all five nav links', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <Layout user={{ id: 1, email: 'a@b.com', timezone: 'UTC' }}>
@@ -28,6 +28,7 @@ describe('Layout', () => {
     expect(screen.getByRole('link', { name: 'Dashboard' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Curriculum' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Practice' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Schedule' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Community' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Help' })).not.toBeInTheDocument();
   });

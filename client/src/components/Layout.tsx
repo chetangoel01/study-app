@@ -50,6 +50,12 @@ export function Layout({ user, children }: { user: AuthUser; children: React.Rea
               Practice
             </NavLink>
             <NavLink
+              to="/schedule"
+              className={({ isActive }) => `topbar-link${isActive ? ' active' : ''}`}
+            >
+              Schedule
+            </NavLink>
+            <NavLink
               to="/community"
               className={({ isActive }) => `topbar-link${isActive ? ' active' : ''}`}
             >
