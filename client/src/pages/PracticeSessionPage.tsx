@@ -650,7 +650,7 @@ export function PracticeSessionPage() {
         </div>
 
         {loadingQuiz && (
-          <div className="loading" style={{ marginTop: '1rem' }}>
+          <div className="loading" style={{ marginTop: 'var(--sp-4)' }}>
             Loading quiz spec...
           </div>
         )}

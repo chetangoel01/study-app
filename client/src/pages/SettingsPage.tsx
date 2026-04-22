@@ -345,7 +345,7 @@ export function SettingsPage() {
             </div>
           ))}
 
-          <h3 style={{ marginTop: '24px', marginBottom: '16px' }}>Practice Community</h3>
+          <h3 style={{ marginTop: 'var(--sp-6)', marginBottom: 'var(--sp-4)' }}>Practice Community</h3>
           <div className="settings-pref-row">
             <div>
               <strong>Available for peer Mock Interviews</strong>

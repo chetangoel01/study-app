@@ -1,0 +1,280 @@
+/* pages/settings.css — split from legacy index.css. Migrate to tokens incrementally per handoff/CLAUDE.md. */
+
+html[data-theme="dark"] .settings-sidebar {
+  background: linear-gradient(180deg, rgba(25, 34, 56, 0.92), rgba(14, 21, 37, 0.98));
+}
+
+html[data-theme="dark"] .settings-nav-link:hover {
+  background: rgba(152, 170, 220, 0.08);
+}
+
+html[data-theme="dark"] .settings-nav-link.active {
+  background: rgba(142, 166, 255, 0.14);
+  border-color: rgba(142, 166, 255, 0.24);
+}
+
+html[data-theme="dark"] .settings-section input,
+html[data-theme="dark"] .settings-section textarea,
+html[data-theme="dark"] .settings-section select {
+  background: rgba(11, 17, 31, 0.82);
+}
+
+html[data-theme="dark"] .settings-danger {
+  background: linear-gradient(180deg, rgba(34, 22, 28, 0.92), rgba(22, 15, 20, 0.98));
+}
+
+.account-menu-wrap {
+  position: relative;
+}
+
+.account-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 100;
+  min-width: 13rem;
+  padding: var(--sp-2) var(--sp-0);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-3);
+  animation: menu-enter var(--dur-1) var(--ease-out);
+}
+
+.account-menu-header {
+  padding: var(--sp-3) var(--sp-4) var(--sp-2);
+}
+
+.account-menu-name {
+  display: block;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-menu-role {
+  display: block;
+  margin-top: var(--sp-0);
+  color: var(--ink-muted);
+  font-size: var(--text-xs);
+}
+
+.account-menu-divider {
+  margin: var(--sp-1) var(--sp-0);
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.account-menu-item {
+  display: block;
+  width: 100%;
+  padding: var(--sp-2) var(--sp-4);
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-base);
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease-out);
+}
+
+.account-menu-item:hover {
+  background: var(--bg-deep);
+  transform: none;
+}
+
+.account-menu-logout {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.settings-shell {
+  display: grid;
+  grid-template-columns: minmax(16rem, 19rem) minmax(0, 1fr);
+  gap: var(--sp-6);
+  align-items: start;
+}
+
+.settings-sidebar,
+.settings-page {
+  min-width: 0;
+}
+
+.settings-sidebar {
+  position: sticky;
+  top: 6rem;
+  padding: var(--sp-6);
+  border-radius: var(--r-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.settings-sidebar-header h1 {
+  margin-bottom: var(--sp-1);
+}
+
+.settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.settings-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: background var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+}
+
+.settings-nav-link:hover {
+  background: rgba(255, 255, 255, 0.45);
+  border-color: var(--border);
+}
+
+.settings-nav-link.active {
+  background: rgba(79, 93, 140, 0.1);
+  border-color: rgba(79, 93, 140, 0.18);
+}
+
+.settings-nav-label {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.settings-nav-copy {
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+.settings-page {
+  max-width: 100%;
+  margin: var(--sp-0) auto;
+  padding: var(--sp-0) var(--sp-0) var(--sp-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding: var(--sp-7);
+  scroll-margin-top: 6.5rem;
+}
+
+.settings-section h2 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.settings-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.settings-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+}
+
+.settings-section input,
+.settings-section textarea,
+.settings-section select {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.8rem var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--ink);
+}
+
+.settings-section textarea {
+  min-height: 7.5rem;
+  resize: vertical;
+}
+
+.settings-section input:focus,
+.settings-section textarea:focus,
+.settings-section select:focus {
+  outline: 2px solid rgba(79, 93, 140, 0.16);
+  border-color: rgba(79, 93, 140, 0.42);
+  box-shadow: var(--shadow-focus);
+}
+
+.settings-save-btn {
+  align-self: flex-start;
+}
+
+.settings-pref-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-0);
+  border-top: 1px solid var(--border);
+}
+
+.settings-pref-row:first-of-type {
+  border-top: none;
+}
+
+.settings-pref-copy {
+  font-size: var(--text-sm);
+}
+
+.settings-danger {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 243, 243, 0.95));
+}
+
+.settings-danger-title {
+  color: var(--danger);
+}
+
+/* Invite timeline */
+.invite-timeline {
+  list-style: none;
+  padding: var(--sp-0);
+  margin: var(--sp-0);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.invite-timeline li {
+  display: flex;
+  gap: var(--sp-3);
+  padding: 0.4rem var(--sp-0);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--text-base);
+}
+
+.invite-timeline li:last-child { border-bottom: none; }
+
+.timezone-select {
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+}
