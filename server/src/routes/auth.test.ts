@@ -3,6 +3,7 @@ import { Hono } from 'hono';
 import Database from 'better-sqlite3';
 import { applySchema } from '../db/schema.js';
 import { makeAuthRouter } from './auth.js';
+import { makeUserRouter } from './user.js';
 
 let db: Database.Database;
 let app: Hono;
@@ -194,5 +195,48 @@ describe('POST /api/auth/change-password', () => {
       body: JSON.stringify({ currentPassword: 'wrongpassword', newPassword: 'newpassword123' }),
     });
     expect(res.status).toBe(401);
+  });
+});
+
+describe('GET /api/auth/me timezone', () => {
+  async function signupAndLogin(email: string): Promise<{ cookie: string }> {
+    await app.request('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: 'password123' }),
+    });
+    const res = await app.request('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: 'password123' }),
+    });
+    const cookies = res.headers.get('set-cookie') ?? '';
+    const access = cookies.split(',').map((s) => s.trim()).find((s) => s.startsWith('access_token='));
+    const refresh = cookies.split(',').map((s) => s.trim()).find((s) => s.startsWith('refresh_token='));
+    return { cookie: [access?.split(';')[0], refresh?.split(';')[0]].filter(Boolean).join('; ') };
+  }
+
+  beforeEach(() => {
+    app.route('/api/user', makeUserRouter(db));
+  });
+
+  it('includes timezone (defaults to UTC)', async () => {
+    const { cookie } = await signupAndLogin('tz@test.com');
+    const res = await app.request('/api/auth/me', { headers: { cookie } });
+    expect(res.status).toBe(200);
+    const body = await res.json() as { timezone: string };
+    expect(body.timezone).toBe('UTC');
+  });
+
+  it('reflects updated timezone after profile PUT', async () => {
+    const { cookie } = await signupAndLogin('tz2@test.com');
+    await app.request('/api/user/profile', {
+      method: 'PUT',
+      headers: { cookie, 'content-type': 'application/json' },
+      body: JSON.stringify({ timezone: 'Asia/Tokyo' }),
+    });
+    const res = await app.request('/api/auth/me', { headers: { cookie } });
+    const body = await res.json() as { timezone: string };
+    expect(body.timezone).toBe('Asia/Tokyo');
   });
 });

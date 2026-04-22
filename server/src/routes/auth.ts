@@ -113,12 +113,16 @@ export function makeAuthRouter(db: Database.Database): Hono {
 
   router.get('/me', requireAuth, (c) => {
     const user = c.get('user');
+    const row = db
+      .prepare('SELECT timezone FROM users WHERE id = ?')
+      .get(user.id) as { timezone: string | null } | undefined;
     const pref = db
       .prepare('SELECT default_role_preference FROM user_preferences WHERE user_id = ?')
       .get(user.id) as { default_role_preference: string | null } | undefined;
     return c.json({
       id: user.id,
       email: user.email,
+      timezone: row?.timezone ?? 'UTC',
       defaultRolePreference: (pref?.default_role_preference ?? 'either') as 'interviewee' | 'interviewer' | 'either',
     });
   });
