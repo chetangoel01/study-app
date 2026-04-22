@@ -146,4 +146,21 @@ describe('applySchema', () => {
     const row = db.prepare('SELECT default_role_preference FROM user_preferences').get() as any;
     expect(row.default_role_preference).toBe('interviewer');
   });
+
+  it('users has timezone column defaulting to UTC', () => {
+    db = new Database(':memory:');
+    applySchema(db);
+    db.prepare("INSERT INTO users (email, password_hash) VALUES ('tz@x.com', 'h')").run();
+    const row = db.prepare("SELECT timezone FROM users WHERE email = 'tz@x.com'").get() as { timezone: string };
+    expect(row.timezone).toBe('UTC');
+  });
+
+  it('timezone migration is idempotent across repeated applySchema calls', () => {
+    db = new Database(':memory:');
+    applySchema(db);
+    applySchema(db);
+    db.prepare("INSERT INTO users (email, password_hash) VALUES ('tz2@x.com', 'h')").run();
+    const row = db.prepare("SELECT timezone FROM users WHERE email = 'tz2@x.com'").get() as { timezone: string };
+    expect(row.timezone).toBe('UTC');
+  });
 });

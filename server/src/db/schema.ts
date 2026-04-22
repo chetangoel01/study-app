@@ -222,6 +222,7 @@ export function applySchema(db: Database.Database): void {
 
   addCol("ALTER TABLE users ADD COLUMN full_name TEXT DEFAULT ''");
   addCol("ALTER TABLE users ADD COLUMN bio TEXT DEFAULT ''");
+  addCol("ALTER TABLE users ADD COLUMN timezone TEXT NOT NULL DEFAULT 'UTC'");
   addCol("ALTER TABLE user_preferences ADD COLUMN dashboard_density TEXT DEFAULT 'expansive'");
   addCol("ALTER TABLE user_preferences ADD COLUMN allow_mock_interviews INTEGER DEFAULT 0");
   addCol("ALTER TABLE daily_challenge_pool ADD COLUMN description_markdown TEXT DEFAULT ''");
