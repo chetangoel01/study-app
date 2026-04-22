@@ -16,6 +16,16 @@ interface ProfileRow {
   email: string;
   full_name: string | null;
   bio: string | null;
+  timezone: string | null;
+}
+
+function isValidTimezone(tz: string): boolean {
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: tz });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 interface PreferencesRow {
@@ -53,7 +63,7 @@ export function makeUserRouter(db: Database.Database): Hono {
   router.get('/profile', (c) => {
     const user = c.get('user');
     const row = db.prepare(
-      'SELECT id, email, full_name, bio FROM users WHERE id = ?'
+      'SELECT id, email, full_name, bio, timezone FROM users WHERE id = ?'
     ).get(user.id) as ProfileRow | undefined;
 
     if (!row) return c.json({ error: 'Not found' }, 404);
@@ -63,16 +73,22 @@ export function makeUserRouter(db: Database.Database): Hono {
       email: row.email,
       fullName: row.full_name ?? '',
       bio: row.bio ?? '',
+      timezone: row.timezone ?? 'UTC',
     });
   });
 
   router.put('/profile', async (c) => {
     const user = c.get('user');
-    const body: { fullName?: string; bio?: string } = await c.req
-      .json<{ fullName?: string; bio?: string }>()
+    const body: { fullName?: string; bio?: string; timezone?: string } = await c.req
+      .json<{ fullName?: string; bio?: string; timezone?: string }>()
       .catch(() => ({}));
+
+    if (body.timezone !== undefined && !isValidTimezone(body.timezone)) {
+      return c.json({ error: 'invalid_timezone' }, 400);
+    }
+
     const current = db.prepare(
-      'SELECT id, email, full_name, bio FROM users WHERE id = ?'
+      'SELECT id, email, full_name, bio, timezone FROM users WHERE id = ?'
     ).get(user.id) as ProfileRow | undefined;
 
     if (!current) return c.json({ error: 'Not found' }, 404);
@@ -83,14 +99,18 @@ export function makeUserRouter(db: Database.Database): Hono {
     const bio = typeof body.bio === 'string'
       ? body.bio.slice(0, 500)
       : (current.bio ?? '');
+    const timezone = typeof body.timezone === 'string'
+      ? body.timezone
+      : (current.timezone ?? 'UTC');
 
-    db.prepare('UPDATE users SET full_name = ?, bio = ? WHERE id = ?').run(fullName, bio, user.id);
+    db.prepare('UPDATE users SET full_name = ?, bio = ?, timezone = ? WHERE id = ?').run(fullName, bio, timezone, user.id);
 
     return c.json({
       id: current.id,
       email: current.email,
       fullName,
       bio,
+      timezone,
     });
   });
 

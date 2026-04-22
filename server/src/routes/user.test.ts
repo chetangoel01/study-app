@@ -193,3 +193,67 @@ describe('DELETE /api/user/account', () => {
     db.close();
   });
 });
+
+describe('profile timezone field', () => {
+  it('GET /profile returns timezone (default UTC for new users)', async () => {
+    const { db, app } = setup();
+    const row = db.prepare(
+      "INSERT INTO users (email) VALUES ('tz@b.com') RETURNING id"
+    ).get() as { id: number };
+    const res = await app.request('/api/user/profile', {
+      headers: { Cookie: await authCookie(row.id, 'tz@b.com') },
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json() as { timezone: string };
+    expect(body.timezone).toBe('UTC');
+    db.close();
+  });
+
+  it('PUT /profile accepts a valid IANA timezone', async () => {
+    const { db, app } = setup();
+    const row = db.prepare(
+      "INSERT INTO users (email) VALUES ('tz@b.com') RETURNING id"
+    ).get() as { id: number };
+    const res = await app.request('/api/user/profile', {
+      method: 'PUT',
+      headers: { Cookie: await authCookie(row.id, 'tz@b.com'), 'content-type': 'application/json' },
+      body: JSON.stringify({ timezone: 'America/New_York' }),
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json() as { timezone: string };
+    expect(body.timezone).toBe('America/New_York');
+    db.close();
+  });
+
+  it('PUT /profile rejects garbage timezone with 400', async () => {
+    const { db, app } = setup();
+    const row = db.prepare(
+      "INSERT INTO users (email) VALUES ('tz@b.com') RETURNING id"
+    ).get() as { id: number };
+    const res = await app.request('/api/user/profile', {
+      method: 'PUT',
+      headers: { Cookie: await authCookie(row.id, 'tz@b.com'), 'content-type': 'application/json' },
+      body: JSON.stringify({ timezone: 'Not/A_Real_Zone' }),
+    });
+    expect(res.status).toBe(400);
+    db.close();
+  });
+
+  it('PUT /profile persists timezone across requests', async () => {
+    const { db, app } = setup();
+    const row = db.prepare(
+      "INSERT INTO users (email) VALUES ('tz@b.com') RETURNING id"
+    ).get() as { id: number };
+    await app.request('/api/user/profile', {
+      method: 'PUT',
+      headers: { Cookie: await authCookie(row.id, 'tz@b.com'), 'content-type': 'application/json' },
+      body: JSON.stringify({ timezone: 'Europe/Berlin' }),
+    });
+    const res = await app.request('/api/user/profile', {
+      headers: { Cookie: await authCookie(row.id, 'tz@b.com') },
+    });
+    const body = await res.json() as { timezone: string };
+    expect(body.timezone).toBe('Europe/Berlin');
+    db.close();
+  });
+});
