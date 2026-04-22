@@ -72,14 +72,15 @@
   - Add tests for preference gating, notification creation/read flows, and digest scheduling behavior.
 
 - [ ] Add calendar integration + reminders for scheduling:
-  - Keep current `scheduled_for` / `proposed_for` flow as source of truth and expose events in a user-facing schedule view.
-  - Add one-click “Add to calendar” (ICS export first), then optional Google Calendar sync.
-  - If Google Calendar sync is enabled, support connect/disconnect and event create/update/cancel on schedule changes.
-  - Upgrade availability posting to support multiple selectable time blocks instead of one timestamp.
-  - Add timezone-aware rendering and conflict checks when creating or updating mock interview times.
-  - Add reminder automation (e.g., 24h + 1h before) wired to notification preferences.
-  - Add accept/decline/reschedule lifecycle for mock interviews so calendar events stay consistent.
-  - Add tests for timezone handling, calendar payload correctness, and reminder timing.
+  - [x] Keep current `scheduled_for` / `proposed_for` flow as source of truth and expose events in a user-facing schedule view (Phase 1: `/schedule` agenda shipped).
+  - [x] Add one-click “Add to calendar” (ICS export first) — per-event `/api/schedule/ics/:id` endpoint shipped.
+  - [ ] Optional Google Calendar sync (connect/disconnect, event create/update/cancel on schedule changes).
+  - [x] Upgrade availability posting to support multiple selectable time blocks instead of one timestamp.
+  - [x] Add timezone-aware rendering — user timezone preference, `formatInZone` util, and day-bucketing by zone shipped.
+  - [ ] Add conflict checks when creating or updating mock interview times (overlap guards exist on schedule; extend for rescheduling UX hints).
+  - [ ] Add reminder automation (e.g., 24h + 1h before) wired to notification preferences.
+  - [x] Add accept/decline/reschedule lifecycle for mock interviews so calendar events stay consistent.
+  - [ ] Add tests for Google Calendar sync payload correctness and reminder timing (ICS + timezone tests shipped).
 
 - [ ] Harden dashboard/curriculum module gating and prerequisite logic:
   - Replace hardcoded dashboard fallback (`dsa-leetcode`) with "next available module across all tracks".
