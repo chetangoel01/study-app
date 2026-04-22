@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, test } from 'vitest';
 import { AccountMenu } from './AccountMenu.js';
 
-const user = { id: 1, email: 'alex@example.com' };
+const user = { id: 1, email: 'alex@example.com', timezone: 'UTC' };
 
 describe('AccountMenu', () => {
   test('shows avatar initial', () => {

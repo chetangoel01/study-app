@@ -7,7 +7,7 @@ describe('Layout', () => {
   test('shows Mindful Engineer brand name', () => {
     render(
       <MemoryRouter>
-        <Layout user={{ id: 1, email: 'test@example.com' }}>
+        <Layout user={{ id: 1, email: 'test@example.com', timezone: 'UTC' }}>
           <div />
         </Layout>
       </MemoryRouter>
@@ -19,7 +19,7 @@ describe('Layout', () => {
   test('renders all four nav links', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <Layout user={{ id: 1, email: 'a@b.com' }}>
+        <Layout user={{ id: 1, email: 'a@b.com', timezone: 'UTC' }}>
           <div />
         </Layout>
       </MemoryRouter>
@@ -35,7 +35,7 @@ describe('Layout', () => {
   test('shows collapsed pomodoro left of search and account actions', () => {
     const { container } = render(
       <MemoryRouter>
-        <Layout user={{ id: 1, email: 'focus@example.com' }}>
+        <Layout user={{ id: 1, email: 'focus@example.com', timezone: 'UTC' }}>
           <div />
         </Layout>
       </MemoryRouter>

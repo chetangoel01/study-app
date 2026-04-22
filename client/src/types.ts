@@ -32,6 +32,7 @@ export interface CurriculumResponse { tracks: Track[]; modules: CurriculumModule
 export interface AuthUser {
   id: number;
   email: string;
+  timezone: string;
   defaultRolePreference?: RolePreference;
 }
 
@@ -207,4 +208,8 @@ export interface MockPeer {
   fullName: string;
   initials: string;
   defaultRolePreference: RolePreference;
+}
+
+export interface ScheduleResponse {
+  invites: InviteSummary[];
 }
