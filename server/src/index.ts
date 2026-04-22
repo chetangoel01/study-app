@@ -13,6 +13,7 @@ import { makeUserRouter } from './routes/user.js';
 import { makePracticeRouter } from './routes/practice.js';
 import { makeMockInterviewsRouter } from './routes/mock-interviews.js';
 import { makeAvailabilityRouter } from './routes/availability.js';
+import { makeScheduleRouter } from './routes/schedule.js';
 import { makeAdminRouter } from './routes/admin.js';
 import { config } from './config.js';
 
@@ -45,6 +46,7 @@ app.route('/api/proxy', makeProxyRouter());
 app.route('/api/user', makeUserRouter(db));
 app.route('/api/practice/mock-interviews', makeMockInterviewsRouter(db));
 app.route('/api/practice/availability', makeAvailabilityRouter(db));
+app.route('/api/schedule', makeScheduleRouter(db));
 app.route('/api/practice', makePracticeRouter(db));
 app.route('/api/admin', makeAdminRouter(db));
 
