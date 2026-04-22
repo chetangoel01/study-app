@@ -15,6 +15,7 @@ import { makeMockInterviewsRouter } from './routes/mock-interviews.js';
 import { makeAvailabilityRouter } from './routes/availability.js';
 import { makeScheduleRouter } from './routes/schedule.js';
 import { makeAdminRouter } from './routes/admin.js';
+import { makeCommunityRouter } from './routes/community.js';
 import { config } from './config.js';
 
 const db = createDb();
@@ -49,6 +50,7 @@ app.route('/api/practice/availability', makeAvailabilityRouter(db));
 app.route('/api/schedule', makeScheduleRouter(db));
 app.route('/api/practice', makePracticeRouter(db));
 app.route('/api/admin', makeAdminRouter(db));
+app.route('/api/community', makeCommunityRouter(db));
 
 if (serveBuiltClient) {
   app.use('/*', serveStatic({ root: config.clientDistPath }));

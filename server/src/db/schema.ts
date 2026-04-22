@@ -207,6 +207,53 @@ const SCHEMA_DDL = `
 
   CREATE INDEX IF NOT EXISTS idx_practice_quiz_attempt_questions_attempt
     ON practice_quiz_attempt_questions(attempt_id, id);
+
+  CREATE TABLE IF NOT EXISTS forum_threads (
+    id                TEXT PRIMARY KEY,
+    author_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    title             TEXT NOT NULL,
+    body_md           TEXT NOT NULL,
+    tag               TEXT NOT NULL,
+    created_at        TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at        TEXT NOT NULL DEFAULT (datetime('now')),
+    last_activity_at  TEXT NOT NULL DEFAULT (datetime('now')),
+    reply_count       INTEGER NOT NULL DEFAULT 0,
+    edited_at         TEXT,
+    deleted_at        TEXT
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_forum_threads_activity
+    ON forum_threads(last_activity_at DESC);
+
+  CREATE INDEX IF NOT EXISTS idx_forum_threads_tag_activity
+    ON forum_threads(tag, last_activity_at DESC);
+
+  CREATE TABLE IF NOT EXISTS forum_replies (
+    id          TEXT PRIMARY KEY,
+    thread_id   TEXT NOT NULL REFERENCES forum_threads(id) ON DELETE CASCADE,
+    author_id   INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    body_md     TEXT NOT NULL,
+    created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+    edited_at   TEXT,
+    deleted_at  TEXT
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_forum_replies_thread
+    ON forum_replies(thread_id, created_at ASC);
+
+  CREATE TABLE IF NOT EXISTS forum_subscriptions (
+    user_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    thread_id       TEXT NOT NULL REFERENCES forum_threads(id) ON DELETE CASCADE,
+    subscribed_at   TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (user_id, thread_id)
+  );
+
+  CREATE TABLE IF NOT EXISTS forum_thread_views (
+    user_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    thread_id       TEXT NOT NULL REFERENCES forum_threads(id) ON DELETE CASCADE,
+    last_viewed_at  TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (user_id, thread_id)
+  );
 `;
 
 export function applySchema(db: Database.Database): void {

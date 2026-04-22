@@ -163,4 +163,41 @@ describe('applySchema', () => {
     const row = db.prepare("SELECT timezone FROM users WHERE email = 'tz2@x.com'").get() as { timezone: string };
     expect(row.timezone).toBe('UTC');
   });
+
+  it('creates the four forum tables', () => {
+    const db = new Database(':memory:');
+    applySchema(db);
+
+    const tables = db
+      .prepare("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name")
+      .all() as { name: string }[];
+    const names = tables.map((t) => t.name);
+
+    expect(names).toContain('forum_threads');
+    expect(names).toContain('forum_replies');
+    expect(names).toContain('forum_subscriptions');
+    expect(names).toContain('forum_thread_views');
+  });
+
+  it('creates the forum indexes', () => {
+    const db = new Database(':memory:');
+    applySchema(db);
+
+    const indexes = db
+      .prepare("SELECT name FROM sqlite_master WHERE type = 'index'")
+      .all() as { name: string }[];
+    const names = indexes.map((i) => i.name);
+
+    expect(names).toContain('idx_forum_threads_activity');
+    expect(names).toContain('idx_forum_threads_tag_activity');
+    expect(names).toContain('idx_forum_replies_thread');
+  });
+
+  it('forum schema is idempotent', () => {
+    const db = new Database(':memory:');
+    expect(() => {
+      applySchema(db);
+      applySchema(db);
+    }).not.toThrow();
+  });
 });
