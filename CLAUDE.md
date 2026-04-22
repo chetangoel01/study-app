@@ -87,3 +87,62 @@ Python tests live in `tests/`, server tests live under `server/src/`, and client
 - JavaScript: `camelCase`; Python: `snake_case`; module IDs: `dash-separated`
 - Treat `__pycache__/`, `pipeline/.cache/`, `client/dist/`, `server/dist/`, `knowledge-base.json`, and other local artifacts as disposable
 - Update `build_study_data.py` instead of hand-editing generated curriculum output
+
+## Design System
+
+This project has a canonical design system. **All UI work must follow it.**
+
+### Before editing any component or CSS
+
+1. Read `handoff/DESIGN_SYSTEM.md` for the full token + component reference.
+2. Confirm `tokens.css` and `components.css` are imported in `client/src/main.tsx`:
+   ```ts
+   import './styles/tokens.css';
+   import './styles/components.css';
+   import './index.css';
+   ```
+   If not, add them.
+
+### Hard rules
+
+When writing or editing CSS / JSX / styled-components:
+
+- **Never** use raw hex colors. Use a CSS variable (`--accent`, `--ink-muted`, `--surface-1`, etc.). Full list in `handoff/DESIGN_SYSTEM.md`.
+- **Never** invent a new `border-radius`. Use one of: `var(--r-xs)` `var(--r-sm)` `var(--r-md)` `var(--r-lg)` `var(--r-xl)` `var(--r-pill)`.
+- **Never** invent a new `font-size`. Use `var(--text-2xs)` through `var(--text-4xl)`.
+- **Never** write a custom `box-shadow`. Use `var(--shadow-1)` through `var(--shadow-4)` and `var(--shadow-focus)`.
+- **Never** hand-pick padding/gap/margin. Use `var(--sp-1)` through `var(--sp-10)`.
+- **Never** write a custom transition duration. Use `var(--dur-1)` `var(--dur-2)` `var(--dur-3)` with `var(--ease-out)` or `var(--ease-in-out)`.
+
+### Preferred approach
+
+Before writing bespoke CSS, check if a canonical class exists:
+
+- Button? Use `.btn` + modifier. Don't style a raw `<button>`.
+- Card surface? Use `.card` / `.card-lg` / `.card-subtle`.
+- Text input / select / textarea? Use `.input` / `.select` / `.textarea` inside a `.field` wrapper.
+- Status pill? Use `.badge` + semantic modifier.
+- List row? Use `.row` + `.row-title` + `.row-sub`.
+- Tabs? Use `.tabs` + `.tab`.
+- Modal? Use `.modal` inside `.modal-scrim`.
+- Empty / error state? Use `.state` wrapper.
+- Loading? Use `.skeleton`.
+
+If a new component is needed and no canonical class fits, add it to `client/src/styles/components.css` (not scattered across files) and update `handoff/DESIGN_SYSTEM.md`.
+
+### Migration
+
+The existing `client/src/index.css` is large legacy styling with drift (20+ distinct radii, ~200 unique font sizes mixing `rem` and `px`, 10+ ad-hoc box-shadows).
+
+Do NOT rewrite it in one pass. When you touch a component for any reason:
+1. Replace that component's raw values with tokens in the same edit.
+2. Prefer deleting custom CSS in favor of the canonical classes.
+3. After migrating a block, treat it as locked — no new raw values.
+
+### Dark mode
+
+Dark mode is controlled by `html[data-theme="dark"]`. Tokens flip automatically; never write `@media (prefers-color-scheme)` checks. If a component looks wrong in dark mode, fix it by using a token instead of a hex value, not by adding a dark override.
+
+### Reference
+
+The rendered design system lives at `handoff/Design System.html` (if present). Open it to see every token and component in both light and dark.

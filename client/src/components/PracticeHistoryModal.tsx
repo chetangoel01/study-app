@@ -35,11 +35,11 @@ export function PracticeHistoryModal({ onClose }: Props) {
         {loading ? (
           <div className="loading" style={{ height: '300px' }}>Loading history...</div>
         ) : (
-          <div className="history-content" style={{ marginTop: '24px', maxHeight: '600px', overflowY: 'auto' }}>
+          <div className="history-content" style={{ marginTop: 'var(--sp-6)', maxHeight: '600px', overflowY: 'auto' }}>
             <div className="recent-sessions-list">
               {(stats?.recentSessions || []).length > 0 ? (
                 (stats?.recentSessions || []).map((session: any) => (
-                  <div key={session.id} className="recent-session-item" style={{ padding: '16px', borderBottom: '1px solid var(--border)' }}>
+                  <div key={session.id} className="recent-session-item" style={{ padding: 'var(--sp-4)', borderBottom: '1px solid var(--border)' }}>
                     <div className="session-info">
                       <div className={`session-status ${session.score === 100 ? 'green' : 'purple'}`}></div>
                       <div className="session-details">
@@ -54,7 +54,7 @@ export function PracticeHistoryModal({ onClose }: Props) {
                   </div>
                 ))
               ) : (
-                <div style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)' }}>
+                <div style={{ padding: 'var(--sp-6)', textAlign: 'center', color: 'var(--ink-muted)' }}>
                   No sessions recorded yet. Start practicing!
                 </div>
               )}

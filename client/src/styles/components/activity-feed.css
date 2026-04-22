@@ -1,0 +1,54 @@
+/* components/activity-feed.css — split from legacy index.css. Migrate to tokens incrementally per handoff/CLAUDE.md. */
+
+.recent-sessions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recent-sessions-header h3 {
+  font-family: 'Plus Jakarta Sans';
+  font-weight: 700;
+  font-size: var(--text-lg);
+  line-height: 28px;
+  color: var(--ink);
+}
+
+.recent-sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.recent-session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-4);
+  background: var(--bg);
+  border-radius: var(--r-lg);
+}
+
+html[data-theme="dark"] .recent-session-item {
+  background: var(--surface-2);
+}
+
+/* Feed group */
+.feed-group { margin-top: 1rem; }
+
+.feed-group > header {
+  font-weight: 600;
+  margin-bottom: var(--sp-2);
+  color: var(--ink);
+}
+
+.feed-block-row {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.4rem var(--sp-0);
+  border-bottom: 1px solid var(--border);
+}
+
+.feed-block-row:last-child { border-bottom: none; }

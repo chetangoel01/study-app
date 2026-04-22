@@ -11,7 +11,7 @@ const UPCOMING_CURRICULA = [
     summary: 'Component architecture, accessibility, state flows, and UI performance for product-facing teams.',
     preview: 'Planned modules: rendering, interaction patterns, design systems, debugging.',
     iconBackground: 'rgba(79, 93, 140, 0.16)',
-    iconColor: '#4f5d8c',
+    iconColor: 'var(--accent)',
   },
   {
     id: 'backend-apis',
@@ -20,7 +20,7 @@ const UPCOMING_CURRICULA = [
     summary: 'Service boundaries, API design, persistence choices, and pragmatic reliability fundamentals.',
     preview: 'Planned modules: HTTP, databases, queues, caching, observability.',
     iconBackground: 'rgba(250, 116, 111, 0.16)',
-    iconColor: '#a83836',
+    iconColor: 'var(--danger)',
   },
   {
     id: 'devops-cloud',
@@ -29,7 +29,7 @@ const UPCOMING_CURRICULA = [
     summary: 'Delivery pipelines, infrastructure basics, incident readiness, and cloud trade-off fluency.',
     preview: 'Planned modules: CI/CD, containers, deployments, platform operations.',
     iconBackground: 'rgba(78, 146, 132, 0.18)',
-    iconColor: '#2d6f62',
+    iconColor: 'var(--success)',
   },
   {
     id: 'security-reliability',
@@ -38,7 +38,7 @@ const UPCOMING_CURRICULA = [
     summary: 'Threat modeling, auth patterns, safe defaults, and the operational habits behind trustworthy systems.',
     preview: 'Planned modules: auth, secrets, failure modes, resilience, review checklists.',
     iconBackground: 'rgba(210, 182, 102, 0.18)',
-    iconColor: '#8a6b20',
+    iconColor: 'var(--warning)',
   },
 ] as const;
 
@@ -120,13 +120,13 @@ export function CurriculumPage() {
         {/* Scroll padding — remove once real content fills this space */}
         <section className="curriculum-section-shell" aria-hidden="true" style={{ opacity: 0.4, pointerEvents: 'none' }}>
           <h2 className="curriculum-section-title">Resources</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-3)' }}>
             {['The Algorithm Design Manual', 'Designing Data-Intensive Applications', 'Cracking the Coding Interview', 'Clean Code', 'System Design Interview'].map((title) => (
-              <div key={title} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 0', borderBottom: '1px solid var(--ghost-border)' }}>
-                <div style={{ width: '2rem', height: '2rem', borderRadius: 'var(--radius-sm)', background: 'var(--surface-container-high)', flexShrink: 0 }} />
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                  <span style={{ fontSize: '0.95rem', fontFamily: 'var(--font-display)' }}>{title}</span>
-                  <span style={{ fontSize: '0.82rem', color: 'var(--muted)' }}>Reference reading</span>
+              <div key={title} style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)', padding: 'var(--sp-3) 0', borderBottom: '1px solid var(--border-soft)' }}>
+                <div style={{ width: '2rem', height: '2rem', borderRadius: 'var(--r-sm)', background: 'var(--surface-3)', flexShrink: 0 }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-1)' }}>
+                  <span style={{ fontSize: 'var(--text-md)', fontFamily: 'var(--font-display)' }}>{title}</span>
+                  <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>Reference reading</span>
                 </div>
               </div>
             ))}

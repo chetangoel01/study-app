@@ -1,0 +1,154 @@
+/* ============================================================
+   Mindful Engineer — Canonical Design Tokens
+   Drop this at study-app/client/src/styles/tokens.css
+   and import BEFORE index.css:
+     import './styles/tokens.css';
+     import './index.css';
+   ============================================================ */
+
+:root {
+  /* ---------- Color: surfaces (warm paper) ---------- */
+  --bg:              #FBF9F6;
+  --bg-deep:         #F0EDE8;
+  --surface:         #FFFFFF;
+  --surface-1:       #F5F3F0;
+  --surface-2:       #EFEEEA;
+  --surface-3:       #E9E8E4;
+  --surface-inverse: #1E2A4A;
+
+  /* ---------- Color: ink ---------- */
+  --ink:        #1A1F36;
+  --ink-strong: #3D4466;
+  --ink-muted:  #5C6488;
+  --ink-faint:  #8A91AC;
+
+  /* ---------- Color: borders ---------- */
+  --border:        rgba(79, 93, 140, 0.12);
+  --border-strong: rgba(79, 93, 140, 0.22);
+  --border-soft:   rgba(79, 93, 140, 0.06);
+
+  /* ---------- Color: accent ---------- */
+  --accent:       #4E5C8A;
+  --accent-hover: #3D4A72;
+  --accent-soft:  #DDE1F9;
+  --accent-ink:   #2D3558;
+  --accent-deep:  #43517F;
+  --accent-glow:  #7D8CD9;
+  --focus-ring:   rgba(79, 93, 140, 0.35);
+
+  /* ---------- Semantic ---------- */
+  --success:    #2D6645; --success-bg: rgba(74, 124, 89, 0.14);
+  --warning:    #7A5A1A; --warning-bg: rgba(180, 130, 50, 0.16);
+  --danger:     #8A2222; --danger-bg:  rgba(170, 60, 60, 0.14);
+  --info:       #2D5585; --info-bg:    rgba(74, 111, 165, 0.16);
+
+  /* ---------- Tracks ---------- */
+  --track-dsa:    #C46B3D;
+  --track-sys:    #4A6FA5;
+  --track-ml:     #7C5A8C;
+  --track-resume: #4A7C59;
+
+  /* ---------- Type ---------- */
+  --font-sans:    "Manrope", "Segoe UI", sans-serif;
+  --font-display: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  --text-2xs:  11px;
+  --text-xs:   12px;
+  --text-sm:   13px;
+  --text-base: 14px;
+  --text-md:   16px;
+  --text-lg:   18px;
+  --text-xl:   22px;
+  --text-2xl:  28px;
+  --text-3xl:  36px;
+  --text-4xl:  48px;
+
+  --leading-tight: 1.2;
+  --leading-snug:  1.35;
+  --leading-body:  1.55;
+  --leading-loose: 1.7;
+
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ---------- Spacing (4px grid) ---------- */
+  --sp-0:  0;
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-7:  32px;
+  --sp-8:  40px;
+  --sp-9:  56px;
+  --sp-10: 72px;
+
+  /* ---------- Radius (THE ONLY VALID VALUES) ---------- */
+  --r-xs:   6px;
+  --r-sm:   10px;
+  --r-md:   14px;
+  --r-lg:   20px;
+  --r-xl:   28px;
+  --r-pill: 999px;
+
+  /* ---------- Elevation ---------- */
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgba(30, 35, 60, 0.04), 0 1px 1px rgba(30, 35, 60, 0.03);
+  --shadow-2: 0 4px 10px -2px rgba(30, 35, 60, 0.06), 0 2px 4px -1px rgba(30, 35, 60, 0.04);
+  --shadow-3: 0 12px 24px -6px rgba(30, 35, 60, 0.10), 0 4px 8px -3px rgba(30, 35, 60, 0.05);
+  --shadow-4: 0 24px 48px -12px rgba(30, 35, 60, 0.18), 0 8px 16px -6px rgba(30, 35, 60, 0.08);
+  --shadow-focus: 0 0 0 3px var(--focus-ring);
+
+  /* ---------- Motion ---------- */
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --ease-out:    cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html[data-theme="dark"] {
+  --bg:              #0F1424;
+  --bg-deep:         #090D18;
+  --surface:         #151E33;
+  --surface-1:       #1A2440;
+  --surface-2:       #1F2A4C;
+  --surface-3:       #253158;
+  --surface-inverse: #ECF1FF;
+
+  --ink:        #ECF1FF;
+  --ink-strong: #C4CEED;
+  --ink-muted:  #A3AFCF;
+  --ink-faint:  #7580A1;
+
+  --border:        rgba(152, 170, 220, 0.16);
+  --border-strong: rgba(166, 184, 235, 0.30);
+  --border-soft:   rgba(152, 170, 220, 0.08);
+
+  --accent:       #8EA6FF;
+  --accent-hover: #A8BCFF;
+  --accent-soft:  rgba(142, 166, 255, 0.18);
+  --accent-ink:   #D7E0FF;
+  --accent-deep:  #6B7DCC;
+  --accent-glow:  #ABBCFF;
+  --focus-ring:   rgba(142, 166, 255, 0.45);
+
+  --success: #A6E0BA; --success-bg: rgba(88, 180, 120, 0.18);
+  --warning: #F4C98A; --warning-bg: rgba(234, 176, 83, 0.18);
+  --danger:  #FFB4B4; --danger-bg:  rgba(224, 97, 97, 0.18);
+  --info:    #B6D2FF; --info-bg:    rgba(118, 169, 255, 0.18);
+
+  --track-dsa:    #F0A06E;
+  --track-sys:    #82B8FF;
+  --track-ml:     #C7A8DF;
+  --track-resume: #84B8A0;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 4px 10px -2px rgba(0, 0, 0, 0.45);
+  --shadow-3: 0 12px 24px -6px rgba(0, 0, 0, 0.55);
+  --shadow-4: 0 24px 48px -12px rgba(0, 0, 0, 0.65);
+}

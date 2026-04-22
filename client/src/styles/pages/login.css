@@ -1,0 +1,514 @@
+/* pages/login.css — split from legacy index.css. Migrate to tokens incrementally per handoff/CLAUDE.md. */
+
+html[data-theme="dark"] .login-card-stitch {
+  background: linear-gradient(180deg, rgba(25, 34, 56, 0.92), rgba(14, 21, 37, 0.98));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-3);
+}
+
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .eyebrow,
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-sub,
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-highlight p,
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-highlight-index,
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-social-proof {
+  color: var(--ink-muted);
+}
+
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-company-logos li {
+  color: var(--ink-muted);
+  opacity: 0.55;
+}
+
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-company-logos li:hover {
+  opacity: 0.8;
+}
+
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-sub {
+  color: var(--ink-strong);
+}
+
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-highlight {
+  border-color: var(--border-soft);
+  background: rgba(20, 28, 47, 0.55);
+}
+
+html[data-theme="dark"] .login-brand-panel.login-brand-panel-stitch .login-highlight strong {
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .login-card-stitch .divider-stitch span {
+  background: linear-gradient(180deg, rgba(25, 34, 56, 0.92), rgba(14, 21, 37, 0.98));
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.login-shell {
+  width: min(1120px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(23rem, 30rem);
+  gap: var(--sp-4);
+  align-items: stretch;
+}
+
+.login-brand-panel {
+  padding: clamp(1.6rem, 4vw, 2.5rem);
+  border-radius: var(--r-xl);
+  color: #f3eee5;
+  background:
+    radial-gradient(circle at top left, rgba(214, 107, 61, 0.22), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(97, 138, 76, 0.2), transparent 32%),
+    linear-gradient(155deg, #16312b 0%, #23453c 55%, #14211d 100%);
+}
+
+.login-brand-panel .eyebrow,
+.login-brand-panel .login-sub,
+.login-brand-panel .login-highlight p,
+.login-brand-panel .login-highlight-index {
+  color: rgba(243, 238, 229, 0.78);
+}
+
+.login-brand-panel h1 {
+  font-size: var(--text-4xl);
+  margin-top: var(--sp-1);
+}
+
+.login-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  margin-top: var(--sp-7);
+}
+
+.login-highlight {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.login-highlight-index {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.login-highlight strong {
+  display: block;
+  margin-bottom: var(--sp-1);
+  font-size: var(--text-md);
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: clamp(1.4rem, 3vw, 2rem);
+  border-radius: var(--r-xl);
+}
+
+.login-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.oauth-buttons,
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.oauth-btn {
+  font-weight: 700;
+}
+
+.login-form input {
+  min-height: 3rem;
+  padding: 0.8rem var(--sp-4);
+  border-radius: var(--r-md);
+  border: 1px solid rgba(20, 44, 38, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+}
+
+.login-form button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-3);
+}
+
+.login-error {
+  color: var(--danger);
+  font-size: var(--text-base);
+}
+
+.login-toggle {
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+.login-toggle button {
+  border: none;
+  background: none;
+  color: var(--info);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.login-brand-panel {
+  color: #f7f4ee;
+  background:
+    radial-gradient(circle at top left, rgba(79, 93, 140, 0.28), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(124, 90, 140, 0.2), transparent 30%),
+    linear-gradient(155deg, #2a355a 0%, #46588c 55%, #1e2745 100%);
+}
+
+.login-brand-panel .eyebrow,
+.login-brand-panel .login-sub,
+.login-brand-panel .login-highlight p,
+.login-brand-panel .login-highlight-index,
+.login-social-proof {
+  color: rgba(247, 244, 238, 0.8);
+}
+
+.login-brand-panel .login-highlight {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.login-social-proof {
+  margin-top: var(--sp-7);
+  font-size: var(--text-sm);
+}
+
+.oauth-connection-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: 0.875rem var(--sp-0);
+  border-top: 1px solid var(--border);
+}
+
+.oauth-connection-row:first-of-type {
+  border-top: none;
+}
+
+.oauth-connection-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-0);
+}
+
+.oauth-provider-label {
+  color: var(--ink);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+/* Stitch login: avoid stretching the brand column to the form height (causes spurious scroll). */
+.login-page.login-page-stitch {
+  padding: clamp(0.5rem, 1.5vmin, 1rem) clamp(1rem, 3vw, 1.5rem);
+  box-sizing: border-box;
+}
+
+.login-shell-stitch {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: var(--sp-0);
+  align-items: start;
+  background: var(--bg);
+}
+
+@media (max-width: 960px) {
+  .login-shell-stitch {
+    grid-template-columns: 1fr;
+  }
+}
+
+.login-brand-panel-stitch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: clamp(1.25rem, 2.5vw, 1.85rem) clamp(1.35rem, 3vw, 2rem);
+  overflow: visible;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  color: var(--ink);
+}
+
+.login-brand-panel.login-brand-panel-stitch .login-brand-glow {
+  display: none;
+}
+
+.login-brand-panel.login-brand-panel-stitch .eyebrow,
+.login-brand-panel.login-brand-panel-stitch .login-sub,
+.login-brand-panel.login-brand-panel-stitch .login-highlight p,
+.login-brand-panel.login-brand-panel-stitch .login-highlight-index,
+.login-brand-panel.login-brand-panel-stitch .login-social-proof {
+  color: var(--ink-muted);
+}
+
+.login-brand-panel.login-brand-panel-stitch .login-sub {
+  color: var(--ink-strong);
+}
+
+.login-brand-panel.login-brand-panel-stitch .login-highlight {
+  border-color: var(--border-soft);
+  background: var(--surface-3);
+}
+
+.login-brand-panel.login-brand-panel-stitch .login-highlight strong {
+  color: var(--ink);
+}
+
+.login-brand-panel-stitch h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.login-brand-panel-stitch h1 em {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.login-brand-panel-stitch .login-highlights {
+  margin-top: var(--sp-4);
+  gap: var(--sp-3);
+}
+
+.login-brand-panel-stitch .login-highlight {
+  padding: var(--sp-3) 0.9rem;
+  gap: var(--sp-3);
+}
+
+.login-social-stack {
+  margin-top: var(--sp-5);
+}
+
+.login-brand-panel-stitch .login-social-stack {
+  margin-top: var(--sp-4);
+}
+
+.login-brand-glow {
+  position: absolute;
+  border-radius: var(--r-pill);
+  filter: blur(48px);
+  pointer-events: none;
+}
+
+.login-brand-glow--tr {
+  width: 16rem;
+  height: 16rem;
+  top: -4rem;
+  right: -4rem;
+  background: rgba(79, 93, 140, 0.08);
+}
+
+.login-brand-glow--bl {
+  width: 22rem;
+  height: 22rem;
+  bottom: -6rem;
+  left: -6rem;
+  background: rgba(109, 86, 126, 0.08);
+}
+
+.login-card-stitch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  justify-content: flex-start;
+  margin: clamp(0.65rem, 1.5vw, 1.1rem);
+  padding: clamp(1.1rem, 2.2vw, 1.65rem);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border-soft);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.94));
+  box-shadow: var(--shadow-3);
+  overflow: hidden;
+}
+
+.login-card-stitch .login-card-header h2 {
+  font-size: var(--text-xl);
+}
+
+.login-card-stitch .login-form {
+  gap: var(--sp-2);
+}
+
+.login-card-stitch .login-toggle {
+  margin: 0.35rem var(--sp-0) var(--sp-0);
+}
+
+.login-card-stitch .field-hint {
+  margin: var(--sp-0);
+  font-size: var(--text-sm);
+}
+
+.login-card-stitch::before,
+.login-card-stitch::after {
+  display: none;
+}
+
+.login-card-lede {
+  margin-top: var(--sp-1);
+  color: var(--ink-strong);
+}
+
+.oauth-buttons-stitch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+@media (max-width: 400px) {
+  .oauth-buttons-stitch {
+    grid-template-columns: 1fr;
+  }
+}
+
+.oauth-btn-stitch {
+  min-height: 2.35rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--surface-3);
+  background: transparent;
+  font-size: var(--text-xs);
+}
+
+.oauth-btn-with-brand {
+  gap: var(--sp-2);
+  justify-content: center;
+  text-align: center;
+}
+
+.oauth-btn-brand-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.oauth-brand-svg {
+  display: block;
+}
+
+.oauth-brand-svg--google {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.oauth-brand-svg--github {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.oauth-btn-brand-label {
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.login-company-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-5);
+  margin: var(--sp-0) var(--sp-0) 0.55rem;
+  padding: var(--sp-0);
+  list-style: none;
+}
+
+.login-company-logos li {
+  display: flex;
+  align-items: center;
+  color: var(--ink-strong);
+  opacity: 0.48;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+
+.login-company-logos li:hover {
+  opacity: 0.72;
+}
+
+.login-company-logos svg {
+  display: block;
+  height: 1.05rem;
+  width: auto;
+  max-width: 4rem;
+}
+
+.login-brand-panel:not(.login-brand-panel-stitch) .login-company-logos li {
+  color: rgba(247, 244, 238, 0.58);
+}
+
+.login-brand-panel:not(.login-brand-panel-stitch) .login-company-logos li:hover {
+  opacity: 0.85;
+}
+
+.login-brand-panel-stitch .login-social-proof {
+  margin-top: var(--sp-1);
+}
+
+.login-form-stitch input {
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--surface-3);
+  color: var(--ink);
+  transition: background var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+
+.login-form-stitch input:focus {
+  outline: none;
+  background: var(--surface-3);
+  box-shadow: var(--shadow-focus);
+}
+
+.login-submit-stitch {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-1);
+  padding: var(--sp-3) var(--sp-4);
+  border: none;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  color: #faf8ff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+}
+
+.login-submit-stitch:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.login-submit-stitch:active:not(:disabled) {
+  transform: scale(0.98);
+}

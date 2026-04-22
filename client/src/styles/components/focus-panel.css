@@ -1,0 +1,115 @@
+/* components/focus-panel.css — split from legacy index.css. Migrate to tokens incrementally per handoff/CLAUDE.md. */
+
+html[data-theme="dark"] .focus-panel {
+  background:
+    linear-gradient(180deg, rgba(25, 34, 56, 0.94), rgba(14, 21, 37, 0.98)),
+    var(--track-wash, rgba(142, 166, 255, 0.12));
+}
+
+html[data-theme="dark"] .focus-pill,
+html[data-theme="dark"] .track-column-arrow,
+html[data-theme="dark"] .track-progress-bar,
+html[data-theme="dark"] .progress-bar,
+html[data-theme="dark"] .phase-pill,
+html[data-theme="dark"] .panel-badge,
+html[data-theme="dark"] .topic-toggle-icon,
+html[data-theme="dark"] .markdown-body code {
+  background: rgba(152, 170, 220, 0.14);
+}
+
+.focus-panel::after,
+.track-column::after,
+.module-card::after,
+.track-hero::after,
+.module-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -3rem -5rem auto;
+  width: 9rem;
+  height: 9rem;
+  border-radius: var(--r-pill);
+  background: radial-gradient(circle, var(--track-wash, rgba(214, 107, 61, 0.14)), transparent 70%);
+  pointer-events: none;
+}
+
+.focus-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  border-radius: calc(var(--r-xl) - 6px);
+  background:
+    linear-gradient(180deg, var(--surface) 0%, var(--surface-1) 100%),
+    var(--track-wash, rgba(214, 107, 61, 0.1));
+}
+
+.focus-pill-row,
+.focus-meta-grid,
+.focus-actions,
+.track-progress-meta,
+.dashboard-section-header,
+.track-section-header,
+.module-card-footer,
+.module-meta-row,
+.notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.focus-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--r-pill);
+  background: rgba(20, 44, 38, 0.06);
+}
+
+.focus-track-label {
+  font-size: var(--text-base);
+  color: var(--ink-strong);
+}
+
+.focus-panel h2,
+.track-page-header h1,
+.notes-header h2,
+.login-card-header h2 {
+  font-size: var(--text-2xl);
+}
+
+.focus-meta-grid {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  color: var(--ink-muted);
+  font-size: var(--text-base);
+}
+
+.focus-next-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: 0.95rem var(--sp-4);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.focus-next-item a,
+.item-title,
+.fallback-link,
+.track-complete a {
+  color: var(--info);
+  text-decoration: none;
+}
+
+.focus-next-item a:hover,
+.item-title:hover,
+.fallback-link:hover,
+.track-complete a:hover {
+  text-decoration: underline;
+}
+
+.focus-actions {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}

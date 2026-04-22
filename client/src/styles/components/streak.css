@@ -1,0 +1,67 @@
+/* components/streak.css — split from legacy index.css. Migrate to tokens incrementally per handoff/CLAUDE.md. */
+
+.streak-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 18px;
+}
+
+.streak-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.streak-metric {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+
+.streak-number {
+  font-family: 'Manrope';
+  font-weight: 900;
+  font-size: var(--text-4xl);
+  line-height: 48px;
+  color: var(--ink);
+}
+
+.streak-label {
+  font-family: 'Manrope';
+  font-weight: 500;
+  font-size: var(--text-base);
+  line-height: 20px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.streak-tracker {
+  display: flex;
+  gap: var(--sp-1);
+  margin-top: var(--sp-2);
+}
+
+.streak-day {
+  flex: 1;
+  height: 32px;
+  border-radius: var(--r-xs);
+}
+
+.streak-day.active {
+  background: var(--accent);
+}
+
+html[data-theme="dark"] .streak-day.active {
+  background: var(--accent);
+}
+
+.streak-day.inactive {
+  background: rgba(79, 93, 140, 0.2);
+}
+
+html[data-theme="dark"] .streak-day.inactive {
+  background: rgba(142, 166, 255, 0.2);
+}

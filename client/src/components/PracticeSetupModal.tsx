@@ -98,7 +98,7 @@ export function PracticeSetupModal({ tracks, moduleOptions, onBegin, onClose }: 
             ))}
           </select>
 
-          <label className="field-label" htmlFor="practice-topic" style={{ marginTop: '16px' }}>Focus Module</label>
+          <label className="field-label" htmlFor="practice-topic" style={{ marginTop: 'var(--sp-4)' }}>Focus Module</label>
           <select
             id="practice-topic"
             className="practice-select"

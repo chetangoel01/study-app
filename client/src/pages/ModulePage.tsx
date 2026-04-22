@@ -535,7 +535,7 @@ export function ModulePage() {
                     >
                       <span className="mp-sidebar-num">
                         {idx < topics.length ? idx + 1 : (
-                          <span className="material-symbols-outlined" style={{ fontSize: 14 }} aria-hidden="true">fitness_center</span>
+                          <span className="material-symbols-outlined" style={{ fontSize: 'var(--text-base)' }} aria-hidden="true">fitness_center</span>
                         )}
                       </span>
                       <span className="mp-sidebar-label">{entry.label}</span>
@@ -773,7 +773,7 @@ export function ModulePage() {
             </button>
             {/* Ask AI — commented out for now; will revisit as a chat interface
             <button type="button" className="mp-toolbar-action" aria-label="Ask AI">
-              <span className="material-symbols-outlined" style={{ fontSize: 16 }} aria-hidden="true">auto_awesome</span>
+              <span className="material-symbols-outlined" style={{ fontSize: 'var(--text-md)' }} aria-hidden="true">auto_awesome</span>
               Ask AI
             </button>
             */}
