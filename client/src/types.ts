@@ -213,3 +213,53 @@ export interface MockPeer {
 export interface ScheduleResponse {
   invites: InviteSummary[];
 }
+
+export const COMMUNITY_TAGS = [
+  'system-design', 'dsa', 'career', 'behavioral', 'devops',
+] as const;
+export type CommunityTag = (typeof COMMUNITY_TAGS)[number];
+
+export const COMMUNITY_TAG_LABELS: Record<CommunityTag, string> = {
+  'system-design': 'System design',
+  'dsa': 'DSA',
+  'career': 'Career',
+  'behavioral': 'Behavioral',
+  'devops': 'DevOps',
+};
+
+export interface CommunityAuthor {
+  id: number;
+  name: string;
+  avatarUrl: string | null;
+}
+
+export interface CommunityThread {
+  id: string;
+  title: string;
+  tag: CommunityTag;
+  author: CommunityAuthor | null;
+  createdAt: string;
+  lastActivityAt: string;
+  editedAt: string | null;
+  deletedAt: string | null;
+  replyCount: number;
+  viewCount: number;
+  isSubscribed: boolean;
+  excerpt: string;
+}
+
+export interface CommunityThreadFull extends CommunityThread {
+  body_md: string;
+}
+
+export interface CommunityReply {
+  id: string;
+  author: CommunityAuthor | null;
+  body_md: string;
+  createdAt: string;
+  editedAt: string | null;
+  deletedAt: string | null;
+  canEdit: boolean;
+}
+
+export type CommunityFilter = 'all' | 'subscribed' | 'trending';
