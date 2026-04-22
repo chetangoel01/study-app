@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { api } from '../api/client.js';
 import { useUserSettings } from '../hooks/useUserSettings.js';
 import type { RolePreference } from '../types.js';
+import { TimezoneSelect } from '../components/schedule/TimezoneSelect.js';
 
 type NotificationKey = 'notifyDailyChallenge' | 'notifyWeeklyProgress' | 'notifyCommunity';
 
@@ -226,6 +227,15 @@ export function SettingsPage() {
               onChange={(event) => setBio(event.target.value)}
               rows={3}
               maxLength={500}
+            />
+            <label className="field-label" htmlFor="settings-timezone">Timezone</label>
+            <TimezoneSelect
+              id="settings-timezone"
+              value={profile?.timezone ?? 'UTC'}
+              onChange={(tz) => {
+                setProfileError('');
+                saveProfile({ timezone: tz }).catch(() => setProfileError('Unable to save your timezone right now.'));
+              }}
             />
             <button type="submit" className="primary-action settings-save-btn">
               {profileSaved ? 'Saved ✓' : 'Save Profile'}

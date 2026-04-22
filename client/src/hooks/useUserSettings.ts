@@ -8,6 +8,7 @@ export interface UserProfile {
   email: string;
   fullName: string;
   bio: string;
+  timezone: string;
 }
 
 export interface UserPreferences {
@@ -77,7 +78,7 @@ export function useUserSettings() {
     };
   }, []);
 
-  const saveProfile = useCallback(async (data: { fullName: string; bio: string }) => {
+  const saveProfile = useCallback(async (data: Partial<{ fullName: string; bio: string; timezone: string }>) => {
     await api.put('/api/user/profile', data);
     setProfile((current) => (current ? { ...current, ...data } : current));
   }, []);
